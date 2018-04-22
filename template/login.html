@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{judul}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="author" content="{author}">
+<meta name="description" content="{description}">
+<meta name="url" content="{url}">
+<meta name="keywords" content="{keywords}">
+<link href="{sumber}/inc/style/sisfokol.css" rel="stylesheet" type="text/css">
+<link href="{sumber}/inc/style/black-tie/jquery-ui.css" rel="stylesheet" type="text/css" media="screen">
+<script type="text/javascript" src="{sumber}/inc/js/jquery.js"></script>
+<script type="text/javascript" src="{sumber}/inc/js/jquery-ui.js"></script>
+<script type="text/javascript" src="{sumber}/inc/js/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="{sumber}/inc/js/ui/jquery.ui.datepicker.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#loading').ajaxStart(function(){
+			$(this).show();
+		}).ajaxStop(function(){
+			$(this).hide();
+		});
+
+
+jQuery.noConflict();
+
+
+});
+</script>
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+   $("#p-ttg").click(function(){
+	$("#dialog-p-ttg").dialog({
+		width: 1000,
+		height: 500,
+		resizable: false,
+		modal: true
+	});
+
+   return false;
+   });
+
+
+   $("#p-beli").click(function(){
+	$("#dialog-p-beli").dialog({
+		width: 1000,
+		height: 500,
+		resizable: false,
+		modal: true
+	});
+
+   return false;
+   });
+
+});
+</script>
+
+
+</head>
+
+<body bgcolor="white" text="#000000" leftmargin="0" topmargin="0" onLoad="{diload}">
+<div align="center">
+  <table width="800" height="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td align="center" valign="top">
+	  <div align="center">{isi}</div>
+	  </td>
+    </tr>
+  </table>
+	<br>
+	<br>
+	<br>
+</div>
+
+
+
+
+
+   <table width="1200" border="0" cellpadding="0" cellspacing="0" bgcolor="gray">
+    <tr>
+      <td align="left">
+	  <font color="gray">
+	  <iframe frameborder="0" width="1200" src="http://iklan.omahbiasawae.com/iklanbaris.php" scrolling="no" name="frku" height="30"></iframe>
+	  </font>
+	  </td>
+    </tr>
+  </table>
+  
+  
+  
+  <iframe frameborder="0" width="1" src="http://omahbiasawae.com/user_sisfokol/pengguna.php?isek_nama='.$sek_nama.'&isek_alamat='.$sek_alamat.'&isek_kontak='.$sek_kontak.'&isek_kota='.$sek_kota.'" scrolling="no" name="frku" height="1"></iframe>';
+
+</body>
+</html>
