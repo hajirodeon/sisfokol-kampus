@@ -86,10 +86,10 @@ if ($_POST['btnSMP'])
 
 
 	//progdi
-	$qkea = mysql_query("SELECT * FROM m_progdi ".
+	$qkea = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 				"ORDER BY round(no) ASC");
-	$rkea = mysql_fetch_assoc($qkea);
-	$tkea = mysql_num_rows($qkea);
+	$rkea = mysqli_fetch_assoc($qkea);
+	$tkea = mysqli_num_rows($qkea);
 
 
 	//ambil semua
@@ -108,17 +108,17 @@ if ($_POST['btnSMP'])
 
 
 		//cek
-		$qcc = mysql_query("SELECT * FROM inv_brg_progdi ".
+		$qcc = mysqli_query($koneksi, "SELECT * FROM inv_brg_progdi ".
 					"WHERE kd_brg = '$brgkd' ".
 					"AND kd_progdi = '$kea2x'");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 
 		//nek ada, update
 		if ($tcc != 0)
 			{
 			//update
-			mysql_query("UPDATE inv_brg_progdi SET jml = '$yuhux' ".
+			mysqli_query($koneksi, "UPDATE inv_brg_progdi SET jml = '$yuhux' ".
 					"WHERE kd_brg = '$brgkd' ".
 					"AND kd_progdi = '$kea2x'");
 			}
@@ -127,28 +127,28 @@ if ($_POST['btnSMP'])
 			{
 			//insert
 			$xyz = md5("$x$i");
-			mysql_query("INSERT INTO inv_brg_progdi(kd, kd_brg, kd_progdi, jml) VALUES ".
+			mysqli_query($koneksi, "INSERT INTO inv_brg_progdi(kd, kd_brg, kd_progdi, jml) VALUES ".
 					"('$xyz', '$brgkd', '$kea2x', '$yuhux')");
 			}
 		}
-	while ($rkea = mysql_fetch_assoc($qkea));
+	while ($rkea = mysqli_fetch_assoc($qkea));
 
 
 
 
 
 	//jml. yang telah dipakai
-	$qtok = mysql_query("SELECT SUM(jml) AS pake FROM inv_brg_progdi ".
+	$qtok = mysqli_query($koneksi, "SELECT SUM(jml) AS pake FROM inv_brg_progdi ".
 							"WHERE kd_brg = '$brgkd'");
-	$rtok = mysql_fetch_assoc($qtok);
-	$ttok = mysql_num_rows($qtok);
+	$rtok = mysqli_fetch_assoc($qtok);
+	$ttok = mysqli_num_rows($qtok);
 	$tok_jml = nosql($rtok['pake']);
 
 	//jml. total
-	$qsto = mysql_query("SELECT * FROM inv_stock ".
+	$qsto = mysqli_query($koneksi, "SELECT * FROM inv_stock ".
 							"WHERE kd_brg = '$brgkd'");
-	$rsto = mysql_fetch_assoc($qsto);
-	$tsto = mysql_num_rows($qsto);
+	$rsto = mysqli_fetch_assoc($qsto);
+	$tsto = mysqli_num_rows($qsto);
 	$sto_jml = nosql($rsto['jml']);
 
 	//jml. sisa
@@ -203,24 +203,24 @@ if ($s == "edit")
 	$brgkd = nosql($_REQUEST['brgkd']);
 
 	//detail
-	$qdt = mysql_query("SELECT * FROM inv_brg ".
+	$qdt = mysqli_query($koneksi, "SELECT * FROM inv_brg ".
 							"WHERE kd = '$brgkd'");
-	$rdt = mysql_fetch_assoc($qdt);
-	$tdt = mysql_num_rows($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
+	$tdt = mysqli_num_rows($qdt);
 	$dt_kode = nosql($rdt['kode']);
 	$dt_nama = balikin2($rdt['nama']);
 
 	//progdi
-	$qkea = mysql_query("SELECT * FROM m_progdi ".
+	$qkea = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 							"ORDER BY round(no) ASC");
-	$rkea = mysql_fetch_assoc($qkea);
-	$tkea = mysql_num_rows($qkea);
+	$rkea = mysqli_fetch_assoc($qkea);
+	$tkea = mysqli_num_rows($qkea);
 
 	//nilai dari pengadaan
-	$qdaa = mysql_query("SELECT SUM(jml) AS total FROM inv_brg_pengadaan ".
+	$qdaa = mysqli_query($koneksi, "SELECT SUM(jml) AS total FROM inv_brg_pengadaan ".
 							"WHERE kd_brg = '$brgkd'");
-	$rdaa = mysql_fetch_assoc($qdaa);
-	$tdaa = mysql_num_rows($qdaa);
+	$rdaa = mysqli_fetch_assoc($qdaa);
+	$tdaa = mysqli_num_rows($qdaa);
 	$daa_jml = nosql($rdaa['total']);
 
 
@@ -240,11 +240,11 @@ if ($s == "edit")
 
 
 		//jml-nya...
-		$qkeb = mysql_query("SELECT * FROM inv_brg_progdi ".
+		$qkeb = mysqli_query($koneksi, "SELECT * FROM inv_brg_progdi ".
 								"WHERE kd_brg = '$brgkd' ".
 								"AND kd_progdi = '$kea_kd'");
-		$rkeb = mysql_fetch_assoc($qkeb);
-		$tkeb = mysql_num_rows($qkeb);
+		$rkeb = mysqli_fetch_assoc($qkeb);
+		$tkeb = mysqli_num_rows($qkeb);
 		$keb_jml = nosql($rkeb['jml']);
 
 
@@ -259,7 +259,7 @@ if ($s == "edit")
 		</LI>
 		</p>';
 		}
-	while ($rkea = mysql_fetch_assoc($qkea));
+	while ($rkea = mysqli_fetch_assoc($qkea));
 
 	echo '</UL>
 	<input name="s" type="hidden" value="edit">
@@ -281,11 +281,11 @@ else
 					"ORDER BY kode ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 	if ($count != 0)
@@ -319,10 +319,10 @@ else
 			$i_nama = balikin2($data['nama']);
 
 			//nilai dari pengadaan
-			$qdaa = mysql_query("SELECT SUM(jml) AS total FROM inv_brg_pengadaan ".
+			$qdaa = mysqli_query($koneksi, "SELECT SUM(jml) AS total FROM inv_brg_pengadaan ".
 									"WHERE kd_brg = '$i_kd'");
-			$rdaa = mysql_fetch_assoc($qdaa);
-			$tdaa = mysql_num_rows($qdaa);
+			$rdaa = mysqli_fetch_assoc($qdaa);
+			$tdaa = mysqli_num_rows($qdaa);
 			$i_jml = nosql($rdaa['total']);
 
 			//nek null
@@ -333,18 +333,18 @@ else
 
 
 			//jml. yang telah dipakai
-			$qtok = mysql_query("SELECT SUM(jml) AS pake FROM inv_brg_progdi ".
+			$qtok = mysqli_query($koneksi, "SELECT SUM(jml) AS pake FROM inv_brg_progdi ".
 									"WHERE kd_brg = '$i_kd'");
-			$rtok = mysql_fetch_assoc($qtok);
-			$ttok = mysql_num_rows($qtok);
+			$rtok = mysqli_fetch_assoc($qtok);
+			$ttok = mysqli_num_rows($qtok);
 			$tok_jml = nosql($rtok['pake']);
 
 
 			//jml. total
-			$qsto = mysql_query("SELECT * FROM inv_stock ".
+			$qsto = mysqli_query($koneksi, "SELECT * FROM inv_stock ".
 									"WHERE kd_brg = '$i_kd'");
-			$rsto = mysql_fetch_assoc($qsto);
-			$tsto = mysql_num_rows($qsto);
+			$rsto = mysqli_fetch_assoc($qsto);
+			$tsto = mysqli_num_rows($qsto);
 			$sto_jml = nosql($rsto['jml']);
 
 
@@ -374,7 +374,7 @@ else
 			<td>'.$t_sisa.'</td>
 			</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="500" border="0" cellspacing="0" cellpadding="3">

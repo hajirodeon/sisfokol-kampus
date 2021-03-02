@@ -55,19 +55,19 @@ Tahun Akademik : ';
 
 echo "<select name=\"tapel\" onChange=\"MM_jumpMenu('self',this,0)\">";
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 						"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
 
 echo '<option value="'.$tpx_kd.'">'.$tpx_thn1.'/'.$tpx_thn2.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_tapel ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 						"WHERE kd <> '$tapelkd' ".
 						"ORDER BY tahun1 ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -77,7 +77,7 @@ do
 
 	echo '<option value="'.$filenya.'?tapelkd='.$tpkd.'">'.$tpth1.'/'.$tpth2.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>, 
 
@@ -87,16 +87,16 @@ Semester : ';
 echo "<select name=\"smt\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //smt
-$qstxy = mysql_query("SELECT * FROM m_smt ".
+$qstxy = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 			"WHERE kd = '$smtkd'");
-$rowstxy = mysql_fetch_assoc($qstxy);
+$rowstxy = mysqli_fetch_assoc($qstxy);
 $smt = nosql($rowstxy['smt']);
 
 echo '<option value="'.$smtkd.'" selected>'.$smt.'</option>';
 
-$qst = mysql_query("SELECT * FROM m_smt ".
+$qst = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 			"WHERE kd <> '$smtkd'");
-$rowst = mysql_fetch_assoc($qst);
+$rowst = mysqli_fetch_assoc($qst);
 
 do
 	{
@@ -105,7 +105,7 @@ do
 
 	echo '<option value="'.$filenya.'?tapelkd='.$tapelkd.'&smtkd='.$stkd.'">'.$stsmt.'</option>';
 	}
-while ($rowst = mysql_fetch_assoc($qst));
+while ($rowst = mysqli_fetch_assoc($qst));
 
 echo '</select>
 
@@ -133,7 +133,7 @@ else
 	{
 /*
 	//data ne
-	$qdty = mysql_query("SELECT m_pegawai.*, dosen.*, dosen.kd AS dokd, ".
+	$qdty = mysqli_query($koneksi, "SELECT m_pegawai.*, dosen.*, dosen.kd AS dokd, ".
 							"m_makul.*, m_makul.nama AS mnam, m_makul_smt.*, ".
 							"m_smt.*, m_smt.kd AS mskd, m_ruang.*, ".
 							"m_ruang.kd AS rukd ".
@@ -147,12 +147,12 @@ else
 							"AND m_makul_smt.kd_smt = '$smtkd' ".
 							"AND m_pegawai.kd = '$kd5_session' ".
 							"ORDER BY m_smt.no ASC, m_ruang.ruang ASC");
-	$rdty = mysql_fetch_assoc($qdty);
-	$tdty = mysql_num_rows($qdty);
+	$rdty = mysqli_fetch_assoc($qdty);
+	$tdty = mysqli_num_rows($qdty);
 */
 
 	//data ne
-	$qdty = mysql_query("SELECT m_pegawai.*, dosen.*, dosen.kd AS dokd, dosen.kd_ruang AS rukd, ".
+	$qdty = mysqli_query($koneksi, "SELECT m_pegawai.*, dosen.*, dosen.kd AS dokd, dosen.kd_ruang AS rukd, ".
 							"m_makul.*, m_makul.nama AS mnam, m_makul_smt.*, ".
 							"m_smt.*, m_smt.kd AS mskd ".
 							"FROM m_pegawai, dosen, m_makul, m_makul_smt, m_smt ".
@@ -166,8 +166,8 @@ else
 							"AND dosen.kd_smt = '$smtkd' ".
 							"AND m_pegawai.kd = '$kd5_session' ".
 							"ORDER BY m_smt.no ASC");
-	$rdty = mysql_fetch_assoc($qdty);
-	$tdty = mysql_num_rows($qdty);
+	$rdty = mysqli_fetch_assoc($qdty);
+	$tdty = mysqli_num_rows($qdty);
 	
 		
 	echo '<table width="700" border="1" cellspacing="0" cellpadding="3">
@@ -214,22 +214,22 @@ else
 	
 	
 			//kelas
-			$qykel = mysql_query("SELECT * FROM m_kelas ".
+			$qykel = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 						"WHERE kd = '$dty_kelkd'");
-			$rykel = mysql_fetch_assoc($qykel);
+			$rykel = mysqli_fetch_assoc($qykel);
 			$ykel_kelas = balikin($rykel['kelas']);
 	
 			//progdi
-			$qyprog = mysql_query("SELECT * FROM m_progdi ".
+			$qyprog = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 							"WHERE kd = '$dty_progdi'");
-			$ryprog = mysql_fetch_assoc($qyprog);
+			$ryprog = mysqli_fetch_assoc($qyprog);
 			$yprog_nama = balikin($ryprog['nama']);
 	
 	
 			//ruang
-			$qykell = mysql_query("SELECT * FROM m_ruang ".
+			$qykell = mysqli_query($koneksi, "SELECT * FROM m_ruang ".
 									"WHERE kd = '$dty_rukd'");
-			$rykell = mysql_fetch_assoc($qykell);
+			$rykell = mysqli_fetch_assoc($qykell);
 			$ykel_ruang = balikin($rykell['ruang']);
 	
 	
@@ -247,7 +247,7 @@ else
 			</td>
 			</tr>';
 			}
-		while ($rdty = mysql_fetch_assoc($qdty));
+		while ($rdty = mysqli_fetch_assoc($qdty));
 		}
 	
 	echo '</table>';

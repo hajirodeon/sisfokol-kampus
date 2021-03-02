@@ -60,17 +60,17 @@ if ($s == "edit")
 	$kdx = nosql($_REQUEST['kd']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM m_progdi ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 				"WHERE kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$kode = nosql($rowx['kode']);
 	$nama = balikin2($rowx['nama']);
 	$kd_pegawai = nosql($rowx['kd_pegawai']);
 
 	//terpilih
-	$qtp2x = mysql_query("SELECT * FROM m_pegawai ".
+	$qtp2x = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 				"WHERE kd = '$kd_pegawai'");
-	$rowtp2x = mysql_fetch_assoc($qtp2x);
+	$rowtp2x = mysqli_fetch_assoc($qtp2x);
 	$tp2x_nip = nosql($rowtp2x['nip']);
 	$tp2x_pegawai = balikin($rowtp2x['nama']);
 	}
@@ -104,17 +104,17 @@ if ($_POST['btnSMP'])
 		if (empty($s))
 			{
 			///cek nama progdi
-			$qcc = mysql_query("SELECT * FROM m_progdi ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 						"WHERE nama = '$nama'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 
 			///cek pegawai
-			$qcc2 = mysql_query("SELECT * FROM m_progdi ".
+			$qcc2 = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 						"WHERE kd_pegawai = '$pegawai'");
-			$rcc2 = mysql_fetch_assoc($qcc2);
-			$tcc2 = mysql_num_rows($qcc2);
+			$rcc2 = mysqli_fetch_assoc($qcc2);
+			$tcc2 = mysqli_num_rows($qcc2);
 
 
 			//nek ada
@@ -147,11 +147,11 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO m_progdi(kd, kode, nama, kd_pegawai) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO m_progdi(kd, kode, nama, kd_pegawai) VALUES ".
 						"('$x', '$kode', '$nama', '$pegawai')");
 
 				//admin ne
-				mysql_query("INSERT INTO adm_kaprodi(kd, kd_pegawai) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO adm_kaprodi(kd, kd_pegawai) VALUES ".
 						"('$x', '$pegawai')");
 
 
@@ -170,29 +170,29 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE m_progdi SET kode = '$kode', ".
+			mysqli_query($koneksi, "UPDATE m_progdi SET kode = '$kode', ".
 					"nama = '$nama', ".
 					"kd_pegawai = '$pegawai' ".
 					"WHERE kd = '$kd'");
 
 
 			///cek nama progdi
-			$qcc = mysql_query("SELECT * FROM adm_kaprodi ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM adm_kaprodi ".
 						"WHERE kd_pegawai = '$pegawai'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 
 			//jika ada
 			if ($tcc != 0)
 				{				
 				//query
-				mysql_query("UPDATE adm_kaprodi SET kd_pegawai = '$pegawai' ".
+				mysqli_query($koneksi, "UPDATE adm_kaprodi SET kd_pegawai = '$pegawai' ".
 						"WHERE kd = '$kd'");
 				}
 			else
 				{
-				mysql_query("INSERT INTO adm_kaprodi(kd, kd_pegawai) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO adm_kaprodi(kd, kd_pegawai) VALUES ".
 						"('$x', '$pegawai')");
 				}
 
@@ -223,7 +223,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM m_progdi ".
+		mysqli_query($koneksi, "DELETE FROM m_progdi ".
 				"WHERE kd = '$kd'");
 		}
 
@@ -243,10 +243,10 @@ if ($_POST['btnHPS'])
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM m_progdi ".
+$q = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"ORDER BY kode ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/checkall.js");
@@ -274,9 +274,9 @@ Ka.Prodi :
 <select name="pegawai">
 <option value="'.$kd_pegawai.'" selected>['.$tp2x_nip.'].'.$tp2x_pegawai.'</option>';
 
-$qtp2 = mysql_query("SELECT * FROM m_pegawai ".
+$qtp2 = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 			"ORDER BY round(nip) ASC");
-$rowtp2 = mysql_fetch_assoc($qtp2);
+$rowtp2 = mysqli_fetch_assoc($qtp2);
 
 do
 	{
@@ -286,7 +286,7 @@ do
 
 	echo '<option value="'.$tp2_kd.'">['.$tp2_nip.']. '.$tp2_nama.'</option>';
 	}
-while ($rowtp2 = mysql_fetch_assoc($qtp2));
+while ($rowtp2 = mysqli_fetch_assoc($qtp2));
 
 echo '</select>
 </p>
@@ -329,9 +329,9 @@ if ($total != 0)
 		$i_pegkd = nosql($row['kd_pegawai']);
 
 		//kaprodi.
-		$qtp2x = mysql_query("SELECT * FROM m_pegawai ".
+		$qtp2x = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 					"WHERE kd = '$i_pegkd'");
-		$rowtp2x = mysql_fetch_assoc($qtp2x);
+		$rowtp2x = mysqli_fetch_assoc($qtp2x);
 		$tp2x_nip = nosql($rowtp2x['nip']);
 		$tp2x_pegawai = balikin($rowtp2x['nama']);
 
@@ -350,7 +350,7 @@ if ($total != 0)
 		<td>'.$tp2x_nip.'. '.$tp2x_pegawai.'</td>
         	</tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">

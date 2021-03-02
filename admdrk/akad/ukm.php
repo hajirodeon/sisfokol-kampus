@@ -65,18 +65,18 @@ echo '<form action="'.$filenya.'" enctype="multipart/form-data" method="post" na
 Program Studi : ';
 echo "<select name=\"progdi\" onChange=\"MM_jumpMenu('self',this,0)\">";
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nama = balikin($rowtpx['nama']);
 
 echo '<option value="'.$tpx_kd.'" selected>'.$tpx_nama.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_progdi ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd <> '$progdi' ".
 			"ORDER BY nama ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -85,7 +85,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$tpkd.'">'.$tpnama.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>,
 
@@ -93,18 +93,18 @@ Jenis : ';
 echo "<select name=\"kelas\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qbtx = mysql_query("SELECT * FROM m_kelas ".
+$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd = '$kelkd'");
-$rowbtx = mysql_fetch_assoc($qbtx);
+$rowbtx = mysqli_fetch_assoc($qbtx);
 $btxkd = nosql($rowbtx['kd']);
 $btxkelas = nosql($rowbtx['kelas']);
 
 echo '<option value="'.$btxkd.'">'.$btxkelas.'</option>';
 
-$qbt = mysql_query("SELECT * FROM m_kelas ".
+$qbt = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd <> '$kelkd' ".
 			"ORDER BY no ASC");
-$rowbt = mysql_fetch_assoc($qbt);
+$rowbt = mysqli_fetch_assoc($qbt);
 
 do
 	{
@@ -113,7 +113,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$progdi.'&kelkd='.$btkd.'">'.$btkelas.'</option>';
 	}
-while ($rowbt = mysql_fetch_assoc($qbt));
+while ($rowbt = mysqli_fetch_assoc($qbt));
 
 echo '</select>
 </td>
@@ -151,12 +151,12 @@ if (empty($s))
 			"ORDER BY round(m_mahasiswa.nim) ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$target = "$filenya?progdi=$progdi&kelkd=$kelkd";
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 
@@ -193,9 +193,9 @@ if (empty($s))
 
 
 			//detail
-			$qdtx = mysql_query("SELECT * FROM m_mahasiswa ".
+			$qdtx = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 						"WHERE nim = '$i_nim'");
-			$rdtx = mysql_fetch_assoc($qdtx);
+			$rdtx = mysqli_fetch_assoc($qdtx);
 			$i_kd = nosql($rdtx['kd']);
 			$i_nama = balikin($rdtx['nama']);
 
@@ -207,12 +207,12 @@ if (empty($s))
 			<td>';
 
 			//ukm yang diikuti
-			$qx = mysql_query("SELECT mahasiswa_ukm.*, mahasiswa_ukm.kd AS mukd, m_ukm.* ".
+			$qx = mysqli_query($koneksi, "SELECT mahasiswa_ukm.*, mahasiswa_ukm.kd AS mukd, m_ukm.* ".
 						"FROM mahasiswa_ukm, m_ukm ".
 						"WHERE mahasiswa_ukm.kd_ukm = m_ukm.kd ".
 						"AND mahasiswa_ukm.kd_mhs = '$i_kd'");
-			$rowx = mysql_fetch_assoc($qx);
-			$totalx = mysql_num_rows($qx);
+			$rowx = mysqli_fetch_assoc($qx);
+			$totalx = mysqli_num_rows($qx);
 
 			do
 				{
@@ -220,12 +220,12 @@ if (empty($s))
 
 				echo "$x_nama, ";
 				}
-			while ($rowx = mysql_fetch_assoc($qx));
+			while ($rowx = mysqli_fetch_assoc($qx));
 
 			echo '</td>
 			</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="700" border="0" cellspacing="0" cellpadding="3">

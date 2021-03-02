@@ -59,9 +59,9 @@ if ($s == "edit")
 	$kdx = nosql($_REQUEST['kd']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 						"WHERE kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$klasifikasi = balikin2($rowx['klasifikasi']);
 	}
 
@@ -92,10 +92,10 @@ if ($_POST['btnSMP'])
 		if (empty($s))
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 									"WHERE klasifikasi = '$klasifikasi'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -112,7 +112,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO surat_m_klasifikasi(kd, klasifikasi) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO surat_m_klasifikasi(kd, klasifikasi) VALUES ".
 								"('$x', '$klasifikasi')");
 
 				//diskonek
@@ -130,7 +130,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE surat_m_klasifikasi SET klasifikasi = '$klasifikasi' ".
+			mysqli_query($koneksi, "UPDATE surat_m_klasifikasi SET klasifikasi = '$klasifikasi' ".
 							"WHERE kd = '$kd'");
 
 			//diskonek
@@ -162,7 +162,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM surat_m_klasifikasi ".
+		mysqli_query($koneksi, "DELETE FROM surat_m_klasifikasi ".
 						"WHERE kd = '$kd'");
 		}
 
@@ -182,10 +182,10 @@ if ($_POST['btnHPS'])
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+$q = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 					"ORDER BY klasifikasi ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/checkall.js");
@@ -239,7 +239,7 @@ if ($total != 0)
 		<td width="90%">'.$i_klasifikasi.'</td>
         </tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>
 	<table width="400" border="0" cellspacing="0" cellpadding="3">

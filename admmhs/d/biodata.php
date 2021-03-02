@@ -53,12 +53,12 @@ echo '<form action="'.$filenya.'" method="post" name="formx">
 
 
 //data query
-$qnil = mysql_query("SELECT m_mahasiswa.*, DATE_FORMAT(m_mahasiswa.tgl_lahir, '%d') AS lahir_tgl, ".
+$qnil = mysqli_query($koneksi, "SELECT m_mahasiswa.*, DATE_FORMAT(m_mahasiswa.tgl_lahir, '%d') AS lahir_tgl, ".
 			"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%m') AS lahir_bln, ".
 			"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%Y') AS lahir_thn ".
 			"FROM m_mahasiswa ".
 			"WHERE kd = '$kd6_session'");
-$rnil = mysql_fetch_assoc($qnil);
+$rnil = mysqli_fetch_assoc($qnil);
 $y_nim = nosql($rnil['nim']);
 $y_nama = balikin($rnil['nama']);
 
@@ -80,9 +80,9 @@ $y_filex = $rnil['filex'];
 
 
 //asal pddkn
-$qku1 = mysql_query("SELECT * FROM m_mahasiswa_pddkn ".
+$qku1 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_pddkn ".
 			"WHERE kd_mahasiswa = '$kd6_session'");
-$rku1 = mysql_fetch_assoc($qku1);
+$rku1 = mysqli_fetch_assoc($qku1);
 $ku1_asal_sekolah = balikin($rku1['asal_sekolah']);
 $ku1_thn_lulus = balikin($rku1['thn_lulus']);
 $ku1_jurusan = balikin($rku1['jurusan']);
@@ -91,9 +91,9 @@ $ku1_status_asal_sekolah = balikin($rku1['status_asal_sekolah']);
 
 
 //status mahasiswa
-$qku2 = mysql_query("SELECT * FROM m_mahasiswa_status ".
+$qku2 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_status ".
 			"WHERE kd_mahasiswa = '$kd6_session'");
-$rku2 = mysql_fetch_assoc($qku2);
+$rku2 = mysqli_fetch_assoc($qku2);
 $ku2_tapelkd = nosql($rku2['kd_tapel']);
 $ku2_status = balikin($rku2['status']);
 $ku2_sebagai_mhs = balikin($rku2['sebagai_mhs']);
@@ -114,9 +114,9 @@ if (empty($ku2_smtkd))
 
 
 //sehat
-$qku3 = mysql_query("SELECT * FROM m_mahasiswa_sehat ".
+$qku3 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_sehat ".
 			"WHERE kd_mahasiswa = '$kd6_session'");
-$rku3 = mysql_fetch_assoc($qku3);
+$rku3 = mysqli_fetch_assoc($qku3);
 $ku3_tb = balikin($rku3['tb']);
 $ku3_bb = balikin($rku3['bb']);
 $ku3_mata = balikin($rku3['mata']);
@@ -127,9 +127,9 @@ $ku3_penyakit_sekarang = balikin($rku3['penyakit_sekarang']);
 
 
 //organisasi
-$qku4 = mysql_query("SELECT * FROM m_mahasiswa_org ".
+$qku4 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_org ".
 			"WHERE kd_mahasiswa = '$kd6_session'");
-$rku4 = mysql_fetch_assoc($qku4);
+$rku4 = mysqli_fetch_assoc($qku4);
 $ku4_org_a = balikin($rku4['org_a']);
 $ku4_org_b = balikin($rku4['org_b']);
 $ku4_org_c = balikin($rku4['org_c']);
@@ -137,9 +137,9 @@ $ku4_org_c = balikin($rku4['org_c']);
 
 
 //hobi
-$qku5 = mysql_query("SELECT * FROM m_mahasiswa_hobi ".
+$qku5 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_hobi ".
 			"WHERE kd_mahasiswa = '$kd6_session'");
-$rku5 = mysql_fetch_assoc($qku5);
+$rku5 = mysqli_fetch_assoc($qku5);
 $ku5_hobi_a = balikin($rku5['hobi_a']);
 $ku5_hobi_b = balikin($rku5['hobi_b']);
 $ku5_hobi_c = balikin($rku5['hobi_c']);
@@ -147,9 +147,9 @@ $ku5_hobi_c = balikin($rku5['hobi_c']);
 
 
 //hobi
-$qku6 = mysql_query("SELECT * FROM m_mahasiswa_ortu ".
+$qku6 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_ortu ".
 			"WHERE kd_mahasiswa = '$kd6_session'");
-$rku6 = mysql_fetch_assoc($qku6);
+$rku6 = mysqli_fetch_assoc($qku6);
 $ku6_ayah_nama = balikin($rku6['ayah_nama']);
 $ku6_ayah_pddkn = balikin($rku6['ayah_pddkn']);
 $ku6_ayah_pekerjaan = balikin($rku6['ayah_pekerjaan']);
@@ -284,9 +284,9 @@ echo '<big><strong>A. IDENTITAS PRIBADI</strong></big>
 <select name="a_agama" class="input" readonly>';
 
 //terpilih
-$qagmx = mysql_query("SELECT * FROM m_agama ".
+$qagmx = mysqli_query($koneksi, "SELECT * FROM m_agama ".
 			"WHERE kd = '$jagmkd'");
-$ragmx = mysql_fetch_assoc($qagmx);
+$ragmx = mysqli_fetch_assoc($qagmx);
 $agmx_kd = nosql($ragmx['kd']);
 $agmx_agama = balikin($ragmx['agama']);
 
@@ -389,9 +389,9 @@ echo '<option value="'.$agmx_kd.'">'.$agmx_agama.'</option>
 <select name="a_thn_masuk" class="input" readonly>';
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd = '$ku2_tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
@@ -434,9 +434,9 @@ echo '<option value="'.$tpx_kd.'">'.$tpx_thn1.'/'.$tpx_thn2.'</option>
 <select name="a_progdi" class="input" readonly>';
 
 //terpilih
-$qpro1 = mysql_query("SELECT * FROM m_progdi ".
+$qpro1 = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$ku2_kd_progdi'");
-$rpro1 = mysql_fetch_assoc($qpro1);
+$rpro1 = mysqli_fetch_assoc($qpro1);
 $pro1_kd = nosql($rpro1['kd']);
 $pro1_nama = balikin($rpro1['nama']);
 
@@ -446,9 +446,9 @@ echo '<option value="'.$pro1_kd.'" selected>'.$pro1_nama.'</option>
 <select name="a_jenjang" class="input" readonly>';
 
 //terpilih
-$qjnej1 = mysql_query("SELECT * FROM m_jenjang ".
+$qjnej1 = mysqli_query($koneksi, "SELECT * FROM m_jenjang ".
 			"WHERE kd = '$ku2_kd_jenjang'");
-$rjenj1 = mysql_fetch_assoc($qjnej1);
+$rjenj1 = mysqli_fetch_assoc($qjnej1);
 $jenj1_kd = nosql($rjenj1['kd']);
 $jenj1_nama = balikin($rjenj1['jenjang']);
 
@@ -466,9 +466,9 @@ echo '<option value="'.$jenj1_kd.'" selected>'.$jenj1_nama.'</option>
 <select name="a_smt" class="input" readonly>';
 
 //terpilih
-$qpro13 = mysql_query("SELECT * FROM m_smt ".
+$qpro13 = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 			"WHERE kd = '$ku2_smtkd'");
-$rpro13 = mysql_fetch_assoc($qpro13);
+$rpro13 = mysqli_fetch_assoc($qpro13);
 $pro13_kd = nosql($rpro13['kd']);
 $pro13_smt = balikin($rpro13['smt']);
 

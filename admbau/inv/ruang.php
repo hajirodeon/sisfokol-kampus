@@ -84,9 +84,9 @@ if ($s == "edit")
 	$page = nosql($_REQUEST['page']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM m_ruang2 ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM m_ruang2 ".
 						"WHERE kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$x_nama = balikin2($rowx['nama']);
 	}
 
@@ -121,10 +121,10 @@ if ($_POST['btnSMP'])
 		if (empty($s))
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM m_ruang2 ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM m_ruang2 ".
 									"WHERE nama = '$nama'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -141,7 +141,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO m_ruang2(kd, nama) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO m_ruang2(kd, nama) VALUES ".
 								"('$x', '$nama')");
 
 				//diskonek
@@ -158,7 +158,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE m_ruang2 SET nama = '$nama' ".
+			mysqli_query($koneksi, "UPDATE m_ruang2 SET nama = '$nama' ".
 							"WHERE kd = '$brgkd'");
 
 			//diskonek
@@ -194,11 +194,11 @@ if ($_POST['btnHPS'])
 					"ORDER BY nama ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 	//ambil semua
 	do
@@ -210,11 +210,11 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del brg
-		mysql_query("DELETE FROM m_ruang2 ".
+		mysqli_query($koneksi, "DELETE FROM m_ruang2 ".
 						"WHERE kd = '$kd'");
 
 		}
-	while ($data = mysql_fetch_assoc($result));
+	while ($data = mysqli_fetch_assoc($result));
 
 	//diskonek
 	xfree($qbw);
@@ -257,11 +257,11 @@ if ((empty($s)) OR ($s == "edit"))
 					"ORDER BY nama ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 	echo '<p>
@@ -313,7 +313,7 @@ if ((empty($s)) OR ($s == "edit"))
 			<td>'.$i_nama.'</td>
 			</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="500" border="0" cellspacing="0" cellpadding="3">

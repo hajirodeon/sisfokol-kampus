@@ -43,7 +43,7 @@ $diload = "window.print();location.href='$ke';";
 
 //PROSES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //query
-$qx = mysql_query("SELECT surat_keluar.*, ".
+$qx = mysqli_query($koneksi, "SELECT surat_keluar.*, ".
 							"DATE_FORMAT(tgl_surat, '%d') AS surat_tgl, ".
 							"DATE_FORMAT(tgl_surat, '%m') AS surat_bln, ".
 							"DATE_FORMAT(tgl_surat, '%Y') AS surat_thn, ".
@@ -52,7 +52,7 @@ $qx = mysql_query("SELECT surat_keluar.*, ".
 							"DATE_FORMAT(tgl_kirim, '%Y') AS kirim_thn ".
 							"FROM surat_keluar ".
 							"WHERE kd = '$sukd'");
-$rowx = mysql_fetch_assoc($qx);
+$rowx = mysqli_fetch_assoc($qx);
 $x_no_urut = nosql($rowx['no_urut']);
 $x_no_surat = balikin2($rowx['no_surat']);
 $x_tujuan = balikin2($rowx['tujuan']);
@@ -67,7 +67,7 @@ $x_kirim_thn = nosql($rowx['kirim_thn']);
 
 
 //detail disposisi
-$qx2 = mysql_query("SELECT surat_keluar_disposisi.*, ".
+$qx2 = mysqli_query($koneksi, "SELECT surat_keluar_disposisi.*, ".
 							"DATE_FORMAT(tgl_selesai, '%d') AS selesai_tgl, ".
 							"DATE_FORMAT(tgl_selesai, '%m') AS selesai_bln, ".
 							"DATE_FORMAT(tgl_selesai, '%Y') AS selesai_thn, ".
@@ -76,7 +76,7 @@ $qx2 = mysql_query("SELECT surat_keluar_disposisi.*, ".
 							"DATE_FORMAT(tgl_kembali, '%Y') AS kembali_thn ".
 							"FROM surat_keluar_disposisi ".
 							"WHERE kd_surat = '$sukd'");
-$rowx2 = mysql_fetch_assoc($qx2);
+$rowx2 = mysqli_fetch_assoc($qx2);
 $x2_selesai_tgl = nosql($rowx2['selesai_tgl']);
 $x2_selesai_bln = nosql($rowx2['selesai_bln']);
 $x2_selesai_thn = nosql($rowx2['selesai_thn']);
@@ -132,9 +132,9 @@ echo '</u></td>
 </td>
 <td>
 <b>Kode :</b> ';
-$qdtx = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+$qdtx = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 								"WHERE kd = '$x_kd_klasifikasi'");
-$rdtx = mysql_fetch_assoc($qdtx);
+$rdtx = mysqli_fetch_assoc($qdtx);
 $dtx_klasifikasi = balikin($rdtx['klasifikasi']);
 
 echo ''.$dtx_klasifikasi.'

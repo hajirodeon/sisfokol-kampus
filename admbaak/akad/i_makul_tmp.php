@@ -25,15 +25,15 @@ if(isset($_GET['aksi']) && $_GET['aksi'] == 'update')
 
 	//looping semua dahulu...
 	//daftar makul-nya
-	$qkulo = mysql_query("SELECT m_makul_smt.sks AS ssks, ".
+	$qkulo = mysqli_query($koneksi, "SELECT m_makul_smt.sks AS ssks, ".
 							"m_makul_smt.kd AS mskd, ".
 							"m_makul.*, m_makul.kd AS mkkd ".
 							"FROM m_makul_smt, m_makul ".
 							"WHERE m_makul_smt.kd_makul = m_makul.kd ".
 							"AND m_makul.kd_progdi = '$e_progdi' ".
 							"AND m_makul_smt.kd_tapel = '$e_tapelkd'");
-	$rkulo = mysql_fetch_assoc($qkulo);
-	$tkulo = mysql_num_rows($qkulo);
+	$rkulo = mysqli_fetch_assoc($qkulo);
+	$tkulo = mysqli_num_rows($qkulo);
 
 
 	do
@@ -49,11 +49,11 @@ if(isset($_GET['aksi']) && $_GET['aksi'] == 'update')
 
 		
 		//update
-		mysql_query("UPDATE m_makul_smt SET sks = '$nil_kd' ".
+		mysqli_query($koneksi, "UPDATE m_makul_smt SET sks = '$nil_kd' ".
 						"WHERE kd = '$kulo_mskd'");
 						
 		}
-	while ($rkulo = mysql_fetch_assoc($qkulo));
+	while ($rkulo = mysqli_fetch_assoc($qkulo));
 
 
 		

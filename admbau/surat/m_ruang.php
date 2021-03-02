@@ -59,9 +59,9 @@ if ($s == "edit")
 	$kdx = nosql($_REQUEST['kd']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM surat_m_ruang ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM surat_m_ruang ".
 						"WHERE kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$ruang = balikin2($rowx['ruang']);
 	}
 
@@ -92,10 +92,10 @@ if ($_POST['btnSMP'])
 		if (empty($s))
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM surat_m_ruang ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM surat_m_ruang ".
 									"WHERE ruang = '$ruang'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -112,7 +112,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO surat_m_ruang(kd, ruang) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO surat_m_ruang(kd, ruang) VALUES ".
 								"('$x', '$ruang')");
 
 				//diskonek
@@ -130,7 +130,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE surat_m_ruang SET ruang = '$ruang' ".
+			mysqli_query($koneksi, "UPDATE surat_m_ruang SET ruang = '$ruang' ".
 							"WHERE kd = '$kd'");
 
 			//diskonek
@@ -162,7 +162,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM surat_m_ruang ".
+		mysqli_query($koneksi, "DELETE FROM surat_m_ruang ".
 						"WHERE kd = '$kd'");
 		}
 
@@ -182,10 +182,10 @@ if ($_POST['btnHPS'])
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM surat_m_ruang ".
+$q = mysqli_query($koneksi, "SELECT * FROM surat_m_ruang ".
 					"ORDER BY ruang ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/checkall.js");
@@ -239,7 +239,7 @@ if ($total != 0)
 		<td width="90%">'.$i_ruang.'</td>
         </tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>
 	<table width="400" border="0" cellspacing="0" cellpadding="3">

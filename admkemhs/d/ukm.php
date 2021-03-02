@@ -60,9 +60,9 @@ if ($s == "edit")
 	$kdx = nosql($_REQUEST['kd']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM m_ukm ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM m_ukm ".
 							"WHERE kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$e_nama = balikin2($rowx['nama']);
 	$e_pengurus = balikin2($rowx['pengurus']);
 	$e_pembina = balikin2($rowx['pembina']);
@@ -70,9 +70,9 @@ if ($s == "edit")
 	
 	
 	//detail
-	$qku = mysql_query("SELECT * FROM m_pegawai ".
+	$qku = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 							"WHERE kd = '$e_pegkd'");
-	$rku = mysql_fetch_assoc($qku);
+	$rku = mysqli_fetch_assoc($qku);
 	$ku_nip = balikin($rku['nip']);
 	$ku_nama = balikin($rku['nama']);
 	}
@@ -107,10 +107,10 @@ if ($_POST['btnSMP'])
 		if (empty($s))
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM m_ukm ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM m_ukm ".
 									"WHERE nama = '$nama'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -127,7 +127,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO m_ukm(kd, nama, pengurus, pembina, kd_pegawai, postdate) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO m_ukm(kd, nama, pengurus, pembina, kd_pegawai, postdate) VALUES ".
 								"('$x', '$nama', '$pengurus', '$pembina', '$pegawai', '$today')");
 
 
@@ -147,7 +147,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE m_ukm SET nama = '$nama', ".
+			mysqli_query($koneksi, "UPDATE m_ukm SET nama = '$nama', ".
 							"pengurus = '$pengurus', ".
 							"kd_pegawai = '$pegawai', ".
 							"pembina = '$pembina' ".
@@ -180,7 +180,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM m_ukm ".
+		mysqli_query($koneksi, "DELETE FROM m_ukm ".
 						"WHERE kd = '$kd'");
 		}
 
@@ -200,10 +200,10 @@ if ($_POST['btnHPS'])
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM m_ukm ".
+$q = mysqli_query($koneksi, "SELECT * FROM m_ukm ".
 			"ORDER BY nama ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/checkall.js");
@@ -231,9 +231,9 @@ Pembina UKM :
 <select name="pegawai">
 <option value="'.$e_pegkd.'">'.$ku_nip.'. '.$ku_nama.'</option>';
 
-$qbt = mysql_query("SELECT * FROM m_pegawai ".
+$qbt = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 						"ORDER BY nama ASC");
-$rowbt = mysql_fetch_assoc($qbt);
+$rowbt = mysqli_fetch_assoc($qbt);
 
 do
 	{
@@ -243,7 +243,7 @@ do
 
 	echo '<option value="'.$btkd.'">'.$btnip.'. '.$btnama.'</option>';
 	}
-while ($rowbt = mysql_fetch_assoc($qbt));
+while ($rowbt = mysqli_fetch_assoc($qbt));
 
 echo '</select>,
 
@@ -289,9 +289,9 @@ if ($total != 0)
 
 	
 		//detail
-		$qku = mysql_query("SELECT * FROM m_pegawai ".
+		$qku = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 								"WHERE kd = '$i_pegkd'");
-		$rku = mysql_fetch_assoc($qku);
+		$rku = mysqli_fetch_assoc($qku);
 		$ku_nip = balikin($rku['nip']);
 		$ku_nama = balikin($rku['nama']);
 		
@@ -310,7 +310,7 @@ if ($total != 0)
 		<td>'.$ku_nip.'. '.$ku_nama.'</td>
     	</tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">

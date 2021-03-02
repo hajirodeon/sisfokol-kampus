@@ -83,11 +83,11 @@ if ($_POST['btnHPS'])
 					"ORDER BY tgl DESC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 	//ambil semua
@@ -101,10 +101,10 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM inv_peng_lab ".
+		mysqli_query($koneksi, "DELETE FROM inv_peng_lab ".
 						"WHERE kd = '$kd'");
 		}
-	while ($data = mysql_fetch_assoc($result));
+	while ($data = mysqli_fetch_assoc($result));
 
 	//diskonek
 	xfree($qbw);
@@ -142,9 +142,9 @@ echo ' [<a href="peng_lab_entry.php" title="Entry Penggunaan Lab.">Data Baru</a>
 Lab. : ';
 
 //terpilih
-$qlabx = mysql_query("SELECT * FROM inv_lab ".
+$qlabx = mysqli_query($koneksi, "SELECT * FROM inv_lab ".
 						"WHERE kd = '$labkd'");
-$rlabx = mysql_fetch_assoc($qlabx);
+$rlabx = mysqli_fetch_assoc($qlabx);
 $labx_kd = nosql($rlabx['kd']);
 $labx_nm = balikin($rlabx['lab']);
 
@@ -152,10 +152,10 @@ echo "<select name=\"lab\" onChange=\"MM_jumpMenu('self',this,0)\">";
 echo '<option value="'.$labx_kd.'" selected>'.$labx_nm.'</option>';
 
 //lab
-$qlab = mysql_query("SELECT * FROM inv_lab ".
+$qlab = mysqli_query($koneksi, "SELECT * FROM inv_lab ".
 						"WHERE kd <> '$labkd' ".
 						"ORDER BY lab ASC");
-$rlab = mysql_fetch_assoc($qlab);
+$rlab = mysqli_fetch_assoc($qlab);
 
 do
 	{
@@ -164,7 +164,7 @@ do
 
 	echo '<option value="'.$filenya.'?labkd='.$lab_kd.'">'.$lab_nm.'</option>';
 	}
-while ($rlab = mysql_fetch_assoc($qlab));
+while ($rlab = mysqli_fetch_assoc($qlab));
 
 echo '</select>,
 Bulan : ';
@@ -219,12 +219,12 @@ else
 			"ORDER BY inv_peng_lab.tgl DESC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$target = "$filenya?labkd=$labkd&pbln=$pbln&pthn=$pthn";
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 	//nek gak ada
@@ -277,7 +277,7 @@ else
 			<td>'.$e_ruang.'</td>
 	        	</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="600" border="0" cellspacing="0" cellpadding="3">

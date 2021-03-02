@@ -96,14 +96,14 @@ if ($_POST['btnSMP'])
 	else
 		{
 		//cek
-		$qcc = mysql_query("SELECT * FROM inv_peng_lab ".
+		$qcc = mysqli_query($koneksi, "SELECT * FROM inv_peng_lab ".
 								"WHERE kd_lab = '$lab' ".
 								"AND tgl = '$tgl_p' ".
 								"AND kd_jam = '$jam' ".
 								"AND kd_progdi = '$progdi' ".
 								"AND kd_ruang = '$ruang'");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 
 		//nek ada
 		if ($tcc != 0)
@@ -120,7 +120,7 @@ if ($_POST['btnSMP'])
 		else
 			{
 			//insert baru
-			mysql_query("INSERT INTO inv_peng_lab(kd, kd_lab, tgl, jam, kd_progdi, kd_ruang) VALUES ".
+			mysqli_query($koneksi, "INSERT INTO inv_peng_lab(kd, kd_lab, tgl, jam, kd_progdi, kd_ruang) VALUES ".
 							"('$x', '$lab', '$tgl_p', '$jam', '$progdi', '$ruang')");
 
 			//diskonek
@@ -154,13 +154,13 @@ xheadline($judul);
 echo ' [<a href="peng_lab.php" title="Daftar Penggunaan Lab.">Daftar Penggunaan</a>]';
 
 //nilai - nilai tgl
-$qnilp = mysql_query("SELECT DATE_FORMAT(inv_peng_lab.tgl, '%d') AS p_tgl, ".
+$qnilp = mysqli_query($koneksi, "SELECT DATE_FORMAT(inv_peng_lab.tgl, '%d') AS p_tgl, ".
 						"DATE_FORMAT(inv_peng_lab.tgl, '%m') AS p_bln, ".
 						"DATE_FORMAT(inv_peng_lab.tgl, '%Y') AS p_thn, ".
 						"inv_peng_lab.* ".
 						"FROM inv_peng_lab ".
 						"WHERE inv_peng_lab.kd = '$pjkd'");
-$rnilp = mysql_fetch_assoc($qnilp);
+$rnilp = mysqli_fetch_assoc($qnilp);
 $nilp_ptgl = nosql($rnilp['p_tgl']);
 $nilp_pbln = nosql($rnilp['p_bln']);
 $nilp_pthn = nosql($rnilp['p_thn']);
@@ -179,9 +179,9 @@ Lab. :
 <option value="" selected></option>';
 
 //lab
-$qlab = mysql_query("SELECT * FROM inv_lab ".
+$qlab = mysqli_query($koneksi, "SELECT * FROM inv_lab ".
 						"ORDER BY lab ASC");
-$rlab = mysql_fetch_assoc($qlab);
+$rlab = mysqli_fetch_assoc($qlab);
 
 do
 	{
@@ -190,7 +190,7 @@ do
 
 	echo '<option value="'.$lab_kd.'">'.$lab_nm.'</option>';
 	}
-while ($rlab = mysql_fetch_assoc($qlab));
+while ($rlab = mysqli_fetch_assoc($qlab));
 
 echo '</select>
 <br>
@@ -234,9 +234,9 @@ Program Studi :
 <option value="" selected></option>';
 
 //progdi
-$qkel = mysql_query("SELECT * FROM m_progdi ".
+$qkel = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 						"ORDER BY nama ASC");
-$rkel = mysql_fetch_assoc($qkel);
+$rkel = mysqli_fetch_assoc($qkel);
 
 do
 	{
@@ -245,7 +245,7 @@ do
 
 	echo '<option value="'.$kel_kd.'">'.$kel_nm.'</option>';
 	}
-while ($rkel = mysql_fetch_assoc($qkel));
+while ($rkel = mysqli_fetch_assoc($qkel));
 
 echo '</select>
 
@@ -259,9 +259,9 @@ Kelas :
 <option value="" selected></option>';
 
 //ruang
-$qru = mysql_query("SELECT * FROM m_ruang ".
+$qru = mysqli_query($koneksi, "SELECT * FROM m_ruang ".
 						"ORDER BY ruang ASC");
-$rru = mysql_fetch_assoc($qru);
+$rru = mysqli_fetch_assoc($qru);
 
 do
 	{
@@ -270,7 +270,7 @@ do
 
 	echo '<option value="'.$ru_kd.'">'.$ru_nm.'</option>';
 	}
-while ($rru = mysql_fetch_assoc($qru));
+while ($rru = mysqli_fetch_assoc($qru));
 
 echo '</select>
 <br>

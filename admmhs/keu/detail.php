@@ -33,9 +33,9 @@ $smtkd = nosql($_REQUEST['smtkd']);
 
 
 //ketahui jenis keuangan
-$qdt = mysql_query("SELECT * FROM m_keu_jenis ".
+$qdt = mysqli_query($koneksi, "SELECT * FROM m_keu_jenis ".
 			"WHERE kd = '$jnskd'");
-$rdt = mysql_fetch_assoc($qdt);
+$rdt = mysqli_fetch_assoc($qdt);
 $dt_kd = nosql($rdt['kd']);
 $dt_jenis = balikin($rdt['nama']);
 
@@ -60,20 +60,20 @@ Semester : ';
 echo "<select name=\"smt\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //smt
-$qstxy = mysql_query("SELECT * FROM m_smt ".
+$qstxy = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 			"WHERE kd = '$smtkd'");
-$rowstxy = mysql_fetch_assoc($qstxy);
+$rowstxy = mysqli_fetch_assoc($qstxy);
 $smt = nosql($rowstxy['smt']);
 
 
 
 //detail tapel
-$qdtx = mysql_query("SELECT mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
+$qdtx = mysqli_query($koneksi, "SELECT mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 			"FROM mahasiswa_kelas ".
 			"WHERE mahasiswa_kelas.kd_mahasiswa = '$kd6_session' ".
 			"AND mahasiswa_kelas.kd_smt = '$smtkd'");
-$rdtx = mysql_fetch_assoc($qdtx);
-$tdtx = mysql_num_rows($qdtx);
+$rdtx = mysqli_fetch_assoc($qdtx);
+$tdtx = mysqli_num_rows($qdtx);
 
 //jika ada, lihat tapel-nya
 if ($tdtx != 0)
@@ -82,10 +82,10 @@ if ($tdtx != 0)
 	$dtx_tapelkd = nosql($rdtx['kd_tapel']);
 
 	//tapel-nya
-	$qtpel = mysql_query("SELECT * FROM m_tapel ".
+	$qtpel = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 				"WHERE kd = '$dtx_tapelkd'");
-	$rtpel = mysql_fetch_assoc($qtpel);
-	$ttpel = mysql_num_rows($qtpel);
+	$rtpel = mysqli_fetch_assoc($qtpel);
+	$ttpel = mysqli_num_rows($qtpel);
 	$tpel_thn1 = nosql($rtpel['tahun1']);
 	$tpel_thn2 = nosql($rtpel['tahun2']);
 
@@ -98,9 +98,9 @@ else
 
 echo '<option value="'.$smtkd.'" selected>'.$smt.' [Tahun Akademik : '.$tpel_thn1.'/'.$tpel_thn2.'].</option>';
 
-$qst = mysql_query("SELECT * FROM m_smt ".
+$qst = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 			"WHERE kd <> '$smtkd'");
-$rowst = mysql_fetch_assoc($qst);
+$rowst = mysqli_fetch_assoc($qst);
 
 do
 	{
@@ -109,13 +109,13 @@ do
 
 
 	//detail tapel
-	$qdtx = mysql_query("SELECT mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
+	$qdtx = mysqli_query($koneksi, "SELECT mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 				"FROM mahasiswa_kelas ".
 				"WHERE mahasiswa_kelas.kd_mahasiswa = '$kd6_session' ".
 				"AND mahasiswa_kelas.kd_smt = '$stkd' ".
 				"");
-	$rdtx = mysql_fetch_assoc($qdtx);
-	$tdtx = mysql_num_rows($qdtx);
+	$rdtx = mysqli_fetch_assoc($qdtx);
+	$tdtx = mysqli_num_rows($qdtx);
 
 	//jika ada, lihat tapel-nya
 	if ($tdtx != 0)
@@ -124,10 +124,10 @@ do
 		$dtx_tapelkd = nosql($rdtx['kd_tapel']);
 
 		//tapel-nya
-		$qtpel = mysql_query("SELECT * FROM m_tapel ".
+		$qtpel = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 					"WHERE kd = '$dtx_tapelkd'");
-		$rtpel = mysql_fetch_assoc($qtpel);
-		$ttpel = mysql_num_rows($qtpel);
+		$rtpel = mysqli_fetch_assoc($qtpel);
+		$ttpel = mysqli_num_rows($qtpel);
 		$tpel_thn1 = nosql($rtpel['tahun1']);
 		$tpel_thn2 = nosql($rtpel['tahun2']);
 
@@ -142,7 +142,7 @@ do
 
 	echo '<option value="'.$filenya.'?jnskd='.$jnskd.'&smtkd='.$stkd.'&tapelkd='.$dtx_tapelkd.'">'.$stsmt.' [Tahun Akademik : '.$tpel_thn1.'/'.$tpel_thn2.']</option>';
 	}
-while ($rowst = mysql_fetch_assoc($qst));
+while ($rowst = mysqli_fetch_assoc($qst));
 
 echo '</select>';
 
@@ -164,36 +164,36 @@ else
 		{
 		//ketahui jumlah SKS yang dimiliki, agar tahu total pembayarannya.
 		//detail
-		$qdtku = mysql_query("SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
+		$qdtku = mysqli_query($koneksi, "SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
 					"mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 					"FROM m_mahasiswa, mahasiswa_kelas ".
 					"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 					"AND m_mahasiswa.kd = '$kd6_session'");
-		$rdtku = mysql_fetch_assoc($qdtku);
+		$rdtku = mysqli_fetch_assoc($qdtku);
 		$dtku_mkkd = nosql($rdtku['mkkd']);
 		$dtku_progdi = nosql($rdtku['kd_progdi']);
 		$dtku_kelkd = nosql($rdtku['kd_kelas']);
 
 
 		//total sks
-		$qtoku = mysql_query("SELECT SUM(m_makul.sks) AS total ".
+		$qtoku = mysqli_query($koneksi, "SELECT SUM(m_makul.sks) AS total ".
 					"FROM mahasiswa_makul, m_makul ".
 					"WHERE mahasiswa_makul.kd_makul = m_makul.kd ".
 					"AND mahasiswa_makul.kd_mahasiswa_kelas = '$dtku_mkkd' ".
 					"AND mahasiswa_makul.kd_tapel = '$tapelkd' ".
 					"AND mahasiswa_makul.kd_smt = '$smtkd'");
-		$rtoku = mysql_fetch_assoc($qtoku);
+		$rtoku = mysqli_fetch_assoc($qtoku);
 		$toku_total = nosql($rtoku['total']);
 
 
 		//total uang
-		$qpkl = mysql_query("SELECT * FROM m_keu ".
+		$qpkl = mysqli_query($koneksi, "SELECT * FROM m_keu ".
 					"WHERE kd_jenis = '$jnskd' ".
 					"AND kd_progdi = '$dtku_progdi' ".
 					"AND kd_kelas = '$dtku_kelkd' ".
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd'");
-		$rpkl = mysql_fetch_assoc($qpkl);
+		$rpkl = mysqli_fetch_assoc($qpkl);
 		$pkl_nilai = nosql($rpkl['biaya']);
 
 
@@ -210,13 +210,13 @@ else
 		<p>';
 
 		//total bayar
-		$qdftx2 = mysql_query("SELECT SUM(nilai) AS total ".
+		$qdftx2 = mysqli_query($koneksi, "SELECT SUM(nilai) AS total ".
 					"FROM mahasiswa_keu ".
 					"WHERE kd_jenis = '$jnskd' ".
 					"AND kd_mahasiswa = '$kd6_session' ".
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd'");
-		$rdftx2 = mysql_fetch_assoc($qdftx2);
+		$rdftx2 = mysqli_fetch_assoc($qdftx2);
 		$dftx2_total = nosql($rdftx2['total']);
 
 
@@ -233,7 +233,7 @@ else
 
 
 		//daftar
-		$qdftx = mysql_query("SELECT mahasiswa_keu.*, ".
+		$qdftx = mysqli_query($koneksi, "SELECT mahasiswa_keu.*, ".
 					"DATE_FORMAT(tgl_bayar, '%d') AS xtgl, ".
 					"DATE_FORMAT(tgl_bayar, '%m') AS xbln, ".
 					"DATE_FORMAT(tgl_bayar, '%Y') AS xthn ".
@@ -243,8 +243,8 @@ else
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd' ".
 					"ORDER BY tgl_bayar DESC");
-		$rdftx = mysql_fetch_assoc($qdftx);
-		$tdftx = mysql_num_rows($qdftx);
+		$rdftx = mysqli_fetch_assoc($qdftx);
+		$tdftx = mysqli_num_rows($qdftx);
 
 		echo '<table border="1" cellspacing="0" cellpadding="3">
 		<tr valign="top" bgcolor="'.$warnaheader.'">
@@ -294,7 +294,7 @@ else
 			</td>
 			</tr>';
 			}
-		while ($rdftx = mysql_fetch_assoc($qdftx));
+		while ($rdftx = mysqli_fetch_assoc($qdftx));
 
 		echo '</table>
 		<p>
@@ -323,12 +323,12 @@ else
 	else if ($jnskd == "70b97c951b5dc2c3b26d50eefeea19cc")
 		{
 		//detail
-		$qdtku = mysql_query("SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
+		$qdtku = mysqli_query($koneksi, "SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
 					"mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 					"FROM m_mahasiswa, mahasiswa_kelas ".
 					"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 					"AND m_mahasiswa.kd = '$kd6_session'");
-		$rdtku = mysql_fetch_assoc($qdtku);
+		$rdtku = mysqli_fetch_assoc($qdtku);
 		$dtku_mkkd = nosql($rdtku['mkkd']);
 		$dtku_progdi = nosql($rdtku['kd_progdi']);
 		$dtku_kelkd = nosql($rdtku['kd_kelas']);
@@ -343,17 +343,17 @@ else
 		<p>';
 
 		//total bayar
-		$qdftx2 = mysql_query("SELECT SUM(nilai) AS total ".
+		$qdftx2 = mysqli_query($koneksi, "SELECT SUM(nilai) AS total ".
 					"FROM mahasiswa_keu ".
 					"WHERE kd_jenis = '$jnskd' ".
 					"AND kd_mahasiswa = '$kd6_session' ".
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd'");
-		$rdftx2 = mysql_fetch_assoc($qdftx2);
+		$rdftx2 = mysqli_fetch_assoc($qdftx2);
 		$dftx2_total = nosql($rdftx2['total']);
 
 		//daftar
-		$qdftx = mysql_query("SELECT mahasiswa_keu.*, ".
+		$qdftx = mysqli_query($koneksi, "SELECT mahasiswa_keu.*, ".
 					"DATE_FORMAT(tgl_bayar, '%d') AS xtgl, ".
 					"DATE_FORMAT(tgl_bayar, '%m') AS xbln, ".
 					"DATE_FORMAT(tgl_bayar, '%Y') AS xthn ".
@@ -363,8 +363,8 @@ else
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd' ".
 					"ORDER BY tgl_bayar DESC");
-		$rdftx = mysql_fetch_assoc($qdftx);
-		$tdftx = mysql_num_rows($qdftx);
+		$rdftx = mysqli_fetch_assoc($qdftx);
+		$tdftx = mysqli_num_rows($qdftx);
 
 		echo '<table border="1" cellspacing="0" cellpadding="3">
 		<tr valign="top" bgcolor="'.$warnaheader.'">
@@ -414,7 +414,7 @@ else
 			</td>
 			</tr>';
 			}
-		while ($rdftx = mysql_fetch_assoc($qdftx));
+		while ($rdftx = mysqli_fetch_assoc($qdftx));
 
 		echo '</table>
 		<p>
@@ -438,12 +438,12 @@ else
 	else if ($jnskd == "f3b22b92155c4bc1ecb1b6db7dd56b91")
 		{
 		//detail
-		$qdtku = mysql_query("SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
+		$qdtku = mysqli_query($koneksi, "SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
 					"mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 					"FROM m_mahasiswa, mahasiswa_kelas ".
 					"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 					"AND m_mahasiswa.kd = '$kd6_session'");
-		$rdtku = mysql_fetch_assoc($qdtku);
+		$rdtku = mysqli_fetch_assoc($qdtku);
 		$dtku_mkkd = nosql($rdtku['mkkd']);
 		$dtku_progdi = nosql($rdtku['kd_progdi']);
 		$dtku_kelkd = nosql($rdtku['kd_kelas']);
@@ -458,17 +458,17 @@ else
 		<p>';
 
 		//total bayar
-		$qdftx2 = mysql_query("SELECT SUM(nilai) AS total ".
+		$qdftx2 = mysqli_query($koneksi, "SELECT SUM(nilai) AS total ".
 					"FROM mahasiswa_keu ".
 					"WHERE kd_jenis = '$jnskd' ".
 					"AND kd_mahasiswa = '$kd6_session' ".
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd'");
-		$rdftx2 = mysql_fetch_assoc($qdftx2);
+		$rdftx2 = mysqli_fetch_assoc($qdftx2);
 		$dftx2_total = nosql($rdftx2['total']);
 
 		//daftar
-		$qdftx = mysql_query("SELECT mahasiswa_keu.*, ".
+		$qdftx = mysqli_query($koneksi, "SELECT mahasiswa_keu.*, ".
 					"DATE_FORMAT(tgl_bayar, '%d') AS xtgl, ".
 					"DATE_FORMAT(tgl_bayar, '%m') AS xbln, ".
 					"DATE_FORMAT(tgl_bayar, '%Y') AS xthn ".
@@ -478,8 +478,8 @@ else
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd' ".
 					"ORDER BY tgl_bayar DESC");
-		$rdftx = mysql_fetch_assoc($qdftx);
-		$tdftx = mysql_num_rows($qdftx);
+		$rdftx = mysqli_fetch_assoc($qdftx);
+		$tdftx = mysqli_num_rows($qdftx);
 
 		echo '<table border="1" cellspacing="0" cellpadding="3">
 		<tr valign="top" bgcolor="'.$warnaheader.'">
@@ -529,7 +529,7 @@ else
 			</td>
 			</tr>';
 			}
-		while ($rdftx = mysql_fetch_assoc($qdftx));
+		while ($rdftx = mysqli_fetch_assoc($qdftx));
 
 		echo '</table>
 		<p>
@@ -550,25 +550,25 @@ else
 	else
 		{
 		//detail
-		$qdtku = mysql_query("SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
+		$qdtku = mysqli_query($koneksi, "SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
 					"mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 					"FROM m_mahasiswa, mahasiswa_kelas ".
 					"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 					"AND m_mahasiswa.kd = '$kd6_session'");
-		$rdtku = mysql_fetch_assoc($qdtku);
+		$rdtku = mysqli_fetch_assoc($qdtku);
 		$dtku_mkkd = nosql($rdtku['mkkd']);
 		$dtku_progdi = nosql($rdtku['kd_progdi']);
 		$dtku_kelkd = nosql($rdtku['kd_kelas']);
 
 
 		//total uang
-		$qpkl = mysql_query("SELECT * FROM m_keu ".
+		$qpkl = mysqli_query($koneksi, "SELECT * FROM m_keu ".
 					"WHERE kd_jenis = '$jnskd' ".
 					"AND kd_progdi = '$dtku_progdi' ".
 					"AND kd_kelas = '$dtku_kelkd' ".
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd'");
-		$rpkl = mysql_fetch_assoc($qpkl);
+		$rpkl = mysqli_fetch_assoc($qpkl);
 		$pkl_nilai = nosql($rpkl['biaya']);
 
 
@@ -582,13 +582,13 @@ else
 		<p>';
 
 		//total bayar
-		$qdftx2 = mysql_query("SELECT SUM(nilai) AS total ".
+		$qdftx2 = mysqli_query($koneksi, "SELECT SUM(nilai) AS total ".
 					"FROM mahasiswa_keu ".
 					"WHERE kd_jenis = '$jnskd' ".
 					"AND kd_mahasiswa = '$kd6_session' ".
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd'");
-		$rdftx2 = mysql_fetch_assoc($qdftx2);
+		$rdftx2 = mysqli_fetch_assoc($qdftx2);
 		$dftx2_total = nosql($rdftx2['total']);
 
 
@@ -605,7 +605,7 @@ else
 
 
 		//daftar
-		$qdftx = mysql_query("SELECT mahasiswa_keu.*, ".
+		$qdftx = mysqli_query($koneksi, "SELECT mahasiswa_keu.*, ".
 					"DATE_FORMAT(tgl_bayar, '%d') AS xtgl, ".
 					"DATE_FORMAT(tgl_bayar, '%m') AS xbln, ".
 					"DATE_FORMAT(tgl_bayar, '%Y') AS xthn ".
@@ -615,8 +615,8 @@ else
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd' ".
 					"ORDER BY tgl_bayar DESC");
-		$rdftx = mysql_fetch_assoc($qdftx);
-		$tdftx = mysql_num_rows($qdftx);
+		$rdftx = mysqli_fetch_assoc($qdftx);
+		$tdftx = mysqli_num_rows($qdftx);
 
 		echo '<table border="1" cellspacing="0" cellpadding="3">
 		<tr valign="top" bgcolor="'.$warnaheader.'">
@@ -666,7 +666,7 @@ else
 			</td>
 			</tr>';
 			}
-		while ($rdftx = mysql_fetch_assoc($qdftx));
+		while ($rdftx = mysqli_fetch_assoc($qdftx));
 
 		echo '</table>
 		<p>

@@ -92,7 +92,7 @@ if ($_POST['btnSMP'])
 	else
 		{
 		//query
-		mysql_query("INSERT INTO m_mess_kampus(kd, kode_kamar, nama, asal, telp, ".
+		mysqli_query($koneksi, "INSERT INTO m_mess_kampus(kd, kode_kamar, nama, asal, telp, ".
 						"kelamin, tgl1, tgl2, postdate) VALUES ".
 						"('$x', '$e_kode', '$e_nama', '$e_asal', '$e_telp', ".
 						"'$e_kelamin', '$e_tgl_mulai', '$e_tgl_akhir', '$today')");
@@ -119,7 +119,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM m_mess_kampus ".
+		mysqli_query($koneksi, "DELETE FROM m_mess_kampus ".
 						"WHERE kd = '$kd'");
 		}
 
@@ -139,10 +139,10 @@ if ($_POST['btnHPS'])
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM m_mess_kampus ".
+$q = mysqli_query($koneksi, "SELECT * FROM m_mess_kampus ".
 					"ORDER BY kode_kamar ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/checkall.js");
@@ -288,7 +288,7 @@ if ($total != 0)
 		<td>'.$i_tgl2.'</td>
     	</tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">

@@ -59,9 +59,9 @@ ob_start();
 
 //view //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //PRODI
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nama = balikin($rowtpx['nama']);
 
@@ -69,24 +69,24 @@ $tpx_nama = balikin($rowtpx['nama']);
 
 
 //KELAS
-$qstx = mysql_query("SELECT * FROM m_ruang ".
+$qstx = mysqli_query($koneksi, "SELECT * FROM m_ruang ".
 				"WHERE kd = '$rukd'");
-$rowstx = mysql_fetch_assoc($qstx);
+$rowstx = mysqli_fetch_assoc($qstx);
 $ruang = nosql($rowstx['ruang']);
 
 
 
 //smt
-$qstxy = mysql_query("SELECT * FROM m_smt ".
+$qstxy = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 			"WHERE kd = '$smtkd'");
-$rowstxy = mysql_fetch_assoc($qstxy);
+$rowstxy = mysqli_fetch_assoc($qstxy);
 $smt = nosql($rowstxy['smt']);
 
 
 
 
 //mata kuliah
-$qtp2x = mysql_query("SELECT m_makul.*, m_makul.kd AS mmkd, m_makul_smt.* ".
+$qtp2x = mysqli_query($koneksi, "SELECT m_makul.*, m_makul.kd AS mmkd, m_makul_smt.* ".
 			"FROM m_makul, m_makul_smt ".
 			"WHERE m_makul_smt.kd_makul = m_makul.kd ".
 			"AND m_makul.kd_progdi = '$progdi' ".
@@ -94,13 +94,13 @@ $qtp2x = mysql_query("SELECT m_makul.*, m_makul.kd AS mmkd, m_makul_smt.* ".
 			"AND m_makul_smt.kd_tapel = '$tapelkd' ".
 			"AND m_makul_smt.kd_smt = '$smtkd' ".
 			"ORDER BY m_makul.kode ASC");
-$rowtp2x = mysql_fetch_assoc($qtp2x);
+$rowtp2x = mysqli_fetch_assoc($qtp2x);
 $tp2x_kode = nosql($rowtp2x['kode']);
 $tp2x_nama = balikin($rowtp2x['nama']);
 
 
 //dosennya
-$qjux2 = mysql_query("SELECT dosen.*, dosen.kd AS dkd, ".
+$qjux2 = mysqli_query($koneksi, "SELECT dosen.*, dosen.kd AS dkd, ".
 			"m_makul.*, m_pegawai.*, m_pegawai.kd AS mpkd, ".
 			"m_pegawai.nama AS pnama ".
 			"FROM dosen, m_makul, m_pegawai ".
@@ -109,8 +109,8 @@ $qjux2 = mysql_query("SELECT dosen.*, dosen.kd AS dkd, ".
 			"AND dosen.kd_makul = '$mkkd' ".
 			"AND dosen.kd_progdi = '$progdi' ".
 			"AND dosen.kd_kelas = '$kelkd'");
-$rjux2 = mysql_fetch_assoc($qjux2);
-$tjux2 = mysql_num_rows($qjux2);
+$rjux2 = mysqli_fetch_assoc($qjux2);
+$tjux2 = mysqli_num_rows($qjux2);
 $jux2_dkd = nosql($rjux2['dkd']);
 $jux2_mpkd = nosql($rjux2['mpkd']);
 $jux2_pnama = balikin($rjux2['pnama']);
@@ -171,7 +171,7 @@ Semester
 
 
 //query
-$qdata = mysql_query("SELECT DISTINCT(m_mahasiswa.kd) AS mskd ".
+$qdata = mysqli_query($koneksi, "SELECT DISTINCT(m_mahasiswa.kd) AS mskd ".
 						"FROM m_mahasiswa, mahasiswa_kelas ".
 						"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 						"AND mahasiswa_kelas.kd_progdi = '$progdi' ".
@@ -179,8 +179,8 @@ $qdata = mysql_query("SELECT DISTINCT(m_mahasiswa.kd) AS mskd ".
 						"AND mahasiswa_kelas.kd_kelas = '$kelkd' ".
 						"AND mahasiswa_kelas.kd_ruang = '$rukd' ".
 						"ORDER BY round(m_mahasiswa.nim) ASC");
-$rdata = mysql_fetch_assoc($qdata);
-$tdata = mysql_num_rows($qdata);
+$rdata = mysqli_fetch_assoc($qdata);
+$tdata = mysqli_num_rows($qdata);
 
 
 echo '<table width="600" border="1" cellpadding="3" cellspacing="0">
@@ -213,7 +213,7 @@ do
 	$i_kd = nosql($rdata['mskd']);
 	
 	//detail ku	
-	$qku = mysql_query("SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
+	$qku = mysqli_query($koneksi, "SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
 						"mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 						"FROM m_mahasiswa, mahasiswa_kelas ".
 						"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
@@ -222,7 +222,7 @@ do
 						"AND mahasiswa_kelas.kd_kelas = '$kelkd' ".
 						"AND mahasiswa_kelas.kd_ruang = '$rukd' ".
 						"AND mahasiswa_kelas.kd_mahasiswa = '$i_kd'");
-	$rku = mysql_fetch_assoc($qku);
+	$rku = mysqli_fetch_assoc($qku);
 	$i_mkkd = nosql($rku['mkkd']);
 	$i_nim = nosql($rku['nim']);
 	$i_nama = balikin2($rku['nama']);
@@ -235,7 +235,7 @@ do
 	for ($i=1;$i<=12;$i++)
 		{
 		//nilai ne...
-		$qxnil = mysql_query("SELECT m_absen.*, m_absen.kd AS makd, ".
+		$qxnil = mysqli_query($koneksi, "SELECT m_absen.*, m_absen.kd AS makd, ".
 					"mahasiswa_absen.* ".
 					"FROM m_absen, mahasiswa_absen ".
 					"WHERE mahasiswa_absen.kd_absen = m_absen.kd ".
@@ -244,8 +244,8 @@ do
 					"AND mahasiswa_absen.kd_smt = '$smtkd' ".
 					"AND mahasiswa_absen.kd_makul = '$mkkd' ".
 					"AND mahasiswa_absen.pertemuan = '$i'");
-		$rxnil = mysql_fetch_assoc($qxnil);
-		$txnil = mysql_num_rows($qxnil);
+		$rxnil = mysqli_fetch_assoc($qxnil);
+		$txnil = mysqli_num_rows($qxnil);
 		$xnil_makd = nosql($rxnil['makd']);
 		$xnil_absen = nosql($rxnil['absen']);
 
@@ -255,7 +255,7 @@ do
 
 	echo '</tr>';
 	}
-while ($rdata = mysql_fetch_assoc($qdata));
+while ($rdata = mysqli_fetch_assoc($qdata));
 
 
 echo '</table>

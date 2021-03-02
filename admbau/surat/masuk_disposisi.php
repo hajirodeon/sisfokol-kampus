@@ -37,7 +37,7 @@ $sukd = nosql($_REQUEST['sukd']);
 
 //PROSES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //query
-$qx = mysql_query("SELECT surat_masuk.*, ".
+$qx = mysqli_query($koneksi, "SELECT surat_masuk.*, ".
 			"DATE_FORMAT(tgl_surat, '%d') AS surat_tgl, ".
 			"DATE_FORMAT(tgl_surat, '%m') AS surat_bln, ".
 			"DATE_FORMAT(tgl_surat, '%Y') AS surat_thn, ".
@@ -46,7 +46,7 @@ $qx = mysql_query("SELECT surat_masuk.*, ".
 			"DATE_FORMAT(tgl_terima, '%Y') AS terima_thn ".
 			"FROM surat_masuk ".
 			"WHERE kd = '$sukd'");
-$rowx = mysql_fetch_assoc($qx);
+$rowx = mysqli_fetch_assoc($qx);
 $x_no_urut = nosql($rowx['no_urut']);
 $x_no_surat = balikin2($rowx['no_surat']);
 $x_asal = balikin2($rowx['asal']);
@@ -62,7 +62,7 @@ $x_terima_thn = nosql($rowx['terima_thn']);
 
 
 //detail disposisi
-$qx2 = mysql_query("SELECT surat_masuk_disposisi.*, ".
+$qx2 = mysqli_query($koneksi, "SELECT surat_masuk_disposisi.*, ".
 			"DATE_FORMAT(tgl_dijawab, '%d') AS jwb_tgl, ".
 			"DATE_FORMAT(tgl_dijawab, '%m') AS jwb_bln, ".
 			"DATE_FORMAT(tgl_dijawab, '%Y') AS jwb_thn, ".
@@ -74,7 +74,7 @@ $qx2 = mysql_query("SELECT surat_masuk_disposisi.*, ".
 			"DATE_FORMAT(tgl_kembali, '%Y') AS kembali_thn ".
 			"FROM surat_masuk_disposisi ".
 			"WHERE kd_surat = '$sukd'");
-$rowx2 = mysql_fetch_assoc($qx2);
+$rowx2 = mysqli_fetch_assoc($qx2);
 $x2_jwb_tgl = nosql($rowx2['jwb_tgl']);
 $x2_jwb_bln = nosql($rowx2['jwb_bln']);
 $x2_jwb_thn = nosql($rowx2['jwb_thn']);
@@ -140,16 +140,16 @@ if ($_POST['btnSMP'])
 
 
 	//cek
-	$qcc = mysql_query("SELECT * FROM surat_masuk_disposisi ".
+	$qcc = mysqli_query($koneksi, "SELECT * FROM surat_masuk_disposisi ".
 				"WHERE kd_surat = '$sukd'");
-	$rcc = mysql_fetch_assoc($qcc);
-	$tcc = mysql_num_rows($qcc);
+	$rcc = mysqli_fetch_assoc($qcc);
+	$tcc = mysqli_num_rows($qcc);
 
 	//jika ada
 	if ($tcc != 0)
 		{
 		//update
-		mysql_query("UPDATE surat_masuk_disposisi SET tgl_selesai = '$tgl_selesai', ".
+		mysqli_query($koneksi, "UPDATE surat_masuk_disposisi SET tgl_selesai = '$tgl_selesai', ".
 				"isi_yayasan = '$i_isi_yayasan', ".
 				"isi_lembaga = '$i_isi_lembaga', ".
 				"diteruskan = '$i_diteruskan', ".
@@ -163,7 +163,7 @@ if ($_POST['btnSMP'])
 	else
 		{
 		//insert
-		mysql_query("INSERT INTO surat_masuk_disposisi (kd, kd_surat, tgl_selesai, ".
+		mysqli_query($koneksi, "INSERT INTO surat_masuk_disposisi (kd, kd_surat, tgl_selesai, ".
 				"isi_yayasan, isi_lembaga, diteruskan, kepada, tgl_kembali, ".
 				"penerima, no_agenda, tgl_dijawab) VALUES ".
 				"('$x', '$sukd', '$tgl_selesai', ".
@@ -208,16 +208,16 @@ if ($_POST['btnSMP2'])
 
 
 	//cek
-	$qcc = mysql_query("SELECT * FROM surat_masuk_disposisi ".
+	$qcc = mysqli_query($koneksi, "SELECT * FROM surat_masuk_disposisi ".
 				"WHERE kd_surat = '$sukd'");
-	$rcc = mysql_fetch_assoc($qcc);
-	$tcc = mysql_num_rows($qcc);
+	$rcc = mysqli_fetch_assoc($qcc);
+	$tcc = mysqli_num_rows($qcc);
 
 	//jika ada
 	if ($tcc != 0)
 		{
 		//update
-		mysql_query("UPDATE surat_masuk_disposisi SET tgl_selesai = '$tgl_selesai', ".
+		mysqli_query($koneksi, "UPDATE surat_masuk_disposisi SET tgl_selesai = '$tgl_selesai', ".
 				"isi_yayasan = '$i_isi_yayasan', ".
 				"isi_lembaga = '$i_isi_lembaga', ".
 				"diteruskan = '$i_diteruskan', ".
@@ -231,7 +231,7 @@ if ($_POST['btnSMP2'])
 	else
 		{
 		//insert
-		mysql_query("INSERT INTO surat_masuk_disposisi (kd, kd_surat, tgl_selesai, ".
+		mysqli_query($koneksi, "INSERT INTO surat_masuk_disposisi (kd, kd_surat, tgl_selesai, ".
 				"isi_yayasan, isi_lembaga, diteruskan, kepada, tgl_kembali, ".
 				"penerima, no_agenda, tgl_dijawab) VALUES ".
 				"('$x', '$sukd', '$tgl_selesai', ".
@@ -258,7 +258,7 @@ if ($_POST['btnRST'])
 	$sukd = nosql($_POST['sukd']);
 
 	//null-kan
-	mysql_query("UPDATE surat_masuk_disposisi SET tgl_selesai = '0000-00-00', ".
+	mysqli_query($koneksi, "UPDATE surat_masuk_disposisi SET tgl_selesai = '0000-00-00', ".
 			"isi_yayasan = '-', ".
 			"isi_lembaga = '-', ".
 			"diteruskan = '-', ".
@@ -317,9 +317,9 @@ Index Berkas / No.Urut
 Kode Klasifkasi
 </td>
 <td>: ';
-$qdtx = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+$qdtx = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 								"WHERE kd = '$x_kd_klasifikasi'");
-$rdtx = mysql_fetch_assoc($qdtx);
+$rdtx = mysqli_fetch_assoc($qdtx);
 $dtx_klasifikasi = balikin($rdtx['klasifikasi']);
 
 echo '<input name="klasifikasi" type="text" value="'.$dtx_klasifikasi.'" size="20" class="input" readonly>

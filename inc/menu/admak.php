@@ -102,9 +102,9 @@ echo '<A href="#" data-flexmenu="flexmenu12" class="menuku"><strong>Bayar Detail
 <UL id="flexmenu12" class="flexdropdownmenu">';
 
 //daftar jenis keuangan
-$qdt = mysql_query("SELECT * FROM m_keu_jenis ".
+$qdt = mysqli_query($koneksi, "SELECT * FROM m_keu_jenis ".
 			"ORDER BY nama ASC");
-$rdt = mysql_fetch_assoc($qdt);
+$rdt = mysqli_fetch_assoc($qdt);
 
 do
 	{
@@ -151,7 +151,7 @@ do
 
 	echo '</LI>';
 	}
-while ($rdt = mysql_fetch_assoc($qdt));
+while ($rdt = mysqli_fetch_assoc($qdt));
 
 echo '</UL>';
 //keuangan ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

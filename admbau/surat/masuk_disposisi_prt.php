@@ -42,7 +42,7 @@ $diload = "window.print();location.href='$ke';";
 
 //PROSES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //query
-$qx = mysql_query("SELECT surat_masuk.*, ".
+$qx = mysqli_query($koneksi, "SELECT surat_masuk.*, ".
 			"DATE_FORMAT(tgl_surat, '%d') AS surat_tgl, ".
 			"DATE_FORMAT(tgl_surat, '%m') AS surat_bln, ".
 			"DATE_FORMAT(tgl_surat, '%Y') AS surat_thn, ".
@@ -51,7 +51,7 @@ $qx = mysql_query("SELECT surat_masuk.*, ".
 			"DATE_FORMAT(tgl_terima, '%Y') AS terima_thn ".
 			"FROM surat_masuk ".
 			"WHERE kd = '$sukd'");
-$rowx = mysql_fetch_assoc($qx);
+$rowx = mysqli_fetch_assoc($qx);
 $x_no_urut = nosql($rowx['no_urut']);
 $x_no_surat = balikin2($rowx['no_surat']);
 $x_asal = balikin2($rowx['asal']);
@@ -67,7 +67,7 @@ $x_terima_thn = nosql($rowx['terima_thn']);
 
 
 //detail disposisi
-$qx2 = mysql_query("SELECT surat_masuk_disposisi.*, ".
+$qx2 = mysqli_query($koneksi, "SELECT surat_masuk_disposisi.*, ".
 			"DATE_FORMAT(tgl_dijawab, '%d') AS jwb_tgl, ".
 			"DATE_FORMAT(tgl_dijawab, '%m') AS jwb_bln, ".
 			"DATE_FORMAT(tgl_dijawab, '%Y') AS jwb_thn, ".
@@ -79,7 +79,7 @@ $qx2 = mysql_query("SELECT surat_masuk_disposisi.*, ".
 			"DATE_FORMAT(tgl_kembali, '%Y') AS kembali_thn ".
 			"FROM surat_masuk_disposisi ".
 			"WHERE kd_surat = '$sukd'");
-$rowx2 = mysql_fetch_assoc($qx2);
+$rowx2 = mysqli_fetch_assoc($qx2);
 $x2_jwb_tgl = nosql($rowx2['jwb_tgl']);
 $x2_jwb_bln = nosql($rowx2['jwb_bln']);
 $x2_jwb_thn = nosql($rowx2['jwb_thn']);

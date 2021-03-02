@@ -71,9 +71,9 @@ echo '<br>
 Tahun Akademik : ';
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
@@ -85,7 +85,7 @@ echo ''.$tpx_thn1.'/'.$tpx_thn2.'
 <br>';
 
 //query
-$qdata = mysql_query("SELECT m_mahasiswa.*, ".
+$qdata = mysqli_query($koneksi, "SELECT m_mahasiswa.*, ".
 				"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%d') AS tgl, ".
 				"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%m') AS bln, ".
 				"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%Y') AS thn, ".
@@ -102,8 +102,8 @@ $qdata = mysql_query("SELECT m_mahasiswa.*, ".
 				"AND mahasiswa_kelas.kd_tapel = '$tapelkd' ".
 				"AND m_mahasiswa_alumni.alumni = 'true' ".
 				"ORDER BY m_mahasiswa_alumni.tgl_tulis ASC");
-$rdata = mysql_fetch_assoc($qdata);
-$tdata = mysql_num_rows($qdata);
+$rdata = mysqli_fetch_assoc($qdata);
+$tdata = mysqli_num_rows($qdata);
 
 
 echo '<p>
@@ -148,9 +148,9 @@ do
 
 
 	//kelamin
-	$qmin = mysql_query("SELECT * FROM m_kelamin ".
+	$qmin = mysqli_query($koneksi, "SELECT * FROM m_kelamin ".
 							"WHERE kd = '$kd_kelamin'");
-	$rmin = mysql_fetch_assoc($qmin);
+	$rmin = mysqli_fetch_assoc($qmin);
 	$min_kelamin = balikin2($rmin['kelamin']);
 
 
@@ -176,7 +176,7 @@ do
 	</td>
 	</tr>';
 	}
-while ($rdata = mysql_fetch_assoc($qdata));
+while ($rdata = mysqli_fetch_assoc($qdata));
 
 echo '</table>
 </p>

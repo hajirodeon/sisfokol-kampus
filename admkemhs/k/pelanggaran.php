@@ -59,10 +59,10 @@ if ($s == "edit")
 	$kdx = nosql($_REQUEST['kd']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM m_bk_point ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM m_bk_point ".
 				"WHERE kd_jenis = '$jnskd' ".
 				"AND kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$e_no = nosql($rowx['no']);
 	$e_nama = balikin($rowx['nama']);
 	$e_point = balikin($rowx['point']);
@@ -101,10 +101,10 @@ if ($_POST['btnSMP'])
 		if (empty($s))
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM m_bk_point ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM m_bk_point ".
 						"WHERE nama = '$nama'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -122,7 +122,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO m_bk_point(kd, kd_jenis, no, nama, point, sanksi) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO m_bk_point(kd, kd_jenis, no, nama, point, sanksi) VALUES ".
 						"('$x', '$jnskd', '$e_no', '$e_nama','$e_point', '$e_sanksi')");
 
 				//diskonek
@@ -141,7 +141,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE m_bk_point SET no = '$e_no', ".
+			mysqli_query($koneksi, "UPDATE m_bk_point SET no = '$e_no', ".
 					"nama = '$e_nama', ".
 					"point = '$e_point', ".
 					"sanksi = '$e_sanksi' ".
@@ -176,7 +176,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM m_bk_point ".
+		mysqli_query($koneksi, "DELETE FROM m_bk_point ".
 				"WHERE kd_jenis = '$jnskd' ".
 				"AND kd = '$kd'");
 		}
@@ -215,9 +215,9 @@ Jenis Pelanggaran : ';
 echo "<select name=\"jenis\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_bk_point_jenis ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_bk_point_jenis ".
 			"WHERE kd = '$jnskd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_no = balikin($rowtpx['no']);
 $tpx_jenis = balikin($rowtpx['jenis']);
@@ -225,10 +225,10 @@ $tpx_jenis = balikin($rowtpx['jenis']);
 
 echo '<option value="'.$tpx_kd.'">'.$tpx_no.'.'.$tpx_jenis.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_bk_point_jenis ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_bk_point_jenis ".
 			"WHERE kd <> '$jnskd' ".
 			"ORDER BY round(no) ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -238,7 +238,7 @@ do
 
 	echo '<option value="'.$filenya.'?jnskd='.$tpkd.'">'.$tpno.'.'.$tpjenis.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>
 </td>
@@ -279,11 +279,11 @@ else
 
 
 	//query
-	$q = mysql_query("SELECT * FROM m_bk_point ".
+	$q = mysqli_query($koneksi, "SELECT * FROM m_bk_point ".
 				"WHERE kd_jenis = '$jnskd' ".
 				"ORDER BY round(no) ASC");
-	$row = mysql_fetch_assoc($q);
-	$total = mysql_num_rows($q);
+	$row = mysqli_fetch_assoc($q);
+	$total = mysqli_num_rows($q);
 
 
 	if ($total != 0)
@@ -336,7 +336,7 @@ else
 			<td>'.$i_sanksi.'</td>
 			</tr>';
 			}
-		while ($row = mysql_fetch_assoc($q));
+		while ($row = mysqli_fetch_assoc($q));
 
 		echo '</table>
 		<table width="800" border="0" cellspacing="0" cellpadding="3">

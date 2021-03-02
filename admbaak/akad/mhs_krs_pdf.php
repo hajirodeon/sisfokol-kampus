@@ -45,17 +45,17 @@ $pdf->SetKeywords($keywords);
 
 //view //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //detail mahasiswa
-$qku = mysql_query("SELECT * FROM m_mahasiswa ".
+$qku = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 			"WHERE kd = '$kd'");
-$rku = mysql_fetch_assoc($qku);
+$rku = mysqli_fetch_assoc($qku);
 $ku_nim = nosql($rku['nim']);
 $ku_nama = balikin($rku['nama']);
 
 
 //smt
-$qstxy = mysql_query("SELECT * FROM m_smt ".
+$qstxy = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 			"WHERE kd = '$smtkd'");
-$rowstxy = mysql_fetch_assoc($qstxy);
+$rowstxy = mysqli_fetch_assoc($qstxy);
 $smt = nosql($rowstxy['smt']);
 $smt_no = nosql($rowstxy['no']);
 
@@ -75,21 +75,21 @@ else
 
 
 //tapel
-$qtpel = mysql_query("SELECT * FROM m_tapel ".
+$qtpel = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd = '$tapelkd'");
-$rtpel = mysql_fetch_assoc($qtpel);
-$ttpel = mysql_num_rows($qtpel);
+$rtpel = mysqli_fetch_assoc($qtpel);
+$ttpel = mysqli_num_rows($qtpel);
 $tpel_thn1 = nosql($rtpel['tahun1']);
 $tpel_thn2 = nosql($rtpel['tahun2']);
 
 
 
 //ketahui ka.prodi
-$qtp2x = mysql_query("SELECT m_pegawai.*, m_pegawai.nama AS mpnama, m_progdi.* ".
+$qtp2x = mysqli_query($koneksi, "SELECT m_pegawai.*, m_pegawai.nama AS mpnama, m_progdi.* ".
 			"FROM m_pegawai, m_progdi ".
 			"WHERE m_progdi.kd_pegawai = m_pegawai.kd ".
 			"AND m_progdi.kd = '$progdi'");
-$rowtp2x = mysql_fetch_assoc($qtp2x);
+$rowtp2x = mysqli_fetch_assoc($qtp2x);
 $tp2x_nip = nosql($rowtp2x['nip']);
 $tp2x_pegawai = balikin($rowtp2x['mpnama']);
 
@@ -98,7 +98,7 @@ $tp2x_pegawai = balikin($rowtp2x['mpnama']);
 
 
 //ketahui dosen pembimbing-nya
-$qtp2xx = mysql_query("SELECT dosen_pembimbing.*, m_ruang.*, ".
+$qtp2xx = mysqli_query($koneksi, "SELECT dosen_pembimbing.*, m_ruang.*, ".
 			"m_pegawai.*, m_pegawai.nama AS mpnama ".
 			"FROM dosen_pembimbing, m_ruang, m_pegawai ".
 			"WHERE dosen_pembimbing.kd_ruang = m_ruang.kd ".
@@ -108,7 +108,7 @@ $qtp2xx = mysql_query("SELECT dosen_pembimbing.*, m_ruang.*, ".
 			"AND dosen_pembimbing.kd_smt = '$smtkd' ".
 			"AND dosen_pembimbing.kd_kelas = '$kelkd' ".
 			"AND dosen_pembimbing.kd_ruang = '$rukd'");
-$rowtp2xx = mysql_fetch_assoc($qtp2xx);
+$rowtp2xx = mysqli_fetch_assoc($qtp2xx);
 $tp2xx_nip = nosql($rowtp2xx['nip']);
 $tp2xx_nama = balikin($rowtp2xx['mpnama']);
 
@@ -184,9 +184,9 @@ $pdf->Ln();
 
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nama = balikin($rowtpx['nama']);
 
@@ -200,7 +200,7 @@ $pdf->Ln();
 
 
 //cek keberadaan mahasiswa
-$qcc2 = mysql_query("SELECT m_mahasiswa.*, mahasiswa_kelas.* ".
+$qcc2 = mysqli_query($koneksi, "SELECT m_mahasiswa.*, mahasiswa_kelas.* ".
 			"FROM m_mahasiswa, mahasiswa_kelas ".
 			"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 			"AND mahasiswa_kelas.kd_progdi = '$progdi' ".
@@ -209,15 +209,15 @@ $qcc2 = mysql_query("SELECT m_mahasiswa.*, mahasiswa_kelas.* ".
 			"AND mahasiswa_kelas.kd_kelas = '$kelkd' ".
 			"AND mahasiswa_kelas.kd_ruang = '$rukd' ".
 			"AND m_mahasiswa.kd = '$kd'");
-$rcc2 = mysql_fetch_assoc($qcc2);
-$tcc2 = mysql_num_rows($qcc2);
+$rcc2 = mysqli_fetch_assoc($qcc2);
+$tcc2 = mysqli_num_rows($qcc2);
 
 
 //jika sesuai
 if ($tcc2 != 0)
 	{
 	//daftar makul-nya
-	$qkulo = mysql_query("SELECT mahasiswa_makul.*, mahasiswa_makul.kd AS kulkd, ".
+	$qkulo = mysqli_query($koneksi, "SELECT mahasiswa_makul.*, mahasiswa_makul.kd AS kulkd, ".
 										"m_makul.*, m_makul.kd AS makul, m_makul_smt.sks AS ssks ".
 										"FROM mahasiswa_makul, m_makul, m_makul_smt ".
 										"WHERE mahasiswa_makul.kd_makul = m_makul.kd ".
@@ -229,8 +229,8 @@ if ($tcc2 != 0)
 										"AND m_makul_smt.kd_tapel = '$tapelkd' ".
 										"AND m_makul_smt.kd_smt = '$smtkd' ".
 										"ORDER BY m_makul.kode ASC");
-	$rkulo = mysql_fetch_assoc($qkulo);
-	$tkulo = mysql_num_rows($qkulo);
+	$rkulo = mysqli_fetch_assoc($qkulo);
+	$tkulo = mysqli_num_rows($qkulo);
 
 
 	$pdf->SetFont('Arial','B',10);
@@ -271,13 +271,13 @@ if ($tcc2 != 0)
 		$pdf->Cell(10,5,''.$kulo_sks.'',1,0,'C');
 		$pdf->Ln();
 		}
-	while ($rkulo = mysql_fetch_assoc($qkulo));
+	while ($rkulo = mysqli_fetch_assoc($qkulo));
 
 
 
 
 	//total sks
-	$qtoku = mysql_query("SELECT SUM(m_makul_smt.sks) AS total ".
+	$qtoku = mysqli_query($koneksi, "SELECT SUM(m_makul_smt.sks) AS total ".
 									"FROM mahasiswa_makul, m_makul, m_makul_smt ".
 									"WHERE mahasiswa_makul.kd_makul = m_makul.kd ".
 									"AND m_makul_smt.kd_makul = m_makul.kd ".
@@ -287,13 +287,13 @@ if ($tcc2 != 0)
 									"AND m_makul.kd_progdi = '$progdi' ".
 									"AND m_makul_smt.kd_tapel = '$tapelkd' ".
 									"AND m_makul_smt.kd_smt = '$smtkd'");
-	$rtoku = mysql_fetch_assoc($qtoku);
+	$rtoku = mysqli_fetch_assoc($qtoku);
 	$toku_total = nosql($rtoku['total']);
 
 
 
 	//tgl.pengesahan
-	$qsahi = mysql_query("SELECT DATE_FORMAT(mahasiswa_makul.tgl_sah, '%d') AS atgl, ".
+	$qsahi = mysqli_query($koneksi, "SELECT DATE_FORMAT(mahasiswa_makul.tgl_sah, '%d') AS atgl, ".
 							"DATE_FORMAT(mahasiswa_makul.tgl_sah, '%m') AS abln, ".
 							"DATE_FORMAT(mahasiswa_makul.tgl_sah, '%Y') AS athn, ".
 							"mahasiswa_makul.* ".
@@ -301,7 +301,7 @@ if ($tcc2 != 0)
 							"WHERE kd_mahasiswa_kelas = '$mkkd' ".
 							"AND kd_tapel = '$tapelkd' ".
 							"AND kd_smt = '$smtkd'");
-	$rsahi = mysql_fetch_assoc($qsahi);
+	$rsahi = mysqli_fetch_assoc($qsahi);
 	$atgl = nosql($rsahi['atgl']);
 	$abln = nosql($rsahi['abln']);
 	$athn = nosql($rsahi['athn']);

@@ -281,7 +281,7 @@ function LoadTpl($template="")
 //xclose
 function xfree($str)
 	{
-	mysql_free_result($str);
+	mysqli_free_result($str);
 	}
 
 
@@ -289,7 +289,7 @@ function xfree($str)
 //xclose
 function xclose($str)
 	{
-	mysql_close($str);
+	mysqli_close($str);
 	}
 
 
@@ -1674,7 +1674,7 @@ $passbaru = substr($hajirobe,0,7);
 
 
 //VERSI /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-$versi = "SISFOKOL_KAMPUS_#v1.0";
+$versi = "SISFOKOL_KAMPUS_#v1.6";
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -1682,9 +1682,9 @@ $versi = "SISFOKOL_KAMPUS_#v1.0";
 
 
 //META //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-$author = "Agus Muhajir, S.Kom (hajirodeon@yahoo.com, hajirodeon@gmail.com)";
+$author = "Agus Muhajir, S.Kom (hajirodeon@gmail.com)";
 $description = "$versi.";
-$url = "http://sisfokol.wordpress.com";
+$url = "http://github.com/hajirodeon";
 $keywords = "sistem, informasi, sekolah, sisfokol, biasawae, kampus, omahbiasawae, agus, muhajir, hajirodeon, hajirobe";
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>

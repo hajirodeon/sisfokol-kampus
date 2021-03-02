@@ -195,7 +195,7 @@ if ($_POST['btnEX'])
 
 
 	//looping
-	$qdt = mysql_query("SELECT DISTINCT(m_mahasiswa.nim) AS nim ".
+	$qdt = mysqli_query($koneksi, "SELECT DISTINCT(m_mahasiswa.nim) AS nim ".
 							"FROM m_mahasiswa, mahasiswa_kelas, m_mahasiswa_status ".
 							"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 							"AND m_mahasiswa_status.kd_mahasiswa = m_mahasiswa.kd ".
@@ -203,7 +203,7 @@ if ($_POST['btnEX'])
 							"$ku_kelkd ".
 							"$ku_tapelkd ".
 							"ORDER BY round(m_mahasiswa.nim) ASC");
-	$rdt = mysql_fetch_assoc($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
 
 
 	do
@@ -213,7 +213,7 @@ if ($_POST['btnEX'])
 
 
 		//detail
-		$qdti = mysql_query("SELECT m_mahasiswa.*, ".
+		$qdti = mysqli_query($koneksi, "SELECT m_mahasiswa.*, ".
 					"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%d') AS lahir_tgl, ".
 					"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%m') AS lahir_bln, ".
 					"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%Y') AS lahir_thn, ".
@@ -222,7 +222,7 @@ if ($_POST['btnEX'])
 					"FROM m_mahasiswa, mahasiswa_kelas ".
 					"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 					"AND m_mahasiswa.nim = '$i_nim'");
-		$rdti = mysql_fetch_assoc($qdti);
+		$rdti = mysqli_fetch_assoc($qdti);
 		$rnil = $rdti;
 		$dt_kd = nosql($rdti['mskd']);
 		$dt_mkkd = nosql($rdti['mkkd']);
@@ -246,9 +246,9 @@ if ($_POST['btnEX'])
 
 
 		//terpilih
-		$qagmx = mysql_query("SELECT * FROM m_agama ".
+		$qagmx = mysqli_query($koneksi, "SELECT * FROM m_agama ".
 					"WHERE kd = '$jagmkd'");
-		$ragmx = mysql_fetch_assoc($qagmx);
+		$ragmx = mysqli_fetch_assoc($qagmx);
 		$agmx_agama = balikin($ragmx['agama']);
 
 
@@ -259,9 +259,9 @@ if ($_POST['btnEX'])
 
 
 		//asal pddkn
-		$qku1 = mysql_query("SELECT * FROM m_mahasiswa_pddkn ".
+		$qku1 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_pddkn ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku1 = mysql_fetch_assoc($qku1);
+		$rku1 = mysqli_fetch_assoc($qku1);
 		$ku1_asal_sekolah = balikin($rku1['asal_sekolah']);
 		$ku1_thn_lulus = balikin($rku1['thn_lulus']);
 		$ku1_jurusan = balikin($rku1['jurusan']);
@@ -296,9 +296,9 @@ if ($_POST['btnEX'])
 
 
 		//status mahasiswa
-		$qku2 = mysql_query("SELECT * FROM m_mahasiswa_status ".
+		$qku2 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_status ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku2 = mysql_fetch_assoc($qku2);
+		$rku2 = mysqli_fetch_assoc($qku2);
 		$ku2_tapelkd = nosql($rku2['kd_tapel']);
 		$ku2_status = balikin($rku2['status']);
 		$ku2_sebagai_mhs = balikin($rku2['sebagai_mhs']);
@@ -312,17 +312,17 @@ if ($_POST['btnEX'])
 
 
 		//terpilih
-		$qpro1 = mysql_query("SELECT * FROM m_progdi ".
+		$qpro1 = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 					"WHERE kd = '$ku2_kd_progdi'");
-		$rpro1 = mysql_fetch_assoc($qpro1);
+		$rpro1 = mysqli_fetch_assoc($qpro1);
 		$pro1_nama = balikin($rpro1['nama']);
 
 
 
 		//terpilih
-		$qjnej1 = mysql_query("SELECT * FROM m_jenjang ".
+		$qjnej1 = mysqli_query($koneksi, "SELECT * FROM m_jenjang ".
 					"WHERE kd = '$ku2_kd_jenjang'");
-		$rjenj1 = mysql_fetch_assoc($qjnej1);
+		$rjenj1 = mysqli_fetch_assoc($qjnej1);
 		$jenj1_nama = balikin($rjenj1['jenjang']);
 
 
@@ -342,9 +342,9 @@ if ($_POST['btnEX'])
 
 
 		//sehat
-		$qku3 = mysql_query("SELECT * FROM m_mahasiswa_sehat ".
+		$qku3 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_sehat ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku3 = mysql_fetch_assoc($qku3);
+		$rku3 = mysqli_fetch_assoc($qku3);
 		$ku3_tb = balikin($rku3['tb']);
 		$ku3_bb = balikin($rku3['bb']);
 		$ku3_mata = balikin($rku3['mata']);
@@ -357,18 +357,18 @@ if ($_POST['btnEX'])
 
 
 		//organisasi
-		$qku4 = mysql_query("SELECT * FROM m_mahasiswa_org ".
+		$qku4 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_org ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku4 = mysql_fetch_assoc($qku4);
+		$rku4 = mysqli_fetch_assoc($qku4);
 		$ku4_org_a = balikin($rku4['org_a']);
 		$ku4_org_b = balikin($rku4['org_b']);
 		$ku4_org_c = balikin($rku4['org_c']);
 		
 
 		//hobi
-		$qku5 = mysql_query("SELECT * FROM m_mahasiswa_hobi ".
+		$qku5 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_hobi ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku5 = mysql_fetch_assoc($qku5);
+		$rku5 = mysqli_fetch_assoc($qku5);
 		$ku5_hobi_a = balikin($rku5['hobi_a']);
 		$ku5_hobi_b = balikin($rku5['hobi_b']);
 		$ku5_hobi_c = balikin($rku5['hobi_c']);
@@ -376,9 +376,9 @@ if ($_POST['btnEX'])
 
 
 		//ortu
-		$qku6 = mysql_query("SELECT * FROM m_mahasiswa_ortu ".
+		$qku6 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_ortu ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku6 = mysql_fetch_assoc($qku6);
+		$rku6 = mysqli_fetch_assoc($qku6);
 		$ku6_ayah_nama = balikin($rku6['ayah_nama']);
 		$ku6_ayah_pddkn = balikin($rku6['ayah_pddkn']);
 		$ku6_ayah_pekerjaan = balikin($rku6['ayah_pekerjaan']);
@@ -397,7 +397,7 @@ if ($_POST['btnEX'])
 
 
 		//ijazah
-		$qnil2 = mysql_query("SELECT m_mahasiswa_alumni.*, ".
+		$qnil2 = mysqli_query($koneksi, "SELECT m_mahasiswa_alumni.*, ".
 					"DATE_FORMAT(m_mahasiswa_alumni.tgl_terima_ijazah, '%d') AS tgl_terima, ".
 					"DATE_FORMAT(m_mahasiswa_alumni.tgl_terima_ijazah, '%m') AS bln_terima, ".
 					"DATE_FORMAT(m_mahasiswa_alumni.tgl_terima_ijazah, '%Y') AS thn_terima, ".
@@ -408,7 +408,7 @@ if ($_POST['btnEX'])
 					"FROM m_mahasiswa_alumni, mahasiswa_kelas ".
 					"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa_alumni.kd_mahasiswa ".
 					"AND mahasiswa_kelas.kd_mahasiswa = '$kd'");
-		$rnil2 = mysql_fetch_assoc($qnil2);
+		$rnil2 = mysqli_fetch_assoc($qnil2);
 		$y_tgl_terima_ijazah = nosql($rnil2['tgl_terima']);
 		$y_bln_terima_ijazah = nosql($rnil2['bln_terima']);
 		$y_thn_terima_ijazah = nosql($rnil2['thn_terima']);
@@ -434,7 +434,7 @@ if ($_POST['btnEX'])
 	
 		$excel->writeLine($arr);
 		}
-	while ($rdt = mysql_fetch_assoc($qdt));
+	while ($rdt = mysqli_fetch_assoc($qdt));
 
 
 	$excel -> close();
@@ -531,11 +531,11 @@ if ($_POST['btnHPS'])
 			"ORDER BY round(m_mahasiswa.nim) ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 	//ambil semua
 	do
@@ -557,14 +557,14 @@ if ($_POST['btnHPS'])
 			}
 
 		//del
-		mysql_query("DELETE FROM mahasiswa_kelas ".
+		mysqli_query($koneksi, "DELETE FROM mahasiswa_kelas ".
 				"WHERE kd_mahasiswa = '$i_kd'");
 
 		//del
-		mysql_query("DELETE FROM m_mahasiswa ".
+		mysqli_query($koneksi, "DELETE FROM m_mahasiswa ".
 				"WHERE kd = '$i_kd'");
 		}
-	while ($data = mysql_fetch_assoc($result));
+	while ($data = mysqli_fetch_assoc($result));
 
 
 */
@@ -584,11 +584,11 @@ if ($_POST['btnHPS'])
 
 
 		//del
-		mysql_query("DELETE FROM mahasiswa_kelas ".
+		mysqli_query($koneksi, "DELETE FROM mahasiswa_kelas ".
 				"WHERE kd_mahasiswa = '$i_kd'");
 
 		//del
-		mysql_query("DELETE FROM m_mahasiswa ".
+		mysqli_query($koneksi, "DELETE FROM m_mahasiswa ".
 				"WHERE kd = '$i_kd'");
 		}
 
@@ -736,13 +736,13 @@ if ($_POST['btnSMP1'])
 		else
 			{
 			//cek
-			$qcc = mysql_query("SELECT m_mahasiswa.*, mahasiswa_kelas.* ".
+			$qcc = mysqli_query($koneksi, "SELECT m_mahasiswa.*, mahasiswa_kelas.* ".
 						"FROM m_mahasiswa, mahasiswa_kelas ".
 						"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 						"AND mahasiswa_kelas.kd_progdi = '$progdi' ".
 						"AND m_mahasiswa.nim = '$a_nim'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -760,7 +760,7 @@ if ($_POST['btnSMP1'])
 				$x_passx = md5($a_nim);
 
 				//insert
-				mysql_query("INSERT INTO m_mahasiswa(kd, usernamex, passwordx, nim, nama, ".
+				mysqli_query($koneksi, "INSERT INTO m_mahasiswa(kd, usernamex, passwordx, nim, nama, ".
 						"tmp_lahir, tgl_lahir, kelamin, kd_agama, ".
 						"alamat_asal, alamat_skrg, status_sipil, warga_negara) VALUES ".
 						"('$kd', '$x_userx', '$x_passx', '$a_nim', '$a_nama1', ".
@@ -768,19 +768,19 @@ if ($_POST['btnSMP1'])
 						"'$a_alamat_asal', '$a_alamat_skrg', '$a_status_sipil', '$a_warga')");
 
 				//insert kelas-nya
-				mysql_query("INSERT INTO mahasiswa_kelas(kd, kd_mahasiswa, kd_progdi, kd_kelas, ".
+				mysqli_query($koneksi, "INSERT INTO mahasiswa_kelas(kd, kd_mahasiswa, kd_progdi, kd_kelas, ".
 						"kd_tapel, kd_smt) VALUES ".
 						"('$x', '$kd', '$progdi', '$kelkd', ".
 						"'$a_thn_masuk', '$a_smt')");
 
 				//asal pendidikan
-				mysql_query("INSERT INTO m_mahasiswa_pddkn(kd, kd_mahasiswa, asal_sekolah, ".
+				mysqli_query($koneksi, "INSERT INTO m_mahasiswa_pddkn(kd, kd_mahasiswa, asal_sekolah, ".
 						"thn_lulus, jurusan, status_asal_sekolah) VALUES ".
 						"('$x', '$kd', '$a_asal_smta', ".
 						"'$a_thn_lulus', '$a_jurusan_smta', '$a_status_smta')");
 
 				//status
-				mysql_query("INSERT INTO m_mahasiswa_status(kd, kd_mahasiswa, kd_tapel, ".
+				mysqli_query($koneksi, "INSERT INTO m_mahasiswa_status(kd, kd_mahasiswa, kd_tapel, ".
 						"status, sebagai_mhs, kd_progdi, kd_jenjang, ".
 						"pindahan_pt, pindahan_progdi, pindahan_jurusan, ".
 						"pindahan_jenjang, kd_smt) VALUES ".
@@ -790,7 +790,7 @@ if ($_POST['btnSMP1'])
 						"'$a_pindahan_jenjang', '$a_smt')");
 
 				//sehat
-				mysql_query("INSERT INTO m_mahasiswa_sehat(kd, kd_mahasiswa, tb, bb, ".
+				mysqli_query($koneksi, "INSERT INTO m_mahasiswa_sehat(kd, kd_mahasiswa, tb, bb, ".
 						"mata, gol_darah, pendengaran, ".
 						"penyakit_pernah, penyakit_sekarang) VALUES ".
 						"('$x', '$kd', '$a_tb', '$a_bb', ".
@@ -798,15 +798,15 @@ if ($_POST['btnSMP1'])
 						"'$a_penyakit', '$a_penyakit_skrg')");
 
 				//organisasi
-				mysql_query("INSERT INTO m_mahasiswa_org(kd, kd_mahasiswa, org_a, org_b, org_c) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO m_mahasiswa_org(kd, kd_mahasiswa, org_a, org_b, org_c) VALUES ".
 						"('$x', '$kd', '$a_org_a', '$a_org_b', '$a_org_c')");
 
 				//hobi
-				mysql_query("INSERT INTO m_mahasiswa_hobi(kd, kd_mahasiswa, hobi_a, hobi_b, hobi_c) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO m_mahasiswa_hobi(kd, kd_mahasiswa, hobi_a, hobi_b, hobi_c) VALUES ".
 						"('$x', '$kd', '$a_hobi_a', '$a_hobi_b', '$a_hobi_c')");
 
 				//ortu
-				mysql_query("INSERT INTO m_mahasiswa_ortu(kd, kd_mahasiswa, ayah_nama, ".
+				mysqli_query($koneksi, "INSERT INTO m_mahasiswa_ortu(kd, kd_mahasiswa, ayah_nama, ".
 						"ayah_pddkn, ayah_pekerjaan, ayah_alamat, ayah_hidup, ".
 						"ibu_nama, ibu_pddkn, ibu_pekerjaan, ibu_alamat, ".
 						"ibu_hidup, nama_pj, hubungan, hasil_per_bulan, ".
@@ -819,7 +819,7 @@ if ($_POST['btnSMP1'])
 
 
 				//alumni
-				mysql_query("INSERT INTO m_mahasiswa_alumni(kd, kd_mahasiswa, tgl_terima_ijazah, tgl_ijazah, ".
+				mysqli_query($koneksi, "INSERT INTO m_mahasiswa_alumni(kd, kd_mahasiswa, tgl_terima_ijazah, tgl_ijazah, ".
 						"tgl_tulis, no_ijazah, alumni) VALUES ".
 						"('$x', '$kd', '$tgl_terima_ijazah', '$tgl_ijazah', ".
 						"'$today', '$no_ijazah', '$st_alumni')");
@@ -943,7 +943,7 @@ if ($_POST['btnSMP1'])
 		$x_passx = md5($nim);
 
 		//update
-		mysql_query("UPDATE m_mahasiswa SET usernamex = '$x_userx', ".
+		mysqli_query($koneksi, "UPDATE m_mahasiswa SET usernamex = '$x_userx', ".
 				"passwordx = '$x_passx', ".
 				"nim = '$a_nim', ".
 				"nim_pusat = '$a_nim_pusat', ".
@@ -960,7 +960,7 @@ if ($_POST['btnSMP1'])
 
 
 		//insert kelas-nya
-		mysql_query("UPDATE mahasiswa_kelas SET kd_smt = '$a_smt' ".
+		mysqli_query($koneksi, "UPDATE mahasiswa_kelas SET kd_smt = '$a_smt' ".
 				"WHERE kd_tapel = '$a_thn_masuk' ".
 				"AND kd_progdi = '$progdi' ".
 				"AND kd_kelas = '$kelkd' ".
@@ -968,14 +968,14 @@ if ($_POST['btnSMP1'])
 
 
 		//asal pendidikan
-		mysql_query("UPDATE m_mahasiswa_pddkn SET asal_sekolah = '$a_asal_smta', ".
+		mysqli_query($koneksi, "UPDATE m_mahasiswa_pddkn SET asal_sekolah = '$a_asal_smta', ".
 				"thn_lulus = '$a_thn_lulus', ".
 				"jurusan = '$a_jurusan_smta', ".
 				"status_asal_sekolah = '$a_status_smta' ".
 				"WHERE kd_mahasiswa = '$kd'");
 
 		//status
-		mysql_query("UPDATE m_mahasiswa_status SET kd_tapel = '$a_thn_masuk', ".
+		mysqli_query($koneksi, "UPDATE m_mahasiswa_status SET kd_tapel = '$a_thn_masuk', ".
 				"status = '$a_status_mhs', ".
 				"sebagai_mhs = '$a_sebagai_mhs', ".
 				"kd_progdi = '$a_progdi', ".
@@ -988,7 +988,7 @@ if ($_POST['btnSMP1'])
 				"WHERE kd_mahasiswa = '$kd'");
 
 		//sehat
-		mysql_query("UPDATE m_mahasiswa_sehat SET tb = '$a_tb', ".
+		mysqli_query($koneksi, "UPDATE m_mahasiswa_sehat SET tb = '$a_tb', ".
 				"bb = '$a_bb', ".
 				"mata = '$a_mata', ".
 				"gol_darah = '$a_goldarah', ".
@@ -998,19 +998,19 @@ if ($_POST['btnSMP1'])
 				"WHERE kd_mahasiswa = '$kd'");
 
 		//organisasi
-		mysql_query("UPDATE m_mahasiswa_org SET org_a = '$a_org_a', ".
+		mysqli_query($koneksi, "UPDATE m_mahasiswa_org SET org_a = '$a_org_a', ".
 				"org_b = '$a_org_b', ".
 				"org_c = '$a_org_c' ".
 				"WHERE kd_mahasiswa = '$kd'");
 
 		//hobi
-		mysql_query("UPDATE m_mahasiswa_hobi SET hobi_a = '$a_hobi_a', ".
+		mysqli_query($koneksi, "UPDATE m_mahasiswa_hobi SET hobi_a = '$a_hobi_a', ".
 				"hobi_b = '$a_hobi_b', ".
 				"hobi_c = '$a_hobi_c' ".
 				"WHERE kd_mahasiswa = '$kd'");
 
 		//ortu
-		mysql_query("UPDATE m_mahasiswa_ortu SET ayah_nama = '$b_ayah_nama', ".
+		mysqli_query($koneksi, "UPDATE m_mahasiswa_ortu SET ayah_nama = '$b_ayah_nama', ".
 				"ayah_pddkn = '$b_ayah_pddkn', ".
 				"ayah_pekerjaan = '$b_ayah_kerja', ".
 				"ayah_alamat = '$b_ayah_alamat', ".
@@ -1028,7 +1028,7 @@ if ($_POST['btnSMP1'])
 
 
 		//alumni
-		mysql_query("UPDATE m_mahasiswa_alumni SET tgl_terima_ijazah = '$tgl_terima_ijazah', ".
+		mysqli_query($koneksi, "UPDATE m_mahasiswa_alumni SET tgl_terima_ijazah = '$tgl_terima_ijazah', ".
 				"tgl_ijazah = '$tgl_ijazah', ".
 				"tgl_tulis = '$today', ".
 				"no_ijazah = '$no_ijazah', ".
@@ -1091,21 +1091,21 @@ if ($_POST['btnGNT'])
 				copy($_FILES['filex_foto']['tmp_name'],"../../filebox/mahasiswa/$kd/$filex_namex");
 
 				//cek
-				$qcc = mysql_query("SELECT * FROM m_mahasiswa ".
+				$qcc = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 							"WHERE kd = '$kd'");
-				$rcc = mysql_fetch_assoc($qcc);
-				$tcc = mysql_num_rows($qcc);
+				$rcc = mysqli_fetch_assoc($qcc);
+				$tcc = mysqli_num_rows($qcc);
 
 				//nek ada
 				if ($tcc != 0)
 					{
 					//query
-					mysql_query("UPDATE m_mahasiswa SET filex = '$filex_namex' ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa SET filex = '$filex_namex' ".
 							"WHERE kd = '$kd'");
 					}
 				else
 					{
-					mysql_query("INSERT INTO m_mahasiswa(kd, filex) VALUES ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa(kd, filex) VALUES ".
 							"('$kd', '$filex_namex')");
 					}
 
@@ -1122,10 +1122,10 @@ if ($_POST['btnGNT'])
 				{
 				//hapus file yang ada dulu
 				//query
-				$qcc = mysql_query("SELECT * FROM m_mahasiswa ".
+				$qcc = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 							"WHERE kd = '$kd'");
-				$rcc = mysql_fetch_assoc($qcc);
-				$tcc = mysql_num_rows($qcc);
+				$rcc = mysqli_fetch_assoc($qcc);
+				$tcc = mysqli_num_rows($qcc);
 
 				//hapus file
 				$cc_filex = $rcc['filex'];
@@ -1139,13 +1139,13 @@ if ($_POST['btnGNT'])
 				if ($tcc != 0)
 					{
 					//query
-					mysql_query("UPDATE m_mahasiswa SET filex = '$filex_namex', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa SET filex = '$filex_namex', ".
 							"postdate = '$today' ".
 							"WHERE kd = '$kd'");
 					}
 				else
 					{
-					mysql_query("INSERT INTO m_mahasiswa(kd, filex) VALUES ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa(kd, filex) VALUES ".
 							"('$kd', '$filex_namex')");
 					}
 
@@ -1197,19 +1197,19 @@ echo ' [<a href="'.$filenya.'?progdi='.$progdi.'&kelkd='.$kelkd.'&tapelkd='.$tap
 Program Studi : ';
 echo "<select name=\"progdi\" onChange=\"MM_jumpMenu('self',this,0)\">";
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nama = balikin($rowtpx['nama']);
 $prodi_kode = nosql($rowtpx['kode']);
 
 echo '<option value="'.$tpx_kd.'" selected>['.$prodi_kode.'].'.$tpx_nama.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_progdi ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd <> '$progdi' ".
 			"ORDER BY nama ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -1219,7 +1219,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$tpkd.'">['.$tpkode.'].'.$tpnama.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>,
 
@@ -1227,19 +1227,19 @@ Jenis : ';
 echo "<select name=\"kelas\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qbtx = mysql_query("SELECT * FROM m_kelas ".
+$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd = '$kelkd'");
-$rowbtx = mysql_fetch_assoc($qbtx);
+$rowbtx = mysqli_fetch_assoc($qbtx);
 $btxkd = nosql($rowbtx['kd']);
 $btxkelas = nosql($rowbtx['kelas']);
 $jns_kode = nosql($rowbtx['kode']);
 
 echo '<option value="'.$btxkd.'">['.$jns_kode.'].'.$btxkelas.'</option>';
 
-$qbt = mysql_query("SELECT * FROM m_kelas ".
+$qbt = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd <> '$kelkd' ".
 			"ORDER BY no ASC");
-$rowbt = mysql_fetch_assoc($qbt);
+$rowbt = mysqli_fetch_assoc($qbt);
 
 do
 	{
@@ -1249,7 +1249,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$progdi.'&kelkd='.$btkd.'">['.$btkode.'].'.$btkelas.'</option>';
 	}
-while ($rowbt = mysql_fetch_assoc($qbt));
+while ($rowbt = mysqli_fetch_assoc($qbt));
 
 echo '</select>,
 
@@ -1258,9 +1258,9 @@ Masuk Tahun Akademik : ';
 echo "<select name=\"tapel\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
@@ -1268,10 +1268,10 @@ $tapel_kode = substr($tpx_thn1,-2);
 
 echo '<option value="'.$tpx_kd.'">['.$tapel_kode.'].'.$tpx_thn1.'/'.$tpx_thn2.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_tapel ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd <> '$tapelkd' ".
 			"ORDER BY tahun1 ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -1282,7 +1282,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$progdi.'&kelkd='.$kelkd.'&tapelkd='.$tpkd.'">['.$tpkode.'].'.$tpth1.'/'.$tpth2.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>
 </td>
@@ -1357,12 +1357,12 @@ if (empty($s))
 		$sqlresult = $sqlcount;
 		}
 				
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$target = "$filenya?progdi=$progdi&kelkd=$kelkd&tapelkd=$tapelkd";
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 	if ($count != 0)
@@ -1404,7 +1404,7 @@ if (empty($s))
 
 /*
 			//detail
-			$qdt = mysql_query("SELECT m_mahasiswa.*, ".
+			$qdt = mysqli_query($koneksi, "SELECT m_mahasiswa.*, ".
 								"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%d') AS lahir_tgl, ".
 								"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%m') AS lahir_bln, ".
 								"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%Y') AS lahir_thn, ".
@@ -1413,18 +1413,18 @@ if (empty($s))
 								"FROM m_mahasiswa, mahasiswa_kelas ".
 								"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 								"AND m_mahasiswa.kd = '$i_mskd'");
-			$rdt = mysql_fetch_assoc($qdt);
+			$rdt = mysqli_fetch_assoc($qdt);
  */
  
  			//detail
-			$qdt = mysql_query("SELECT m_mahasiswa.*, ".
+			$qdt = mysqli_query($koneksi, "SELECT m_mahasiswa.*, ".
 								"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%d') AS lahir_tgl, ".
 								"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%m') AS lahir_bln, ".
 								"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%Y') AS lahir_thn, ".
 								"m_mahasiswa.kd AS mskd ".
 								"FROM m_mahasiswa ".
 								"WHERE kd = '$i_mskd'");
-			$rdt = mysql_fetch_assoc($qdt);
+			$rdt = mysqli_fetch_assoc($qdt);
  
 			$i_nim = nosql($rdt['nim']);
 			$dt_mkkd = nosql($rdt['mkkd']);
@@ -1451,7 +1451,7 @@ if (empty($s))
 				$x_userx = $i_nim;
 				$x_passx = md5($i_nim);
 
-				mysql_query("UPDATE m_mahasiswa SET usernamex = '$x_userx', ".
+				mysqli_query($koneksi, "UPDATE m_mahasiswa SET usernamex = '$x_userx', ".
 									"passwordx = '$x_passx' ".
 									"WHERE kd = '$i_mskd'");
 				}
@@ -1459,24 +1459,24 @@ if (empty($s))
 				
 				
 			//detail lg
-			$qkuu = mysql_query("SELECT * FROM mahasiswa_kelas ".
+			$qkuu = mysqli_query($koneksi, "SELECT * FROM mahasiswa_kelas ".
 									"WHERE kd_mahasiswa = '$i_mskd'");
-			$rkuu = mysql_fetch_assoc($qkuu);
+			$rkuu = mysqli_fetch_assoc($qkuu);
 			$kuu_progkd = nosql($rkuu['kd_progdi']);
 			$kuu_kelkd = nosql($rkuu['kd_kelas']);
 				
 
 			
-			$qtpx = mysql_query("SELECT * FROM m_progdi ".
+			$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 									"WHERE kd = '$kuu_progkd'");
-			$rowtpx = mysql_fetch_assoc($qtpx);
+			$rowtpx = mysqli_fetch_assoc($qtpx);
 			$tpx_nama = balikin($rowtpx['nama']);
 
 
 			//terpilih
-			$qbtx = mysql_query("SELECT * FROM m_kelas ".
+			$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 									"WHERE kd = '$kuu_kelkd'");
-			$rowbtx = mysql_fetch_assoc($qbtx);
+			$rowbtx = mysqli_fetch_assoc($qbtx);
 			$btxkelas = nosql($rowbtx['kelas']);
 
 
@@ -1484,16 +1484,16 @@ if (empty($s))
 		
 
 			//status
-			$qku2 = mysql_query("SELECT * FROM m_mahasiswa_status ".
+			$qku2 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_status ".
 									"WHERE kd_mahasiswa = '$i_mskd'");
-			$rku2 = mysql_fetch_assoc($qku2);
+			$rku2 = mysqli_fetch_assoc($qku2);
 			$ku2_tapelkd = nosql($rku2['kd_tapel']);
 
 
 			//terpilih
-			$qtpx2 = mysql_query("SELECT * FROM m_tapel ".
+			$qtpx2 = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 									"WHERE kd = '$ku2_tapelkd'");
-			$rowtpx2 = mysql_fetch_assoc($qtpx2);
+			$rowtpx2 = mysqli_fetch_assoc($qtpx2);
 			$tpx2_thn1 = nosql($rowtpx2['tahun1']);
 			$tpx2_thn2 = nosql($rowtpx2['tahun2']);
 
@@ -1516,7 +1516,7 @@ if (empty($s))
 			<td>'.$tpx2_thn1.'/'.$tpx2_thn2.'</td>
 			</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="100%" border="0" cellspacing="0" cellpadding="3">
@@ -1608,12 +1608,12 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 		//data query
-		$qnil = mysql_query("SELECT m_mahasiswa.*, DATE_FORMAT(m_mahasiswa.tgl_lahir, '%d') AS lahir_tgl, ".
+		$qnil = mysqli_query($koneksi, "SELECT m_mahasiswa.*, DATE_FORMAT(m_mahasiswa.tgl_lahir, '%d') AS lahir_tgl, ".
 					"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%m') AS lahir_bln, ".
 					"DATE_FORMAT(m_mahasiswa.tgl_lahir, '%Y') AS lahir_thn ".
 					"FROM m_mahasiswa ".
 					"WHERE kd = '$kd'");
-		$rnil = mysql_fetch_assoc($qnil);
+		$rnil = mysqli_fetch_assoc($qnil);
 		$y_nim = nosql($rnil['nim']);
 		$y_nim_pusat = nosql($rnil['nim_pusat']);
 		$y_nama = balikin($rnil['nama']);
@@ -1636,9 +1636,9 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 		//asal pddkn
-		$qku1 = mysql_query("SELECT * FROM m_mahasiswa_pddkn ".
+		$qku1 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_pddkn ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku1 = mysql_fetch_assoc($qku1);
+		$rku1 = mysqli_fetch_assoc($qku1);
 		$ku1_asal_sekolah = balikin($rku1['asal_sekolah']);
 		$ku1_thn_lulus = balikin($rku1['thn_lulus']);
 		$ku1_jurusan = balikin($rku1['jurusan']);
@@ -1647,9 +1647,9 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 		//status mahasiswa
-		$qku2 = mysql_query("SELECT * FROM m_mahasiswa_status ".
+		$qku2 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_status ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku2 = mysql_fetch_assoc($qku2);
+		$rku2 = mysqli_fetch_assoc($qku2);
 		$ku2_tapelkd = nosql($rku2['kd_tapel']);
 		$ku2_status = balikin($rku2['status']);
 		$ku2_sebagai_mhs = balikin($rku2['sebagai_mhs']);
@@ -1678,9 +1678,9 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 		//sehat
-		$qku3 = mysql_query("SELECT * FROM m_mahasiswa_sehat ".
+		$qku3 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_sehat ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku3 = mysql_fetch_assoc($qku3);
+		$rku3 = mysqli_fetch_assoc($qku3);
 		$ku3_tb = balikin($rku3['tb']);
 		$ku3_bb = balikin($rku3['bb']);
 		$ku3_mata = balikin($rku3['mata']);
@@ -1691,9 +1691,9 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 		//organisasi
-		$qku4 = mysql_query("SELECT * FROM m_mahasiswa_org ".
+		$qku4 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_org ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku4 = mysql_fetch_assoc($qku4);
+		$rku4 = mysqli_fetch_assoc($qku4);
 		$ku4_org_a = balikin($rku4['org_a']);
 		$ku4_org_b = balikin($rku4['org_b']);
 		$ku4_org_c = balikin($rku4['org_c']);
@@ -1701,9 +1701,9 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 		//hobi
-		$qku5 = mysql_query("SELECT * FROM m_mahasiswa_hobi ".
+		$qku5 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_hobi ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku5 = mysql_fetch_assoc($qku5);
+		$rku5 = mysqli_fetch_assoc($qku5);
 		$ku5_hobi_a = balikin($rku5['hobi_a']);
 		$ku5_hobi_b = balikin($rku5['hobi_b']);
 		$ku5_hobi_c = balikin($rku5['hobi_c']);
@@ -1711,9 +1711,9 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 		//hobi
-		$qku6 = mysql_query("SELECT * FROM m_mahasiswa_ortu ".
+		$qku6 = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa_ortu ".
 					"WHERE kd_mahasiswa = '$kd'");
-		$rku6 = mysql_fetch_assoc($qku6);
+		$rku6 = mysqli_fetch_assoc($qku6);
 		$ku6_ayah_nama = balikin($rku6['ayah_nama']);
 		$ku6_ayah_pddkn = balikin($rku6['ayah_pddkn']);
 		$ku6_ayah_pekerjaan = balikin($rku6['ayah_pekerjaan']);
@@ -1763,14 +1763,14 @@ else if (($s == "add") OR ($s == "edit"))
 		if ($s == "add")
 			{
 			//ketahui jumlah mahasiswa, terakhir pada suatu prodi dan suatu tapel.
-			$qdtu = mysql_query("SELECT m_mahasiswa.*, mahasiswa_kelas.*, m_mahasiswa_status.* ".
+			$qdtu = mysqli_query($koneksi, "SELECT m_mahasiswa.*, mahasiswa_kelas.*, m_mahasiswa_status.* ".
 						"FROM m_mahasiswa, mahasiswa_kelas, m_mahasiswa_status ".
 						"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 						"AND m_mahasiswa_status.kd_mahasiswa = m_mahasiswa.kd ".
 						"AND m_mahasiswa_status.kd_tapel = '$tapelkd' ".
 						"AND mahasiswa_kelas.kd_progdi = '$progdi'");
-			$rdtu = mysql_fetch_assoc($qdtu);
-			$tdtu = mysql_num_rows($qdtu);
+			$rdtu = mysqli_fetch_assoc($qdtu);
+			$tdtu = mysqli_num_rows($qdtu);
 			$dtu_1 = $tdtu + 1;
 
 			//jika satu digit
@@ -1921,18 +1921,18 @@ else if (($s == "add") OR ($s == "edit"))
 		<select name="a_agama">';
 
 		//terpilih
-		$qagmx = mysql_query("SELECT * FROM m_agama ".
+		$qagmx = mysqli_query($koneksi, "SELECT * FROM m_agama ".
 					"WHERE kd = '$jagmkd'");
-		$ragmx = mysql_fetch_assoc($qagmx);
+		$ragmx = mysqli_fetch_assoc($qagmx);
 		$agmx_kd = nosql($ragmx['kd']);
 		$agmx_agama = balikin($ragmx['agama']);
 
 		echo '<option value="'.$agmx_kd.'">'.$agmx_agama.'</option>';
 
-		$qagm = mysql_query("SELECT * FROM m_agama ".
+		$qagm = mysqli_query($koneksi, "SELECT * FROM m_agama ".
 					"WHERE kd <> '$jagmkd' ".
 					"ORDER BY agama ASC");
-		$ragm = mysql_fetch_assoc($qagm);
+		$ragm = mysqli_fetch_assoc($qagm);
 
 		do
 			{
@@ -1941,7 +1941,7 @@ else if (($s == "add") OR ($s == "edit"))
 
 			echo '<option value="'.$agm_kd.'">'.$agm_agama.'</option>';
 			}
-		while ($ragm = mysql_fetch_assoc($qagm));
+		while ($ragm = mysqli_fetch_assoc($qagm));
 
 		echo '</select>
 		</td>
@@ -2045,19 +2045,19 @@ else if (($s == "add") OR ($s == "edit"))
 		<select name="a_thn_masuk">';
 
 		//terpilih
-		$qtpx = mysql_query("SELECT * FROM m_tapel ".
+		$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 					"WHERE kd = '$ku2_tapelkd'");
-		$rowtpx = mysql_fetch_assoc($qtpx);
+		$rowtpx = mysqli_fetch_assoc($qtpx);
 		$tpx_kd = nosql($rowtpx['kd']);
 		$tpx_thn1 = nosql($rowtpx['tahun1']);
 		$tpx_thn2 = nosql($rowtpx['tahun2']);
 
 		echo '<option value="'.$tpx_kd.'">'.$tpx_thn1.'/'.$tpx_thn2.'</option>';
 
-		$qtp = mysql_query("SELECT * FROM m_tapel ".
+		$qtp = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 					"WHERE kd <> '$ku2_tapelkd' ".
 					"ORDER BY tahun1 ASC");
-		$rowtp = mysql_fetch_assoc($qtp);
+		$rowtp = mysqli_fetch_assoc($qtp);
 
 		do
 			{
@@ -2067,7 +2067,7 @@ else if (($s == "add") OR ($s == "edit"))
 
 			echo '<option value="'.$tpkd.'">'.$tpth1.'/'.$tpth2.'</option>';
 			}
-		while ($rowtp = mysql_fetch_assoc($qtp));
+		while ($rowtp = mysqli_fetch_assoc($qtp));
 
 		echo '</select>
 		</td>
@@ -2112,18 +2112,18 @@ else if (($s == "add") OR ($s == "edit"))
 		<select name="a_progdi">';
 
 		//terpilih
-		$qpro1 = mysql_query("SELECT * FROM m_progdi ".
+		$qpro1 = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 					"WHERE kd = '$ku2_kd_progdi'");
-		$rpro1 = mysql_fetch_assoc($qpro1);
+		$rpro1 = mysqli_fetch_assoc($qpro1);
 		$pro1_kd = nosql($rpro1['kd']);
 		$pro1_nama = balikin($rpro1['nama']);
 
 		echo '<option value="'.$pro1_kd.'" selected>'.$pro1_nama.'</option>';
 
-		$qagm2 = mysql_query("SELECT * FROM m_progdi ".
+		$qagm2 = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 					"WHERE kd <> '$ku2_kd_progdi' ".
 					"ORDER BY nama ASC");
-		$ragm2 = mysql_fetch_assoc($qagm2);
+		$ragm2 = mysqli_fetch_assoc($qagm2);
 
 		do
 			{
@@ -2132,25 +2132,25 @@ else if (($s == "add") OR ($s == "edit"))
 
 			echo '<option value="'.$agm2_kd.'">'.$agm2_nama.'</option>';
 			}
-		while ($ragm2 = mysql_fetch_assoc($qagm2));
+		while ($ragm2 = mysqli_fetch_assoc($qagm2));
 
 		echo '</select> /
 
 		<select name="a_jenjang">';
 
 		//terpilih
-		$qjnej1 = mysql_query("SELECT * FROM m_jenjang ".
+		$qjnej1 = mysqli_query($koneksi, "SELECT * FROM m_jenjang ".
 					"WHERE kd = '$ku2_kd_jenjang'");
-		$rjenj1 = mysql_fetch_assoc($qjnej1);
+		$rjenj1 = mysqli_fetch_assoc($qjnej1);
 		$jenj1_kd = nosql($rjenj1['kd']);
 		$jenj1_nama = balikin($rjenj1['jenjang']);
 
 		echo '<option value="'.$jenj1_kd.'" selected>'.$jenj1_nama.'</option>';
 
-		$qagm2 = mysql_query("SELECT * FROM m_jenjang ".
+		$qagm2 = mysqli_query($koneksi, "SELECT * FROM m_jenjang ".
 					"WHERE kd <> '$ku2_kd_jenjang' ".
 					"ORDER BY jenjang ASC");
-		$ragm2 = mysql_fetch_assoc($qagm2);
+		$ragm2 = mysqli_fetch_assoc($qagm2);
 
 		do
 			{
@@ -2159,7 +2159,7 @@ else if (($s == "add") OR ($s == "edit"))
 
 			echo '<option value="'.$agm2_kd.'">'.$agm2_nama.'</option>';
 			}
-		while ($ragm2 = mysql_fetch_assoc($qagm2));
+		while ($ragm2 = mysqli_fetch_assoc($qagm2));
 
 		echo '</select>
 		</td>
@@ -2174,18 +2174,18 @@ else if (($s == "add") OR ($s == "edit"))
 		<select name="a_smt">';
 
 		//terpilih
-		$qpro13 = mysql_query("SELECT * FROM m_smt ".
+		$qpro13 = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 					"WHERE kd = '$ku2_smtkd'");
-		$rpro13 = mysql_fetch_assoc($qpro13);
+		$rpro13 = mysqli_fetch_assoc($qpro13);
 		$pro13_kd = nosql($rpro13['kd']);
 		$pro13_smt = balikin($rpro13['smt']);
 
 		echo '<option value="'.$pro13_kd.'" selected>'.$pro13_smt.'</option>';
 
-		$qagm2 = mysql_query("SELECT * FROM m_smt ".
+		$qagm2 = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 					"WHERE kd <> '$ku2_smtkd' ".
 					"ORDER BY round(no) ASC");
-		$ragm2 = mysql_fetch_assoc($qagm2);
+		$ragm2 = mysqli_fetch_assoc($qagm2);
 
 		do
 			{
@@ -2194,7 +2194,7 @@ else if (($s == "add") OR ($s == "edit"))
 
 			echo '<option value="'.$agm2_kd.'">'.$agm2_smt.'</option>';
 			}
-		while ($ragm2 = mysql_fetch_assoc($qagm2));
+		while ($ragm2 = mysqli_fetch_assoc($qagm2));
 
 		echo '</select>
 		</td>
@@ -2672,7 +2672,7 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 		//query
-		$qnil = mysql_query("SELECT m_mahasiswa_alumni.*, ".
+		$qnil = mysqli_query($koneksi, "SELECT m_mahasiswa_alumni.*, ".
 					"DATE_FORMAT(m_mahasiswa_alumni.tgl_terima_ijazah, '%d') AS tgl_terima, ".
 					"DATE_FORMAT(m_mahasiswa_alumni.tgl_terima_ijazah, '%m') AS bln_terima, ".
 					"DATE_FORMAT(m_mahasiswa_alumni.tgl_terima_ijazah, '%Y') AS thn_terima, ".
@@ -2683,7 +2683,7 @@ else if (($s == "add") OR ($s == "edit"))
 					"FROM m_mahasiswa_alumni, mahasiswa_kelas ".
 					"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa_alumni.kd_mahasiswa ".
 					"AND mahasiswa_kelas.kd_mahasiswa = '$kd'");
-		$rnil = mysql_fetch_assoc($qnil);
+		$rnil = mysqli_fetch_assoc($qnil);
 		$y_tgl_terima_ijazah = nosql($rnil['tgl_terima']);
 		$y_bln_terima_ijazah = nosql($rnil['bln_terima']);
 		$y_thn_terima_ijazah = nosql($rnil['thn_terima']);

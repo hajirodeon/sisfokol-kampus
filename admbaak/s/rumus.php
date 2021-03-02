@@ -46,9 +46,9 @@ if ($_POST['btnSMP'])
 
 
 	//data progdi
-	$qku = mysql_query("SELECT * FROM m_progdi ".
+	$qku = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 							"ORDER BY no ASC");
-	$rku = mysql_fetch_assoc($qku);
+	$rku = mysqli_fetch_assoc($qku);
 	
 	do
 		{
@@ -78,17 +78,17 @@ if ($_POST['btnSMP'])
 
 		
 		//cek
-		$qcc = mysql_query("SELECT * FROM set_rumus ".
+		$qcc = mysqli_query($koneksi, "SELECT * FROM set_rumus ".
 							"WHERE kd_progdi = '$ku_kd' ".
 							"AND kd_tapel = '$tapelkd' ".
 							"AND kd_kelas = '$kelkd'");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 	
 		//nek sudah ada, update
 		if ($tcc != 0)
 			{
-			mysql_query("UPDATE set_rumus SET persen_absensi = '$p_absensi', ".
+			mysqli_query($koneksi, "UPDATE set_rumus SET persen_absensi = '$p_absensi', ".
 							"persen_tugas = '$p_tugas', ".
 							"persen_uts = '$p_uts', ".
 							"persen_uas = '$p_uas', ".
@@ -99,13 +99,13 @@ if ($_POST['btnSMP'])
 			}
 		else
 			{
-			mysql_query("INSERT INTO set_rumus(kd, kd_progdi, kd_tapel, kd_kelas, ".
+			mysqli_query($koneksi, "INSERT INTO set_rumus(kd, kd_progdi, kd_tapel, kd_kelas, ".
 							"persen_absensi, persen_tugas, persen_uts, persen_uas, postdate) VALUES ".
 							"('$xyz', '$ku_kd', '$tapelkd', '$kelkd', ".
 							"'$p_absensi', '$p_tugas', '$p_uts', '$p_uas', '$today')");
 			}
 		}
-	while ($rku = mysql_fetch_assoc($qku));
+	while ($rku = mysqli_fetch_assoc($qku));
 
 
 
@@ -134,18 +134,18 @@ Jenis : ';
 echo "<select name=\"kelas\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qbtx = mysql_query("SELECT * FROM m_kelas ".
+$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd = '$kelkd'");
-$rowbtx = mysql_fetch_assoc($qbtx);
+$rowbtx = mysqli_fetch_assoc($qbtx);
 $btxkd = nosql($rowbtx['kd']);
 $btxkelas = nosql($rowbtx['kelas']);
 
 echo '<option value="'.$btxkd.'">'.$btxkelas.'</option>';
 
-$qbt = mysql_query("SELECT * FROM m_kelas ".
+$qbt = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd <> '$kelkd' ".
 			"ORDER BY no ASC");
-$rowbt = mysql_fetch_assoc($qbt);
+$rowbt = mysqli_fetch_assoc($qbt);
 
 do
 	{
@@ -154,7 +154,7 @@ do
 
 	echo '<option value="'.$filenya.'?kelkd='.$btkd.'">'.$btkelas.'</option>';
 	}
-while ($rowbt = mysql_fetch_assoc($qbt));
+while ($rowbt = mysqli_fetch_assoc($qbt));
 
 echo '</select>,
 
@@ -163,19 +163,19 @@ Tahun Akademik : ';
 echo "<select name=\"tapel\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
 
 echo '<option value="'.$tpx_kd.'">'.$tpx_thn1.'/'.$tpx_thn2.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_tapel ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd <> '$tapelkd' ".
 			"ORDER BY tahun1 ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -185,7 +185,7 @@ do
 
 	echo '<option value="'.$filenya.'?kelkd='.$kelkd.'&tapelkd='.$tpkd.'">'.$tpth1.'/'.$tpth2.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>
 
@@ -219,9 +219,9 @@ else if (empty($tapelkd))
 else
 	{
 	//data progdi
-	$qku = mysql_query("SELECT * FROM m_progdi ".
+	$qku = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 							"ORDER BY no ASC");
-	$rku = mysql_fetch_assoc($qku);
+	$rku = mysqli_fetch_assoc($qku);
 	
 	do
 		{
@@ -233,12 +233,12 @@ else
 
 
 		//datanya
-		$qcc = mysql_query("SELECT * FROM set_rumus ".
+		$qcc = mysqli_query($koneksi, "SELECT * FROM set_rumus ".
 								"WHERE kd_tapel = '$tapelkd' ".
 								"AND kd_progdi = '$ku_kd' ".
 								"AND kd_kelas = '$kelkd'");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 		$cc_p_absensi = nosql($rcc['persen_absensi']);
 		$cc_p_tugas = nosql($rcc['persen_tugas']);
 		$cc_p_uts = nosql($rcc['persen_uts']);
@@ -272,7 +272,7 @@ else
 		<input name="btnSMP" type="submit" value="SIMPAN">
 		<br>';	
 		}
-	while ($rku = mysql_fetch_assoc($qku));
+	while ($rku = mysqli_fetch_assoc($qku));
 
 	}
 

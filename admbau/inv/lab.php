@@ -64,9 +64,9 @@ if ($s == "edit")
 	$kdx = nosql($_REQUEST['kd']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM inv_lab ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM inv_lab ".
 						"WHERE kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 
 	$lab = balikin2($rowx['lab']);
 	}
@@ -96,10 +96,10 @@ if ($_POST['btnSMP'])
 		}
 	else
 		{ ///cek
-		$qcc = mysql_query("SELECT * FROM inv_lab ".
+		$qcc = mysqli_query($koneksi, "SELECT * FROM inv_lab ".
 								"WHERE lab = '$lab'");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 
 		//nek ada
 		if ($tcc != 0)
@@ -119,7 +119,7 @@ if ($_POST['btnSMP'])
 			if (empty($s))
 				{
 				//query
-				mysql_query("INSERT INTO inv_lab(kd, lab) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO inv_lab(kd, lab) VALUES ".
 								"('$x', '$lab')");
 
 				//diskonek
@@ -135,7 +135,7 @@ if ($_POST['btnSMP'])
 			else if ($s == "edit")
 				{
 				//query
-				mysql_query("UPDATE inv_lab SET lab = '$lab' ".
+				mysqli_query($koneksi, "UPDATE inv_lab SET lab = '$lab' ".
 								"WHERE kd = '$kd'");
 
 				//diskonek
@@ -169,7 +169,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM inv_lab ".
+		mysqli_query($koneksi, "DELETE FROM inv_lab ".
 						"WHERE kd = '$kd'");
 		}
 
@@ -189,10 +189,10 @@ if ($_POST['btnHPS'])
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM inv_lab ".
+$q = mysqli_query($koneksi, "SELECT * FROM inv_lab ".
 					"ORDER BY lab ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/checkall.js");
@@ -245,7 +245,7 @@ if ($total != 0)
 		<td>'.$lab.'</td>
         </tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 	}
 
 

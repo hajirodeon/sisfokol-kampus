@@ -96,9 +96,9 @@ echo '<form name="formx" method="post" action="'.$filenya.'">
 <td width="100"">
 Tahun Akademik ';
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
@@ -112,9 +112,9 @@ echo '</td>
 <td width="100">
 Jenis';
 //terpilih
-$qbtx = mysql_query("SELECT * FROM m_kelas ".
+$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd = '$kelkd'");
-$rowbtx = mysql_fetch_assoc($qbtx);
+$rowbtx = mysqli_fetch_assoc($qbtx);
 $btxkd = nosql($rowbtx['kd']);
 $btxkelas = nosql($rowbtx['kelas']);
 
@@ -128,9 +128,9 @@ echo '<td width="1">:</td>
 <td width="100">
 Program Studi';
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nama = balikin($rowtpx['nama']);
 
@@ -142,9 +142,9 @@ echo '<td width="1">:</td>
 <td>
 Semester';
 //smt
-$qstxy = mysql_query("SELECT * FROM m_smt ".
+$qstxy = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 			"WHERE kd = '$smtkd'");
-$rowstxy = mysql_fetch_assoc($qstxy);
+$rowstxy = mysqli_fetch_assoc($qstxy);
 $smt = nosql($rowstxy['smt']);
 
 
@@ -158,7 +158,7 @@ echo '<td width="1">:</td>
 
 
 //query
-$qdata = mysql_query("SELECT DISTINCT(m_mahasiswa.nim) AS nim ".
+$qdata = mysqli_query($koneksi, "SELECT DISTINCT(m_mahasiswa.nim) AS nim ".
 			"FROM m_mahasiswa, mahasiswa_kelas ".
 			"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 			"AND mahasiswa_kelas.kd_tapel = '$tapelkd' ".
@@ -166,11 +166,11 @@ $qdata = mysql_query("SELECT DISTINCT(m_mahasiswa.nim) AS nim ".
 			"AND mahasiswa_kelas.kd_kelas = '$kelkd' ".
 			"AND mahasiswa_kelas.kd_smt = '$smtkd' ".
 			"ORDER BY round(m_mahasiswa.nim) ASC");
-$rdata = mysql_fetch_assoc($qdata);
-$tdata = mysql_num_rows($qdata);
+$rdata = mysqli_fetch_assoc($qdata);
+$tdata = mysqli_num_rows($qdata);
 
 //total sks ///////////////////////////////////////////////////////////////////////////////////
-$qtokuy = mysql_query("SELECT SUM(m_makul.sks) AS total ".
+$qtokuy = mysqli_query($koneksi, "SELECT SUM(m_makul.sks) AS total ".
 			"FROM mahasiswa_makul, m_makul, mahasiswa_kelas ".
 			"WHERE mahasiswa_makul.kd_makul = m_makul.kd ".
 			"AND mahasiswa_makul.kd_mahasiswa_kelas = mahasiswa_kelas.kd ".
@@ -180,11 +180,11 @@ $qtokuy = mysql_query("SELECT SUM(m_makul.sks) AS total ".
 			"AND mahasiswa_kelas.kd_smt = '$smtkd' ".
 			"AND mahasiswa_makul.kd_tapel = '$tapelkd' ".
 			"AND mahasiswa_makul.kd_smt = '$smtkd'");
-$rtokuy = mysql_fetch_assoc($qtokuy);
+$rtokuy = mysqli_fetch_assoc($qtokuy);
 $tokuy_total = nosql($rtokuy['total']);
 
 //harga sks
-$qktiy = mysql_query("SELECT m_keu.*, m_keu_jenis.*, m_keu_jenis.kd AS jkd ".
+$qktiy = mysqli_query($koneksi, "SELECT m_keu.*, m_keu_jenis.*, m_keu_jenis.kd AS jkd ".
 			"FROM m_keu, m_keu_jenis ".
 			"WHERE m_keu.kd_jenis = m_keu_jenis.kd ".
 			"AND m_keu_jenis.kd = 'b7456a463a7b0c1c9a3ece4b30c6db4a' ".
@@ -192,22 +192,22 @@ $qktiy = mysql_query("SELECT m_keu.*, m_keu_jenis.*, m_keu_jenis.kd AS jkd ".
 			"AND m_keu.kd_kelas = '$kelkd' ".
 			"AND m_keu.kd_tapel = '$tapelkd' ".
 			"AND m_keu.kd_smt = '$smtkd'");
-$rktiy = mysql_fetch_assoc($qktiy);
+$rktiy = mysqli_fetch_assoc($qktiy);
 $ktiy_harga = nosql($rktiy['biaya']);
 
 
 //total telah dibayar /////////////////////////////////////////////////////////////////////////
-$qccy = mysql_query("SELECT SUM(nilai) AS total FROM mahasiswa_keu ".
+$qccy = mysqli_query($koneksi, "SELECT SUM(nilai) AS total FROM mahasiswa_keu ".
 			"WHERE kd_progdi = '$progdi' ".
 			"AND kd_kelas = '$kelkd' ".
 			"AND kd_tapel = '$tapelkd' ".
 			"AND kd_smt = '$smtkd'");
-$rccy = mysql_fetch_assoc($qccy);
+$rccy = mysqli_fetch_assoc($qccy);
 $ccy_total = nosql($rccy['total']);
 
 
 //biaya lain //////////////////////////////////////////////////////////////////////////////////
-$qktiy2 = mysql_query("SELECT SUM(biaya) AS total ".
+$qktiy2 = mysqli_query($koneksi, "SELECT SUM(biaya) AS total ".
 			"FROM m_keu, m_keu_jenis ".
 			"WHERE m_keu.kd_jenis = m_keu_jenis.kd ".
 			"AND m_keu_jenis.kd <> 'b7456a463a7b0c1c9a3ece4b30c6db4a' ".
@@ -215,7 +215,7 @@ $qktiy2 = mysql_query("SELECT SUM(biaya) AS total ".
 			"AND m_keu.kd_kelas = '$kelkd' ".
 			"AND m_keu.kd_tapel = '$tapelkd' ".
 			"AND m_keu.kd_smt = '$smtkd'");
-$rktiy2 = mysql_fetch_assoc($qktiy2);
+$rktiy2 = mysqli_fetch_assoc($qktiy2);
 $ktiy2_total = nosql($rktiy2['total']);
 
 $tobiaya = round(($tokuy_total*$ktiy_harga)+($ktiy2_total*$tdata));
@@ -248,7 +248,7 @@ do
 
 
 	//detail
-	$qdt = mysql_query("SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
+	$qdt = mysqli_query($koneksi, "SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
 				"mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 				"FROM m_mahasiswa, mahasiswa_kelas ".
 				"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
@@ -257,7 +257,7 @@ do
 				"AND mahasiswa_kelas.kd_kelas = '$kelkd' ".
 				"AND mahasiswa_kelas.kd_smt = '$smtkd' ".
 				"AND m_mahasiswa.nim = '$i_nim'");
-	$rdt = mysql_fetch_assoc($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
 	$dt_kd = nosql($rdt['mskd']);
 	$dt_mkkd = nosql($rdt['mkkd']);
 	$dt_nama = balikin($rdt['nama']);
@@ -280,14 +280,14 @@ do
 	</tr>';
 
 	//daftar jenis uang
-	$qkti = mysql_query("SELECT m_keu.*, m_keu_jenis.*, m_keu_jenis.kd AS jkd ".
+	$qkti = mysqli_query($koneksi, "SELECT m_keu.*, m_keu_jenis.*, m_keu_jenis.kd AS jkd ".
 				"FROM m_keu, m_keu_jenis ".
 				"WHERE m_keu.kd_jenis = m_keu_jenis.kd ".
 				"AND m_keu.kd_progdi = '$progdi' ".
 				"AND m_keu.kd_kelas = '$kelkd' ".
 				"AND m_keu.kd_tapel = '$tapelkd' ".
 				"AND m_keu.kd_smt = '$smtkd'");
-	$rkti = mysql_fetch_assoc($qkti);
+	$rkti = mysqli_fetch_assoc($qkti);
 
 	do
 		{
@@ -314,36 +314,36 @@ do
 			{
 			//ketahui jumlah SKS yang dimiliki, agar tahu total pembayarannya.
 			//detail
-			$qdtku = mysql_query("SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
+			$qdtku = mysqli_query($koneksi, "SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
 						"mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 						"FROM m_mahasiswa, mahasiswa_kelas ".
 						"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 						"AND mahasiswa_kelas.kd_progdi = '$progdi' ".
 						"AND mahasiswa_kelas.kd_kelas = '$kelkd' ".
 						"AND m_mahasiswa.kd = '$dt_kd'");
-			$rdtku = mysql_fetch_assoc($qdtku);
+			$rdtku = mysqli_fetch_assoc($qdtku);
 			$dtku_mkkd = nosql($rdtku['mkkd']);
 
 			//total sks
-			$qtoku = mysql_query("SELECT SUM(m_makul.sks) AS total ".
+			$qtoku = mysqli_query($koneksi, "SELECT SUM(m_makul.sks) AS total ".
 						"FROM mahasiswa_makul, m_makul ".
 						"WHERE mahasiswa_makul.kd_makul = m_makul.kd ".
 						"AND mahasiswa_makul.kd_mahasiswa_kelas = '$dtku_mkkd' ".
 						"AND mahasiswa_makul.kd_tapel = '$tapelkd' ".
 						"AND mahasiswa_makul.kd_smt = '$smtkd'");
-			$rtoku = mysql_fetch_assoc($qtoku);
+			$rtoku = mysqli_fetch_assoc($qtoku);
 			$toku_total = nosql($rtoku['total']);
 
 
 			//yang telah dibayar
-			$qccx = mysql_query("SELECT SUM(nilai) AS nilai FROM mahasiswa_keu ".
+			$qccx = mysqli_query($koneksi, "SELECT SUM(nilai) AS nilai FROM mahasiswa_keu ".
 						"WHERE kd_jenis = '$kti_kd' ".
 						"AND kd_progdi = '$progdi' ".
 						"AND kd_kelas = '$kelkd' ".
 						"AND kd_tapel = '$tapelkd' ".
 						"AND kd_smt = '$smtkd' ".
 						"AND kd_mahasiswa = '$dt_kd'");
-			$rccx = mysql_fetch_assoc($qccx);
+			$rccx = mysqli_fetch_assoc($qccx);
 			$ccxx_nilai = nosql($rccx['nilai']);
 
 			//total biaya
@@ -354,14 +354,14 @@ do
 
 
 			//tgl.bayar
-			$qccx2 = mysql_query("SELECT * FROM mahasiswa_keu ".
+			$qccx2 = mysqli_query($koneksi, "SELECT * FROM mahasiswa_keu ".
 						"WHERE kd_jenis = '$kti_kd' ".
 						"AND kd_progdi = '$progdi' ".
 						"AND kd_kelas = '$kelkd' ".
 						"AND kd_tapel = '$tapelkd' ".
 						"AND kd_smt = '$smtkd' ".
 						"AND kd_mahasiswa = '$dt_kd'");
-			$rccx2 = mysql_fetch_assoc($qccx2);
+			$rccx2 = mysqli_fetch_assoc($qccx2);
 			$ccx2_tgl_bayar = $rccx2['tgl_bayar'];
 
 
@@ -381,25 +381,25 @@ do
 			$ktix_biaya = $kti_biaya;
 
 			//yang telah dibayar
-			$qccx = mysql_query("SELECT SUM(nilai) AS nilai FROM mahasiswa_keu ".
+			$qccx = mysqli_query($koneksi, "SELECT SUM(nilai) AS nilai FROM mahasiswa_keu ".
 						"WHERE kd_jenis = '$kti_kd' ".
 						"AND kd_progdi = '$progdi' ".
 						"AND kd_kelas = '$kelkd' ".
 						"AND kd_tapel = '$tapelkd' ".
 						"AND kd_smt = '$smtkd' ".
 						"AND kd_mahasiswa = '$dt_kd'");
-			$rccx = mysql_fetch_assoc($qccx);
+			$rccx = mysqli_fetch_assoc($qccx);
 			$ccx_nilai = nosql($rccx['nilai']);
 
 			//tgl.bayar
-			$qccx2 = mysql_query("SELECT * FROM mahasiswa_keu ".
+			$qccx2 = mysqli_query($koneksi, "SELECT * FROM mahasiswa_keu ".
 						"WHERE kd_jenis = '$kti_kd' ".
 						"AND kd_progdi = '$progdi' ".
 						"AND kd_kelas = '$kelkd' ".
 						"AND kd_tapel = '$tapelkd' ".
 						"AND kd_smt = '$smtkd' ".
 						"AND kd_mahasiswa = '$dt_kd'");
-			$rccx2 = mysql_fetch_assoc($qccx2);
+			$rccx2 = mysqli_fetch_assoc($qccx2);
 			$ccx2_tgl_bayar = $rccx2['tgl_bayar'];
 
 
@@ -462,42 +462,42 @@ do
 		echo '</td>
 		</tr>';
 		}
-	while ($rkti = mysql_fetch_assoc($qkti));
+	while ($rkti = mysqli_fetch_assoc($qkti));
 
 
 	//jumlah SKS yang diambil //////////////////////////
 	//ketahui jumlah SKS yang dimiliki, agar tahu total pembayarannya.
 	//detail
-	$qdtku = mysql_query("SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
+	$qdtku = mysqli_query($koneksi, "SELECT m_mahasiswa.*, m_mahasiswa.kd AS mskd, ".
 				"mahasiswa_kelas.*, mahasiswa_kelas.kd AS mkkd ".
 				"FROM m_mahasiswa, mahasiswa_kelas ".
 				"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 				"AND mahasiswa_kelas.kd_progdi = '$progdi' ".
 				"AND mahasiswa_kelas.kd_kelas = '$kelkd' ".
 				"AND m_mahasiswa.kd = '$dt_kd'");
-	$rdtku = mysql_fetch_assoc($qdtku);
+	$rdtku = mysqli_fetch_assoc($qdtku);
 	$dtku_mkkd = nosql($rdtku['mkkd']);
 
 	//total sks
-	$qtoku = mysql_query("SELECT SUM(m_makul.sks) AS total ".
+	$qtoku = mysqli_query($koneksi, "SELECT SUM(m_makul.sks) AS total ".
 				"FROM mahasiswa_makul, m_makul ".
 				"WHERE mahasiswa_makul.kd_makul = m_makul.kd ".
 				"AND mahasiswa_makul.kd_mahasiswa_kelas = '$dtku_mkkd' ".
 				"AND mahasiswa_makul.kd_tapel = '$tapelkd' ".
 				"AND mahasiswa_makul.kd_smt = '$smtkd'");
-	$rtoku = mysql_fetch_assoc($qtoku);
+	$rtoku = mysqli_fetch_assoc($qtoku);
 	$toku_total = nosql($rtoku['total']);
 
 
 	//yang telah dibayar
-	$qccx2 = mysql_query("SELECT SUM(nilai) AS total FROM mahasiswa_keu ".
+	$qccx2 = mysqli_query($koneksi, "SELECT SUM(nilai) AS total FROM mahasiswa_keu ".
 				"WHERE kd_jenis = 'b7456a463a7b0c1c9a3ece4b30c6db4a' ".
 				"AND kd_progdi = '$progdi' ".
 				"AND kd_kelas = '$kelkd' ".
 				"AND kd_tapel = '$tapelkd' ".
 				"AND kd_smt = '$smtkd' ".
 				"AND kd_mahasiswa = '$dt_kd'");
-	$rccx2 = mysql_fetch_assoc($qccx2);
+	$rccx2 = mysqli_fetch_assoc($qccx2);
 	$ccxx2_nilai = nosql($rccx2['total']);
 
 	//total biaya
@@ -506,19 +506,19 @@ do
 
 
 	//jumlah semuanya
-	$qccx4 = mysql_query("SELECT SUM(biaya) AS total ".
+	$qccx4 = mysqli_query($koneksi, "SELECT SUM(biaya) AS total ".
 				"FROM m_keu, m_keu_jenis ".
 				"WHERE m_keu.kd_jenis = m_keu_jenis.kd ".
 				"AND m_keu.kd_progdi = '$progdi' ".
 				"AND m_keu.kd_kelas = '$kelkd' ".
 				"AND m_keu.kd_tapel = '$tapelkd' ".
 				"AND m_keu.kd_smt = '$smtkd'");
-	$rccx4 = mysql_fetch_assoc($qccx4);
+	$rccx4 = mysqli_fetch_assoc($qccx4);
 	$ccx4_total = nosql($rccx4['total']);
 
 
 	//jumlah terbayar
-	$qccx41 = mysql_query("SELECT SUM(mahasiswa_keu.nilai) AS total ".
+	$qccx41 = mysqli_query($koneksi, "SELECT SUM(mahasiswa_keu.nilai) AS total ".
 				"FROM mahasiswa_keu, m_keu_jenis ".
 				"WHERE mahasiswa_keu.kd_jenis = m_keu_jenis.kd ".
 				"AND mahasiswa_keu.kd_progdi = '$progdi' ".
@@ -526,7 +526,7 @@ do
 				"AND mahasiswa_keu.kd_tapel = '$tapelkd' ".
 				"AND mahasiswa_keu.kd_smt = '$smtkd' ".
 				"AND mahasiswa_keu.kd_mahasiswa = '$dt_kd'");
-	$rccx41 = mysql_fetch_assoc($qccx41);
+	$rccx41 = mysqli_fetch_assoc($qccx41);
 	$ccx41_total = nosql($rccx41['total']);
 
 
@@ -543,7 +543,7 @@ do
 	</table>
 	</p>';
 	}
-while ($rdata = mysql_fetch_assoc($qdata));
+while ($rdata = mysqli_fetch_assoc($qdata));
 
 echo '</p>';
 echo '</form>

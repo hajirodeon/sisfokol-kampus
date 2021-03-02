@@ -160,11 +160,11 @@ if ($_POST['btnIM2'])
 
 
 				//cek /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				$qcc = mysql_query("SELECT * FROM cnp_mahasiswa ".
+				$qcc = mysqli_query($koneksi, "SELECT * FROM cnp_mahasiswa ".
 										"WHERE angkatan_mhs = '$i_angkatan' ".
 										"AND no_daftar = '$i_no_daftar'");
-				$rcc = mysql_fetch_assoc($qcc);
-				$tcc = mysql_num_rows($qcc);
+				$rcc = mysqli_fetch_assoc($qcc);
+				$tcc = mysqli_num_rows($qcc);
 				$cc_kd = nosql($rcc['kd']);
 
 
@@ -172,7 +172,7 @@ if ($_POST['btnIM2'])
 				if ($tcc != 0)
 					{
 					//update
-					mysql_query("UPDATE cnp_mahasiswa SET nama = '$i_nama', ".
+					mysqli_query($koneksi, "UPDATE cnp_mahasiswa SET nama = '$i_nama', ".
 									"no_daftar = '$i_no_daftar', ".
 									"kelas = '$i_kelas', ".
 									"angkatan_mhs = '$i_angkatan', ".
@@ -193,7 +193,7 @@ if ($_POST['btnIM2'])
 				//jika blm ada, insert
 				else
 					{
-					mysql_query("INSERT INTO cnp_mahasiswa(kd, nama, no_daftar, kelas, ".
+					mysqli_query($koneksi, "INSERT INTO cnp_mahasiswa(kd, nama, no_daftar, kelas, ".
 									"angkatan_mhs, jalur_pendaftaran, kelamin, tmp_lahir, ".
 									"tgl_lahir, alamat, jurusan, lulusan, tb, bb, status, ".
 									"asal_sekolah, postdate) VALUES ".
@@ -310,11 +310,11 @@ if ($_POST['btnHPS'])
 					"ORDER BY nama ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 	//ambil semua
@@ -328,11 +328,11 @@ if ($_POST['btnHPS'])
 
 
 		//del
-		mysql_query("DELETE FROM cnp_mahasiswa ".
+		mysqli_query($koneksi, "DELETE FROM cnp_mahasiswa ".
 						"WHERE kd = '$i_kd'");
 
 		}
-	while ($data = mysql_fetch_assoc($result));
+	while ($data = mysqli_fetch_assoc($result));
 
 
 	//diskonek
@@ -399,7 +399,7 @@ if ($_POST['btnSMP1'])
 		else
 			{
 			//insert
-			mysql_query("INSERT INTO cnp_mahasiswa(kd, nama, no_daftar, kelas, ".
+			mysqli_query($koneksi, "INSERT INTO cnp_mahasiswa(kd, nama, no_daftar, kelas, ".
 							"angkatan_mhs, jalur_pendaftaran, kelamin, tmp_lahir, ".
 							"tgl_lahir, alamat, jurusan, lulusan, tb, bb, status, ".
 							"asal_sekolah, postdate) VALUES ".
@@ -425,7 +425,7 @@ if ($_POST['btnSMP1'])
 	else if ($s == "edit")
 		{
 		//update
-		mysql_query("UPDATE cnp_mahasiswa SET nama = '$e_nama', ".
+		mysqli_query($koneksi, "UPDATE cnp_mahasiswa SET nama = '$e_nama', ".
 						"no_daftar = '$e_nodaftar', ".
 						"kelas = '$e_kelas', ".
 						"angkatan_mhs = '$e_angkatan', ".
@@ -483,9 +483,9 @@ if ($_POST['btnEX'])
 
 
 	//data
-	$qdt = mysql_query("SELECT * FROM cnp_mahasiswa ".
+	$qdt = mysqli_query($koneksi, "SELECT * FROM cnp_mahasiswa ".
 							"ORDER BY nama ASC");
-	$rdt = mysql_fetch_assoc($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
 
 	do
 	  	{
@@ -519,7 +519,7 @@ if ($_POST['btnEX'])
 
 		$excel->writeLine($arr2);
 		}
-	while ($rdt = mysql_fetch_assoc($qdt));
+	while ($rdt = mysqli_fetch_assoc($qdt));
 
 
 	//close
@@ -618,12 +618,12 @@ if (empty($s))
 							"ORDER BY nama ASC";
 		$sqlresult = $sqlcount;
 
-		$count = mysql_num_rows(mysql_query($sqlcount));
+		$count = mysqli_num_rows(mysqli_query($sqlcount));
 		$pages = $p->findPages($count, $limit);
-		$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+		$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 		$target = "$filenya?crkd=$crkd&crtipe=$crtipe&kunci=$kunci";
 		$pagelist = $p->pageList($_GET['page'], $pages, $target);
-		$data = mysql_fetch_array($result);
+		$data = mysqli_fetch_array($result);
 		}
 
 
@@ -639,12 +639,12 @@ if (empty($s))
 							"ORDER BY alamat ASC";
 		$sqlresult = $sqlcount;
 
-		$count = mysql_num_rows(mysql_query($sqlcount));
+		$count = mysqli_num_rows(mysqli_query($sqlcount));
 		$pages = $p->findPages($count, $limit);
-		$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+		$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 		$target = "$filenya?crkd=$crkd&crtipe=$crtipe&kunci=$kunci";
 		$pagelist = $p->pageList($_GET['page'], $pages, $target);
-		$data = mysql_fetch_array($result);
+		$data = mysqli_fetch_array($result);
 		}
 		
 	else
@@ -657,11 +657,11 @@ if (empty($s))
 						"ORDER BY nama ASC";
 		$sqlresult = $sqlcount;
 
-		$count = mysql_num_rows(mysql_query($sqlcount));
+		$count = mysqli_num_rows(mysqli_query($sqlcount));
 		$pages = $p->findPages($count, $limit);
-		$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+		$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 		$pagelist = $p->pageList($_GET['page'], $pages, $target);
-		$data = mysql_fetch_array($result);
+		$data = mysqli_fetch_array($result);
 		}
 
 	if ($count != 0)
@@ -738,7 +738,7 @@ if (empty($s))
 			<td>'.$i_status.'</td>
     		</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="100%" border="0" cellspacing="0" cellpadding="3">
@@ -776,13 +776,13 @@ else if (($s == "add") OR ($s == "edit"))
 
 
 	//data query
-	$qnil = mysql_query("SELECT DATE_FORMAT(tgl_lahir, '%d') AS lahir_tgl, ".
+	$qnil = mysqli_query($koneksi, "SELECT DATE_FORMAT(tgl_lahir, '%d') AS lahir_tgl, ".
 							"DATE_FORMAT(tgl_lahir, '%m') AS lahir_bln, ".
 							"DATE_FORMAT(tgl_lahir, '%Y') AS lahir_thn, ".
 							"cnp_mahasiswa.* ".
 							"FROM cnp_mahasiswa ".
 							"WHERE kd = '$kd'");
-	$rnil = mysql_fetch_assoc($qnil);
+	$rnil = mysqli_fetch_assoc($qnil);
 	$y_nodaftar = balikin($rnil['no_daftar']);
 	$y_nama = balikin($rnil['nama']);
 	$y_kelas = balikin($rnil['kelas']);

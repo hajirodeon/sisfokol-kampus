@@ -24,12 +24,12 @@ $karyawan_session = nosql($_SESSION['karyawan_session']);
 $pass7_session = nosql($_SESSION['pass7_session']);
 $hajirobe7_session = nosql($_SESSION['hajirobe7_session']);
 
-$qbw = mysql_query("SELECT * FROM m_pegawai ".
+$qbw = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 			"WHERE kd = '$kd7_session' ".
 			"AND usernamex = '$username7_session' ".
 			"AND passwordx = '$pass7_session'");
-$rbw = mysql_fetch_assoc($qbw);
-$tbw = mysql_num_rows($qbw);
+$rbw = mysqli_fetch_assoc($qbw);
+$tbw = mysqli_num_rows($qbw);
 
 if (($tbw == 0) OR (empty($kd7_session))
 	OR (empty($username7_session))

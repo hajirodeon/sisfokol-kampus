@@ -91,9 +91,9 @@ echo '<A href="#" data-flexmenu="flexmenu14" class="menuku"><strong>Keuangan Det
 <UL id="flexmenu14" class="flexdropdownmenu">';
 
 //daftar jenis keuangan
-$qdt = mysql_query("SELECT * FROM m_keu_jenis ".
+$qdt = mysqli_query($koneksi, "SELECT * FROM m_keu_jenis ".
 			"ORDER BY nama ASC");
-$rdt = mysql_fetch_assoc($qdt);
+$rdt = mysqli_fetch_assoc($qdt);
 
 do
 	{
@@ -105,7 +105,7 @@ do
 	<a href="'.$sumber.'/admmhs/keu/detail.php?jnskd='.$dt_kd.'" title="'.$dt_jenis.'">'.$dt_jenis.'</a>
 	</LI>';
 	}
-while ($rdt = mysql_fetch_assoc($qdt));
+while ($rdt = mysqli_fetch_assoc($qdt));
 
 echo '</UL>';
 //keuangan ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

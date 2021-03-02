@@ -42,9 +42,9 @@ if ($s == "edit")
 	$kdx = nosql($_REQUEST['kd']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM m_bk_point_jenis ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM m_bk_point_jenis ".
 				"WHERE kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$no = nosql($rowx['no']);
 	$jenis = balikin2($rowx['jenis']);
 	}
@@ -77,10 +77,10 @@ if ($_POST['btnSMP'])
 		if (empty($s))
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM m_bk_point_jenis ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM m_bk_point_jenis ".
 						"WHERE no = '$no'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -97,7 +97,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO m_bk_point_jenis(kd, no, jenis) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO m_bk_point_jenis(kd, no, jenis) VALUES ".
 						"('$x', '$no', '$jenis')");
 
 				//diskonek
@@ -115,7 +115,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE m_bk_point_jenis SET no = '$no', ".
+			mysqli_query($koneksi, "UPDATE m_bk_point_jenis SET no = '$no', ".
 					"jenis = '$jenis' ".
 					"WHERE kd = '$kd'");
 
@@ -146,7 +146,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM m_bk_point_jenis ".
+		mysqli_query($koneksi, "DELETE FROM m_bk_point_jenis ".
 				"WHERE kd = '$kd'");
 		}
 
@@ -166,10 +166,10 @@ if ($_POST['btnHPS'])
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM m_bk_point_jenis ".
+$q = mysqli_query($koneksi, "SELECT * FROM m_bk_point_jenis ".
 			"ORDER BY round(no) ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/checkall.js");
@@ -236,7 +236,7 @@ if ($total != 0)
 		<td>'.$i_jenis.'</td>
         	</tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">

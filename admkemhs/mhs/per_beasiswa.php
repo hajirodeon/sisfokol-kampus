@@ -74,12 +74,12 @@ if ($_POST['btnTBH'])
 	else
 		{
 		///cek
-		$qcc = mysql_query("SELECT * FROM mahasiswa_beasiswa ".
+		$qcc = mysqli_query($koneksi, "SELECT * FROM mahasiswa_beasiswa ".
 					"WHERE kd_mhs = '$swkd' ".
 					"AND kd_beasiswa = '$beasiswa' ".
 					"AND kd_tapel = '$tapelkd'");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 
 		//nek ada
 		if ($tcc != 0)
@@ -97,7 +97,7 @@ if ($_POST['btnTBH'])
 		else
 			{
 			//query
-			mysql_query("INSERT INTO mahasiswa_beasiswa(kd, kd_mhs, kd_beasiswa, kd_tapel) VALUES ".
+			mysqli_query($koneksi, "INSERT INTO mahasiswa_beasiswa(kd, kd_mhs, kd_beasiswa, kd_tapel) VALUES ".
 					"('$x', '$swkd', '$beasiswa', '$tapelkd')");
 
 			//diskonek
@@ -131,7 +131,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM mahasiswa_beasiswa ".
+		mysqli_query($koneksi, "DELETE FROM mahasiswa_beasiswa ".
 				"WHERE kd_mhs = '$swkd' ".
 				"AND kd = '$kd'");
 		}
@@ -171,18 +171,18 @@ echo '<form action="'.$filenya.'" enctype="multipart/form-data" method="post" na
 Program Studi : ';
 echo "<select name=\"progdi\" onChange=\"MM_jumpMenu('self',this,0)\">";
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nama = balikin($rowtpx['nama']);
 
 echo '<option value="'.$tpx_kd.'" selected>'.$tpx_nama.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_progdi ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd <> '$progdi' ".
 			"ORDER BY nama ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -191,7 +191,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$tpkd.'">'.$tpnama.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>,
 
@@ -199,18 +199,18 @@ Jenis : ';
 echo "<select name=\"kelas\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qbtx = mysql_query("SELECT * FROM m_kelas ".
+$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd = '$kelkd'");
-$rowbtx = mysql_fetch_assoc($qbtx);
+$rowbtx = mysqli_fetch_assoc($qbtx);
 $btxkd = nosql($rowbtx['kd']);
 $btxkelas = nosql($rowbtx['kelas']);
 
 echo '<option value="'.$btxkd.'">'.$btxkelas.'</option>';
 
-$qbt = mysql_query("SELECT * FROM m_kelas ".
+$qbt = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd <> '$kelkd' ".
 			"ORDER BY no ASC");
-$rowbt = mysql_fetch_assoc($qbt);
+$rowbt = mysqli_fetch_assoc($qbt);
 
 do
 	{
@@ -219,7 +219,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$progdi.'&kelkd='.$btkd.'">'.$btkelas.'</option>';
 	}
-while ($rowbt = mysql_fetch_assoc($qbt));
+while ($rowbt = mysqli_fetch_assoc($qbt));
 
 echo '</select>,
 
@@ -229,18 +229,18 @@ Program BeaSiswa : ';
 echo "<select name=\"program\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qbtx2 = mysql_query("SELECT * FROM m_bea_siswa ".
+$qbtx2 = mysqli_query($koneksi, "SELECT * FROM m_bea_siswa ".
 			"WHERE kd = '$beakd'");
-$rowbtx2 = mysql_fetch_assoc($qbtx2);
+$rowbtx2 = mysqli_fetch_assoc($qbtx2);
 $btx2kd = nosql($rowbtx2['kd']);
 $btx2nama = nosql($rowbtx2['nama']);
 
 echo '<option value="'.$btx2kd.'">'.$btx2nama.'</option>';
 
-$qbt = mysql_query("SELECT * FROM m_bea_siswa ".
+$qbt = mysqli_query($koneksi, "SELECT * FROM m_bea_siswa ".
 			"WHERE kd <> '$beakd' ".
 			"ORDER BY nama ASC");
-$rowbt = mysql_fetch_assoc($qbt);
+$rowbt = mysqli_fetch_assoc($qbt);
 
 do
 	{
@@ -249,7 +249,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$progdi.'&kelkd='.$kelkd.'&beakd='.$btkd.'">'.$btnama.'</option>';
 	}
-while ($rowbt = mysql_fetch_assoc($qbt));
+while ($rowbt = mysqli_fetch_assoc($qbt));
 
 echo '</select>,
 
@@ -259,19 +259,19 @@ Tahun Akademik : ';
 echo "<select name=\"tapel\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
 
 echo '<option value="'.$tpx_kd.'">'.$tpx_thn1.'/'.$tpx_thn2.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_tapel ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 			"WHERE kd <> '$tapelkd' ".
 			"ORDER BY tahun1 ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -281,7 +281,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$progdi.'&kelkd='.$kelkd.'&beakd='.$beakd.'&tapelkd='.$tpkd.'">'.$tpth1.'/'.$tpth2.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>
 </td>
@@ -348,12 +348,12 @@ if (empty($s))
 				"ORDER BY round(m_mahasiswa.nim) ASC";
 		$sqlresult = $sqlcount;
 
-		$count = mysql_num_rows(mysql_query($sqlcount));
+		$count = mysqli_num_rows(mysqli_query($sqlcount));
 		$pages = $p->findPages($count, $limit);
-		$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+		$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 		$target = "$filenya?progdi=$progdi&kelkd=$kelkd&tapelkd=$tapelkd&beakd=$beakd";
 		$pagelist = $p->pageList($_GET['page'], $pages, $target);
-		$data = mysql_fetch_array($result);
+		$data = mysqli_fetch_array($result);
 
 
 		if ($count != 0)
@@ -387,9 +387,9 @@ if (empty($s))
 
 
 				//detail
-				$qdtx = mysql_query("SELECT * FROM m_mahasiswa ".
+				$qdtx = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 							"WHERE nim = '$i_nim'");
-				$rdtx = mysql_fetch_assoc($qdtx);
+				$rdtx = mysqli_fetch_assoc($qdtx);
 				$i_kd = nosql($rdtx['kd']);
 				$i_nama = balikin($rdtx['nama']);
 
@@ -403,7 +403,7 @@ if (empty($s))
 				<td>'.$i_nama.'</td>
 				</tr>';
 				}
-			while ($data = mysql_fetch_assoc($result));
+			while ($data = mysqli_fetch_assoc($result));
 
 			echo '</table>
 			<table width="400" border="0" cellspacing="0" cellpadding="3">
@@ -429,10 +429,10 @@ if (empty($s))
 else if ($s == "edit")
 	{
 	//detail
-	$qdt = mysql_query("SELECT * FROM m_mahasiswa ".
+	$qdt = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 				"WHERE kd = '$swkd'");
-	$rdt = mysql_fetch_assoc($qdt);
-	$tdt = mysql_num_rows($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
+	$tdt = mysqli_num_rows($qdt);
 	$dt_nim = nosql($rdt['nim']);
 	$dt_nama = balikin($rdt['nama']);
 
@@ -446,9 +446,9 @@ else if ($s == "edit")
 	<select name="beasiswa">
 	<option value="" selected>-Daftar Bea Siswa-</option>';
 
-	$qtp = mysql_query("SELECT * FROM m_bea_siswa ".
+	$qtp = mysqli_query($koneksi, "SELECT * FROM m_bea_siswa ".
 				"ORDER BY nama ASC");
-	$rowtp = mysql_fetch_assoc($qtp);
+	$rowtp = mysqli_fetch_assoc($qtp);
 
 	do
 		{
@@ -457,7 +457,7 @@ else if ($s == "edit")
 
 		echo '<option value="'.$tpkd.'">'.$tpnama.'</option>';
 		}
-	while ($rowtp = mysql_fetch_assoc($qtp));
+	while ($rowtp = mysqli_fetch_assoc($qtp));
 
 	echo '</select>
 	<INPUT type="hidden" name="progdi" value="'.$progdi.'">
@@ -469,12 +469,12 @@ else if ($s == "edit")
 
 
 	//query
-	$q = mysql_query("SELECT mahasiswa_beasiswa.*, mahasiswa_beasiswa.kd AS mbkd, m_bea_siswa.* ".
+	$q = mysqli_query($koneksi, "SELECT mahasiswa_beasiswa.*, mahasiswa_beasiswa.kd AS mbkd, m_bea_siswa.* ".
 				"FROM mahasiswa_beasiswa, m_bea_siswa ".
 				"WHERE mahasiswa_beasiswa.kd_beasiswa = m_bea_siswa.kd ".
 				"AND mahasiswa_beasiswa.kd_mhs = '$swkd'");
-	$row = mysql_fetch_assoc($q);
-	$total = mysql_num_rows($q);
+	$row = mysqli_fetch_assoc($q);
+	$total = mysqli_num_rows($q);
 
 	if ($total != 0)
 		{
@@ -508,7 +508,7 @@ else if ($s == "edit")
 			<td>'.$i_nama.'</td>
 			</tr>';
 			}
-		while ($row = mysql_fetch_assoc($q));
+		while ($row = mysqli_fetch_assoc($q));
 
 		echo '</table>
 		<table width="400" border="0" cellspacing="0" cellpadding="3">

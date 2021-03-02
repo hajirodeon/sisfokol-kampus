@@ -107,9 +107,9 @@ if ($_POST['btnIMx'])
 
 				//kelamin
 				$i_kelamin = $data->val($i, 4,$sheet_ke);
-				$qkela = mysql_query("SELECT * FROM m_kelamin ".
+				$qkela = mysqli_query($koneksi, "SELECT * FROM m_kelamin ".
 							"WHERE kelamin = '$i_kelamin'");
-				$rkela = mysql_fetch_assoc($qkela);
+				$rkela = mysqli_fetch_assoc($qkela);
 				$kela_kd = nosql($rkela['kd']);
 				$i_kelamin = $kela_kd;
 
@@ -127,9 +127,9 @@ if ($_POST['btnIMx'])
 
 				//agama
 				$i_agama = $data->val($i, 9,$sheet_ke);
-				$qagm = mysql_query("SELECT * FROM m_agama ".
+				$qagm = mysqli_query($koneksi, "SELECT * FROM m_agama ".
 							"WHERE agama = '$i_agama'");
-				$ragm = mysql_fetch_assoc($qagm);
+				$ragm = mysqli_fetch_assoc($qagm);
 				$agm_kd = nosql($ragm['kd']);
 				$i_agama = $agm_kd;
 
@@ -201,9 +201,9 @@ if ($_POST['btnIMx'])
 
 				//pekerjaan
 				$i_ayah_pekerjaan = $i_ayah_kerja;
-				$qpekx = mysql_query("SELECT * FROM m_pekerjaan ".
+				$qpekx = mysqli_query($koneksi, "SELECT * FROM m_pekerjaan ".
 							"WHERE pekerjaan = '$i_ayah_pekerjaan'");
-				$rpekx = mysql_fetch_assoc($qpekx);
+				$rpekx = mysqli_fetch_assoc($qpekx);
 				$pekx_kd = nosql($rpekx['kd']);
 				$i_ayah_kerja = $pekx_kd;
 
@@ -213,9 +213,9 @@ if ($_POST['btnIMx'])
 				//ibu
 				//pekerjaan
 				$i_ibu_pekerjaan = $i_ibu_kerja;
-				$qpekx = mysql_query("SELECT * FROM m_pekerjaan ".
+				$qpekx = mysqli_query($koneksi, "SELECT * FROM m_pekerjaan ".
 							"WHERE pekerjaan = '$i_ibu_pekerjaan'");
-				$rpekx = mysql_fetch_assoc($qpekx);
+				$rpekx = mysqli_fetch_assoc($qpekx);
 				$pekx_kd = nosql($rpekx['kd']);
 				$i_ibu_kerja = $pekx_kd;
 
@@ -240,13 +240,13 @@ if ($_POST['btnIMx'])
 				$i_pass = md5($i_nim);
 
 				//ke mysql
-				$qcc = mysql_query("SELECT m_mahasiswa.kd AS mskd, mahasiswa_kelas.kd AS skkd ".
+				$qcc = mysqli_query($koneksi, "SELECT m_mahasiswa.kd AS mskd, mahasiswa_kelas.kd AS skkd ".
 							"FROM m_mahasiswa, mahasiswa_kelas ".
 							"WHERE mahasiswa_kelas.kd_mahasiswa = m_mahasiswa.kd ".
 							"AND mahasiswa_kelas.kd_progdi = '$progdi' ".
 							"AND m_mahasiswa.nim = '$i_nim'");
-				$rcc = mysql_fetch_assoc($qcc);
-				$tcc = mysql_num_rows($qcc);
+				$rcc = mysqli_fetch_assoc($qcc);
+				$tcc = mysqli_num_rows($qcc);
 				$cc_mskd = nosql($rcc['mskd']);
 				$cc_skkd = nosql($rcc['skkd']);
 
@@ -259,7 +259,7 @@ if ($_POST['btnIMx'])
 					$x_passx = md5($i_nim);
 
 					//update
-					mysql_query("UPDATE m_mahasiswa SET usernamex = '$x_userx', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa SET usernamex = '$x_userx', ".
 							"passwordx = '$x_passx', ".
 							"nim = '$i_nim', ".
 							"nama = '$i_nama', ".
@@ -274,14 +274,14 @@ if ($_POST['btnIMx'])
 							"WHERE kd = '$cc_mskd'");
 
 					//asal pendidikan
-					mysql_query("UPDATE m_mahasiswa_pddkn SET asal_sekolah = '$i_pddkn_asal', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa_pddkn SET asal_sekolah = '$i_pddkn_asal', ".
 							"thn_lulus = '$i_pddkn_lulus', ".
 							"jurusan = '$i_pddkn_jurusan', ".
 							"status_asal_sekolah = '$i_pddkn_status' ".
 							"WHERE kd_mahasiswa = '$cc_mskd'");
 
 					//status
-					mysql_query("UPDATE m_mahasiswa_status SET kd_tapel = '$tapelkd', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa_status SET kd_tapel = '$tapelkd', ".
 							"status = '$i_status_terdaftar', ".
 							"sebagai_mhs = '$i_status_sebagai', ".
 							"kd_progdi = '$progdi', ".
@@ -294,7 +294,7 @@ if ($_POST['btnIMx'])
 							"WHERE kd_mahasiswa = '$cc_mskd'");
 
 					//sehat
-					mysql_query("UPDATE m_mahasiswa_sehat SET tb = '$i_sehat_tb', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa_sehat SET tb = '$i_sehat_tb', ".
 							"bb = '$i_sehat_bb', ".
 							"mata = '$i_sehat_mata', ".
 							"gol_darah = '$i_sehat_darah', ".
@@ -304,19 +304,19 @@ if ($_POST['btnIMx'])
 							"WHERE kd_mahasiswa = '$cc_mskd'");
 
 					//organisasi
-					mysql_query("UPDATE m_mahasiswa_org SET org_a = '$i_org_a', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa_org SET org_a = '$i_org_a', ".
 							"org_b = '$i_org_b', ".
 							"org_c = '$i_org_c' ".
 							"WHERE kd_mahasiswa = '$cc_mskd'");
 
 					//hobi
-					mysql_query("UPDATE m_mahasiswa_hobi SET hobi_a = '$i_hobi_a', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa_hobi SET hobi_a = '$i_hobi_a', ".
 							"hobi_b = '$i_hobi_b', ".
 							"hobi_c = '$i_hobi_c' ".
 							"WHERE kd_mahasiswa = '$cc_mskd'");
 
 					//ortu
-					mysql_query("UPDATE m_mahasiswa_ortu SET ayah_nama = '$i_ayah_nama', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa_ortu SET ayah_nama = '$i_ayah_nama', ".
 							"ayah_pddkn = '$i_ayah_pddkn', ".
 							"ayah_kerja = '$i_ayah_kerja', ".
 							"ayah_alamat = '$i_ayah_alamat', ".
@@ -334,7 +334,7 @@ if ($_POST['btnIMx'])
 
 
 					//alumni
-					mysql_query("UPDATE m_mahasiswa_alumni SET tgl_terima_ijazah = '$i_ijazah_tanggal_terima', ".
+					mysqli_query($koneksi, "UPDATE m_mahasiswa_alumni SET tgl_terima_ijazah = '$i_ijazah_tanggal_terima', ".
 							"tgl_ijazah = '$i_ijazah_tanggal', ".
 							"tgl_tulis = '$today', ".
 							"no_ijazah = '$i_ijazah_nomor', ".
@@ -351,7 +351,7 @@ if ($_POST['btnIMx'])
 
 
 					//insert
-					mysql_query("INSERT INTO m_mahasiswa(kd, usernamex, passwordx, nim, nama, ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa(kd, usernamex, passwordx, nim, nama, ".
 							"tmp_lahir, tgl_lahir, kelamin, kd_agama, ".
 							"alamat_asal, alamat_skrg, status_sipil, warga_negara) VALUES ".
 							"('$x_passx', '$x_userx', '$x_passx', '$i_nim', '$i_nama', ".
@@ -359,19 +359,19 @@ if ($_POST['btnIMx'])
 							"'$i_alamat_asal', '$i_alamat_skr', '$i_status_sipil', '$i_warga_negara')");
 
 					//insert kelas-nya
-					mysql_query("INSERT INTO mahasiswa_kelas(kd, kd_mahasiswa, kd_progdi, kd_kelas, ".
+					mysqli_query($koneksi, "INSERT INTO mahasiswa_kelas(kd, kd_mahasiswa, kd_progdi, kd_kelas, ".
 							"kd_tapel, kd_smt) VALUES ".
 							"('$x_passx', '$x_passx', '$progdi', '$kelkd', ".
 							"'$tapelkd', '$i_smt')");
 
 					//asal pendidikan
-					mysql_query("INSERT INTO m_mahasiswa_pddkn(kd, kd_mahasiswa, asal_sekolah, ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa_pddkn(kd, kd_mahasiswa, asal_sekolah, ".
 							"thn_lulus, jurusan, status_asal_sekolah) VALUES ".
 							"('$x_passx', '$x_passx', '$i_pddkn_asal', ".
 							"'$i_pddkn_lulus', '$i_pddkn_jurusan', '$i_pddkn_status')");
 
 					//status
-					mysql_query("INSERT INTO m_mahasiswa_status(kd, kd_mahasiswa, kd_tapel, ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa_status(kd, kd_mahasiswa, kd_tapel, ".
 							"status, sebagai_mhs, kd_progdi, kd_jenjang, ".
 							"pindahan_pt, pindahan_progdi, pindahan_jurusan, ".
 							"pindahan_jenjang, kd_smt) VALUES ".
@@ -381,7 +381,7 @@ if ($_POST['btnIMx'])
 							"'$i_status_pindah_jenjang', '$i_smt')");
 
 					//sehat
-					mysql_query("INSERT INTO m_mahasiswa_sehat(kd, kd_mahasiswa, tb, bb, ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa_sehat(kd, kd_mahasiswa, tb, bb, ".
 							"mata, gol_darah, pendengaran, ".
 							"penyakit_pernah, penyakit_sekarang) VALUES ".
 							"('$x_passx', '$x_passx', '$i_sehat_tb', '$i_sehat_bb', ".
@@ -389,15 +389,15 @@ if ($_POST['btnIMx'])
 							"'$i_sehat_pernah_derita', '$i_sehat_sedang_derita')");
 
 					//organisasi
-					mysql_query("INSERT INTO m_mahasiswa_org(kd, kd_mahasiswa, org_a, org_b, org_c) VALUES ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa_org(kd, kd_mahasiswa, org_a, org_b, org_c) VALUES ".
 							"('$x_passx', '$x_passx', '$i_org_a', '$i_org_b', '$i_org_c')");
 
 					//hobi
-					mysql_query("INSERT INTO m_mahasiswa_hobi(kd, kd_mahasiswa, hobi_a, hobi_b, hobi_c) VALUES ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa_hobi(kd, kd_mahasiswa, hobi_a, hobi_b, hobi_c) VALUES ".
 							"('$x_passx', '$x_passx', '$i_hobi_a', '$i_hobi_b', '$i_hobi_c')");
 
 					//ortu
-					mysql_query("INSERT INTO m_mahasiswa_ortu(kd, kd_mahasiswa, ayah_nama, ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa_ortu(kd, kd_mahasiswa, ayah_nama, ".
 							"ayah_pddkn, ayah_pekerjaan, ayah_alamat, ayah_hidup, ".
 							"ibu_nama, ibu_pddkn, ibu_pekerjaan, ibu_alamat, ".
 							"ibu_hidup, nama_pj, hubungan, hasil_per_bulan, ".
@@ -410,7 +410,7 @@ if ($_POST['btnIMx'])
 
 
 					//alumni
-					mysql_query("INSERT INTO m_mahasiswa_alumni(kd, kd_mahasiswa, tgl_terima_ijazah, tgl_ijazah, ".
+					mysqli_query($koneksi, "INSERT INTO m_mahasiswa_alumni(kd, kd_mahasiswa, tgl_terima_ijazah, tgl_ijazah, ".
 							"tgl_tulis, no_ijazah, alumni) VALUES ".
 							"('$x_passx', '$x_passx', '$i_ijazah_tanggal_terima', '$i_ijazah_tanggal', ".
 							"'$today', '$i_ijazah_nomor', '$st_alumni')");
@@ -467,9 +467,9 @@ echo '<form name="formx" method="post" enctype="multipart/form-data" action="'.$
 <td>
 Tahun Pelajaran : ';
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 						"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
@@ -479,9 +479,9 @@ echo '<strong>'.$tpx_thn1.'/'.$tpx_thn2.'</strong>,
 
 Kelas : ';
 //terpilih
-$qbtx = mysql_query("SELECT * FROM m_kelas ".
+$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 						"WHERE kd = '$kelkd'");
-$rowbtx = mysql_fetch_assoc($qbtx);
+$rowbtx = mysqli_fetch_assoc($qbtx);
 
 $btxkd = nosql($rowbtx['kd']);
 $btxno = nosql($rowbtx['no']);

@@ -47,22 +47,22 @@ $ke = "$filenya?progdi=$progdi&kelkd=$kelkd&tapelkd=$tapelkd&jnskd=$jnskd&smtkd=
 
 
 //detail mahasiswa
-$qdt = mysql_query("SELECT * FROM m_mahasiswa ".
+$qdt = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 			"WHERE kd = '$mskd'");
-$rdt = mysql_fetch_assoc($qdt);
+$rdt = mysqli_fetch_assoc($qdt);
 $dt_nama = balikin($rdt['nama']);
 
 
 //progdi
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_nama = balikin($rowtpx['nama']);
 
 
 
 //ruang e
-$qjumx = mysql_query("SELECT ku_mahasiswa.*, m_ruang.* ".
+$qjumx = mysqli_query($koneksi, "SELECT ku_mahasiswa.*, m_ruang.* ".
 			"FROM ku_mahasiswa, m_ruang ".
 			"WHERE ku_mahasiswa.kd_ruang = m_ruang.kd ".
 			"AND ku_mahasiswa.kd_progdi = '$progdi' ".
@@ -71,8 +71,8 @@ $qjumx = mysql_query("SELECT ku_mahasiswa.*, m_ruang.* ".
 			"AND ku_mahasiswa.jenis = '$jnskd' ".
 			"AND ku_mahasiswa.kd_smt = '$smtkd' ".
 			"AND ku_mahasiswa.kd_mahasiswa = '$mskd'");
-$rjumx = mysql_fetch_assoc($qjumx);
-$tjumx = mysql_num_rows($qjumx);
+$rjumx = mysqli_fetch_assoc($qjumx);
+$tjumx = mysqli_num_rows($qjumx);
 $jumx_ruang = balikin($rjumx['ruang']);
 $jumx_noujian = balikin($rjumx['no_ujian']);
 
@@ -156,15 +156,15 @@ RUANG
 
 
 //daftar makul-nya
-$qkulo = mysql_query("SELECT m_makul_smt.*, m_makul_smt.kd AS mskd, ".
+$qkulo = mysqli_query($koneksi, "SELECT m_makul_smt.*, m_makul_smt.kd AS mskd, ".
 			"m_makul.*, m_makul.kd AS mkkd ".
 			"FROM m_makul_smt, m_makul ".
 			"WHERE m_makul_smt.kd_makul = m_makul.kd ".
 			"AND m_makul.kd_progdi = '$progdi' ".
 			"AND m_makul_smt.kd_tapel = '$tapelkd' ".
 			"AND m_makul_smt.kd_smt = '$smtkd'");
-$rkulo = mysql_fetch_assoc($qkulo);
-$tkulo = mysql_num_rows($qkulo);
+$rkulo = mysqli_fetch_assoc($qkulo);
+$tkulo = mysqli_num_rows($qkulo);
 
 echo '<table width="100%" border="1" cellspacing="0" cellpadding="3">
 <tr valign="top" bgcolor="'.$warnaheader.'">
@@ -197,7 +197,7 @@ do
 
 
 	//detail tanggal dan waktu ujian
-	$qdt = mysql_query("SELECT ku.*, DATE_FORMAT(tgl_uji, '%d') AS tgl, ".
+	$qdt = mysqli_query($koneksi, "SELECT ku.*, DATE_FORMAT(tgl_uji, '%d') AS tgl, ".
 				"DATE_FORMAT(tgl_uji, '%m') AS bln, ".
 				"DATE_FORMAT(tgl_uji, '%Y') AS thn, ".
 				"DATE_FORMAT(jam1, '%H') AS jam1, ".
@@ -210,8 +210,8 @@ do
 				"AND kd_tapel = '$tapelkd' ".
 				"AND kd_smt = '$smtkd' ".
 				"AND kd_makul = '$kulo_mkkd'");
-	$rdt = mysql_fetch_assoc($qdt);
-	$tdt = mysql_num_rows($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
+	$tdt = mysqli_num_rows($qdt);
 	$dt_kd = nosql($rdt['kd']);
 	$dt_uji_tgl = nosql($rdt['tgl']);
 	$dt_uji_bln = nosql($rdt['bln']);
@@ -393,7 +393,7 @@ do
 	<td>&nbsp;</td>
 	</tr>';
 	}
-while ($rkulo = mysql_fetch_assoc($qkulo));
+while ($rkulo = mysqli_fetch_assoc($qkulo));
 
 
 echo '</table>

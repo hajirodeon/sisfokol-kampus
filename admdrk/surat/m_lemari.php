@@ -40,10 +40,10 @@ $s = nosql($_REQUEST['s']);
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM surat_m_lemari ".
+$q = mysqli_query($koneksi, "SELECT * FROM surat_m_lemari ".
 					"ORDER BY lemari ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/swap.js");
@@ -83,7 +83,7 @@ if ($total != 0)
 		<td>'.$i_lemari.'</td>
 	        </tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>
 	<table width="400" border="0" cellspacing="0" cellpadding="3">

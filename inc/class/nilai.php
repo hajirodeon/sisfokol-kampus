@@ -284,14 +284,14 @@ function HeaderKu()
 
 	
 	//data diri
-	$qd = mysql_query("SELECT m_siswa.*, siswa_kelas.* ".
+	$qd = mysqli_query($koneksi, "SELECT m_siswa.*, siswa_kelas.* ".
 						"FROM m_siswa, siswa_kelas ".
 						"WHERE siswa_kelas.kd_siswa = m_siswa.kd ".
 						"AND siswa_kelas.kd = '$skkd' ".
 						"AND siswa_kelas.kd_tapel = '$tapelkd' ".
 						"AND siswa_kelas.kd_kelas = '$kelkd' ".
 						"AND siswa_kelas.kd_ruang = '$rukd'");
-	$rd = mysql_fetch_assoc($qd);
+	$rd = mysqli_fetch_assoc($qd);
 	$nama = balikin2($rd['nama']);
 	$nis = nosql($rd['nis']);
 	
@@ -300,41 +300,41 @@ function HeaderKu()
 
 
 	//kelas
-	$qk = mysql_query("SELECT * FROM m_kelas ".
+	$qk = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 						"WHERE kd = '$kelkd'");
-	$rk = mysql_fetch_assoc($qk);
+	$rk = mysqli_fetch_assoc($qk);
 	$rkel = nosql($rk['kelas']);
 	
 
 	//ruang
-	$qu = mysql_query("SELECT * FROM m_ruang ".
+	$qu = mysqli_query($koneksi, "SELECT * FROM m_ruang ".
 						"WHERE kd = '$rukd'");
-	$ru = mysql_fetch_assoc($qu);
+	$ru = mysqli_fetch_assoc($qu);
 	$rru = nosql($ru['ruang']);
 
 	$kelas = "$rkel-$rru";
 
 
 	//smt
-	$qmt = mysql_query("SELECT * FROM m_smt ".
+	$qmt = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 						"WHERE kd = '$smtkd'");
-	$rmt = mysql_fetch_assoc($qmt);
+	$rmt = mysqli_fetch_assoc($qmt);
 	$smt = balikin($rmt['smt']);
 	
 	//tapel
-	$qtp = mysql_query("SELECT * FROM m_tapel ".
+	$qtp = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 							"WHERE kd = '$tapelkd'");
-	$rtp = mysql_fetch_assoc($qtp);
+	$rtp = mysqli_fetch_assoc($qtp);
 	$thn1 = $rtp['tahun1'];
 	$thn2 = $rtp['tahun2'];
 	$tapel = "$thn1/$thn2";
 
 	//walikelas
-	$qwk = mysql_query("SELECT * FROM m_walikelas ".
+	$qwk = mysqli_query($koneksi, "SELECT * FROM m_walikelas ".
 							"WHERE kd_tapel = '$tapelkd' ".
 							"AND kd_kelas = '$kelkd' ".
 							"AND kd_ruang = '$rukd'");
-	$rwk = mysql_fetch_assoc($qwk);
+	$rwk = mysqli_fetch_assoc($qwk);
 	$nwk = balikin2($rwk['nama']);
 
     $this->SetFont('Times','B',14);

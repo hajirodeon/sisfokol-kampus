@@ -83,15 +83,15 @@ if ($_POST['btnRST'])
 		else
 			{
 			//query
-			$qsuk = mysql_query("SELECT * FROM m_pegawai ".
+			$qsuk = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 						"WHERE kd = '$item'");
-			$rsuk = mysql_fetch_assoc($qsuk);
+			$rsuk = mysqli_fetch_assoc($qsuk);
 			$suk_nip = nosql($rsuk['nip']);
 			$suk_nm = balikin($rsuk['nama']);
 			$pesan = "NIP : $suk_nip, Nama : $suk_nm. Password Baru : $passbaru";
 
 			//reset password
-			mysql_query("UPDATE m_pegawai SET passwordx = '$passbarux', ".
+			mysqli_query($koneksi, "UPDATE m_pegawai SET passwordx = '$passbarux', ".
 					"postdate = '$today' ".
 					"WHERE kd = '$item'");
 
@@ -130,15 +130,15 @@ if ($_POST['btnRST'])
 		else
 			{
 			//query
-			$qsuk = mysql_query("SELECT * FROM m_mahasiswa ".
+			$qsuk = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 									"WHERE kd = '$item'");
-			$rsuk = mysql_fetch_assoc($qsuk);
+			$rsuk = mysqli_fetch_assoc($qsuk);
 			$suk_nim = nosql($rsuk['nim']);
 			$suk_nm = balikin($rsuk['nama']);
 			$pesan = "NIM : $suk_nim, Nama : $suk_nm. Password Baru : $passbaru";
 
 			//reset password
-			mysql_query("UPDATE m_mahasiswa SET passwordx = '$passbarux', ".
+			mysqli_query($koneksi, "UPDATE m_mahasiswa SET passwordx = '$passbarux', ".
 								"postdate = '$today' ".
 								"WHERE kd = '$item'");
 
@@ -175,10 +175,10 @@ if ($_POST['btnRST'])
 		else
 			{
 			//query
-			$qsuk = mysql_query("SELECT * FROM adm_direktur ".
+			$qsuk = mysqli_query($koneksi, "SELECT * FROM adm_direktur ".
 						"WHERE kd_pegawai = '$pegawai'");
-			$rsuk = mysql_fetch_assoc($qsuk);
-			$tsuk = mysql_num_rows($qsuk);
+			$rsuk = mysqli_fetch_assoc($qsuk);
+			$tsuk = mysqli_num_rows($qsuk);
 
 			//jika ada
 			if ($tsuk != 0)
@@ -191,7 +191,7 @@ if ($_POST['btnRST'])
 			else
 				{
 				//insert
-				mysql_query("INSERT INTO adm_direktur (kd, kd_pegawai) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO adm_direktur (kd, kd_pegawai) VALUES ".
 						"('$x', '$pegawai')");
 
 				//re-direct
@@ -227,10 +227,10 @@ if ($_POST['btnRST'])
 		else
 			{
 			//query
-			$qsuk = mysql_query("SELECT * FROM adm_baak ".
+			$qsuk = mysqli_query($koneksi, "SELECT * FROM adm_baak ".
 						"WHERE kd_pegawai = '$pegawai'");
-			$rsuk = mysql_fetch_assoc($qsuk);
-			$tsuk = mysql_num_rows($qsuk);
+			$rsuk = mysqli_fetch_assoc($qsuk);
+			$tsuk = mysqli_num_rows($qsuk);
 
 			//jika ada
 			if ($tsuk != 0)
@@ -243,7 +243,7 @@ if ($_POST['btnRST'])
 			else
 				{
 				//insert
-				mysql_query("INSERT INTO adm_baak (kd, kd_pegawai) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO adm_baak (kd, kd_pegawai) VALUES ".
 						"('$x', '$pegawai')");
 
 				//re-direct
@@ -279,10 +279,10 @@ if ($_POST['btnRST'])
 		else
 			{
 			//query
-			$qsuk = mysql_query("SELECT * FROM adm_bau ".
+			$qsuk = mysqli_query($koneksi, "SELECT * FROM adm_bau ".
 						"WHERE kd_pegawai = '$pegawai'");
-			$rsuk = mysql_fetch_assoc($qsuk);
-			$tsuk = mysql_num_rows($qsuk);
+			$rsuk = mysqli_fetch_assoc($qsuk);
+			$tsuk = mysqli_num_rows($qsuk);
 
 			//jika ada
 			if ($tsuk != 0)
@@ -295,7 +295,7 @@ if ($_POST['btnRST'])
 			else
 				{
 				//insert
-				mysql_query("INSERT INTO adm_bau (kd, kd_pegawai) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO adm_bau (kd, kd_pegawai) VALUES ".
 						"('$x', '$pegawai')");
 
 				//re-direct
@@ -332,10 +332,10 @@ if ($_POST['btnRST'])
 		else
 			{
 			//query
-			$qsuk = mysql_query("SELECT * FROM adm_kemhs ".
+			$qsuk = mysqli_query($koneksi, "SELECT * FROM adm_kemhs ".
 						"WHERE kd_pegawai = '$pegawai'");
-			$rsuk = mysql_fetch_assoc($qsuk);
-			$tsuk = mysql_num_rows($qsuk);
+			$rsuk = mysqli_fetch_assoc($qsuk);
+			$tsuk = mysqli_num_rows($qsuk);
 
 			//jika ada
 			if ($tsuk != 0)
@@ -348,7 +348,7 @@ if ($_POST['btnRST'])
 			else
 				{
 				//insert
-				mysql_query("INSERT INTO adm_kemhs (kd, kd_pegawai) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO adm_kemhs (kd, kd_pegawai) VALUES ".
 						"('$x', '$pegawai')");
 
 				//re-direct
@@ -385,10 +385,10 @@ if ($_POST['btnRST'])
 		else
 			{
 			//query
-			$qsuk = mysql_query("SELECT * FROM adm_bak ".
+			$qsuk = mysqli_query($koneksi, "SELECT * FROM adm_bak ".
 						"WHERE kd_pegawai = '$pegawai'");
-			$rsuk = mysql_fetch_assoc($qsuk);
-			$tsuk = mysql_num_rows($qsuk);
+			$rsuk = mysqli_fetch_assoc($qsuk);
+			$tsuk = mysqli_num_rows($qsuk);
 
 			//jika ada
 			if ($tsuk != 0)
@@ -401,7 +401,7 @@ if ($_POST['btnRST'])
 			else
 				{
 				//insert
-				mysql_query("INSERT INTO adm_bak (kd, kd_pegawai) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO adm_bak (kd, kd_pegawai) VALUES ".
 								"('$x', '$pegawai')");
 
 				//re-direct
@@ -439,7 +439,7 @@ if ($_POST['btnHPS'])
 			$pegawai = nosql($_POST[$item11]);
 
 			//hapus
-			mysql_query("DELETE FROM adm_direktur ".
+			mysqli_query($koneksi, "DELETE FROM adm_direktur ".
 					"WHERE kd_pegawai = '$pegawai'");
 			}
 		}
@@ -459,7 +459,7 @@ if ($_POST['btnHPS'])
 			$pegawai = nosql($_POST[$item11]);
 
 			//hapus
-			mysql_query("DELETE FROM adm_baak ".
+			mysqli_query($koneksi, "DELETE FROM adm_baak ".
 					"WHERE kd_pegawai = '$pegawai'");
 			}
 		}
@@ -478,7 +478,7 @@ if ($_POST['btnHPS'])
 			$pegawai = nosql($_POST[$item11]);
 
 			//hapus
-			mysql_query("DELETE FROM adm_bau ".
+			mysqli_query($koneksi, "DELETE FROM adm_bau ".
 					"WHERE kd_pegawai = '$pegawai'");
 			}
 		}
@@ -498,7 +498,7 @@ if ($_POST['btnHPS'])
 			$pegawai = nosql($_POST[$item11]);
 
 			//hapus
-			mysql_query("DELETE FROM adm_kemhs ".
+			mysqli_query($koneksi, "DELETE FROM adm_kemhs ".
 					"WHERE kd_pegawai = '$pegawai'");
 			}
 		}
@@ -518,7 +518,7 @@ if ($_POST['btnHPS'])
 			$pegawai = nosql($_POST[$item11]);
 
 			//hapus
-			mysql_query("DELETE FROM adm_bak ".
+			mysqli_query($koneksi, "DELETE FROM adm_bak ".
 					"WHERE kd_pegawai = '$pegawai'");
 			}
 		}
@@ -589,12 +589,12 @@ if ($tpkd == "tp01")
 			"ORDER BY round(nip) ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$target = $ke;
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 	echo '<br>
 	<table width="500" border="1" cellpadding="3" cellspacing="0">
@@ -650,7 +650,7 @@ if ($tpkd == "tp01")
 			</td>
 			</tr>';
 	  		}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 		}
 
 	echo '</table>
@@ -711,18 +711,18 @@ else if ($tpkd == "tp02")
 	Program Pendidikan : ';
 	echo "<select name=\"progdi\" onChange=\"MM_jumpMenu('self',this,0)\">";
 	//terpilih
-	$qtpx = mysql_query("SELECT * FROM m_progdi ".
+	$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 				"WHERE kd = '$progdi'");
-	$rowtpx = mysql_fetch_assoc($qtpx);
+	$rowtpx = mysqli_fetch_assoc($qtpx);
 	$tpx_kd = nosql($rowtpx['kd']);
 	$tpx_nama = balikin($rowtpx['nama']);
 
 	echo '<option value="'.$tpx_kd.'" selected>'.$tpx_nama.'</option>';
 
-	$qtp = mysql_query("SELECT * FROM m_progdi ".
+	$qtp = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 				"WHERE kd <> '$progdi' ".
 				"ORDER BY nama ASC");
-	$rowtp = mysql_fetch_assoc($qtp);
+	$rowtp = mysqli_fetch_assoc($qtp);
 
 	do
 		{
@@ -731,7 +731,7 @@ else if ($tpkd == "tp02")
 
 		echo '<option value="'.$filenya.'?tpkd='.$tpkd.'&tipe='.$tipe.'&progdi='.$i_tpkd.'">'.$i_tpnama.'</option>';
 		}
-	while ($rowtp = mysql_fetch_assoc($qtp));
+	while ($rowtp = mysqli_fetch_assoc($qtp));
 
 	echo '</select>,
 
@@ -740,19 +740,19 @@ else if ($tpkd == "tp02")
 	echo "<select name=\"kelas\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 	//terpilih
-	$qbtx = mysql_query("SELECT * FROM m_kelas ".
+	$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 				"WHERE kd = '$kelkd'");
-	$rowbtx = mysql_fetch_assoc($qbtx);
+	$rowbtx = mysqli_fetch_assoc($qbtx);
 	$btx_kd = nosql($rowbtx['kd']);
 	$btx_kelas = nosql($rowbtx['kelas']);
 
 
 	echo '<option value="'.$btx_kd.'">'.$btx_kelas.'</option>';
 
-	$qbt = mysql_query("SELECT * FROM m_kelas ".
+	$qbt = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 				"WHERE kd <> '$kelkd' ".
 				"ORDER BY kelas ASC");
-	$rowbt = mysql_fetch_assoc($qbt);
+	$rowbt = mysqli_fetch_assoc($qbt);
 
 	do
 		{
@@ -761,7 +761,7 @@ else if ($tpkd == "tp02")
 
 		echo '<option value="'.$filenya.'?tpkd='.$tpkd.'&tipe='.$tipe.'&progdi='.$progdi.'&kelkd='.$bt_kd.'">'.$bt_kelas.'</option>';
 		}
-	while ($rowbt = mysql_fetch_assoc($qbt));
+	while ($rowbt = mysqli_fetch_assoc($qbt));
 
 	echo '</select>
 	</td>
@@ -793,12 +793,12 @@ else if ($tpkd == "tp02")
 						"ORDER BY round(m_mahasiswa.nim) ASC";
 		$sqlresult = $sqlcount;
 
-		$count = mysql_num_rows(mysql_query($sqlcount));
+		$count = mysqli_num_rows(mysqli_query($sqlcount));
 		$pages = $p->findPages($count, $limit);
-		$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+		$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 		$target = $ke;
 		$pagelist = $p->pageList($_GET['page'], $pages, $target);
-		$data = mysql_fetch_array($result);
+		$data = mysqli_fetch_array($result);
 
 		echo '<table width="500" border="1" cellpadding="3" cellspacing="0">
 	    	<tr bgcolor="'.$warnaheader.'">
@@ -828,9 +828,9 @@ else if ($tpkd == "tp02")
 				
 				
 				//detail
-				$qku = mysql_query("SELECT * FROM m_mahasiswa ".
+				$qku = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 										"WHERE kd = '$i_kd'");
-				$rku = mysql_fetch_assoc($qku);
+				$rku = mysqli_fetch_assoc($qku);
 				
 				$i_nim = nosql($rku['nim']);
 				$i_nama = balikin($rku['nama']);
@@ -857,7 +857,7 @@ else if ($tpkd == "tp02")
 				</td>
 				</tr>';
 		  		}
-			while ($data = mysql_fetch_assoc($result));
+			while ($data = mysqli_fetch_assoc($result));
 			}
 
 		echo '</table>
@@ -895,9 +895,9 @@ else if ($tpkd == "tp04")
 	<select name="pegawai">
 	<option value="" selected></option>';
 
-	$qpgd = mysql_query("SELECT * FROM m_pegawai ".
+	$qpgd = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 				"ORDER BY nama ASC");
-	$rpgd = mysql_fetch_assoc($qpgd);
+	$rpgd = mysqli_fetch_assoc($qpgd);
 
 	do
 		{
@@ -907,7 +907,7 @@ else if ($tpkd == "tp04")
 
 		echo '<option value="'.$pgd_kd.'">'.$pgd_nip.'. '.$pgd_nama.'</option>';
 		}
-	while ($rpgd = mysql_fetch_assoc($qpgd));
+	while ($rpgd = mysqli_fetch_assoc($qpgd));
 
 	echo '</select>
 	<br>
@@ -925,12 +925,12 @@ else if ($tpkd == "tp04")
     	</tr>';
 
 	//terpilih
-	$qpgdx = mysql_query("SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_direktur.* ".
+	$qpgdx = mysqli_query($koneksi, "SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_direktur.* ".
 				"FROM m_pegawai, adm_direktur ".
 				"WHERE adm_direktur.kd_pegawai = m_pegawai.kd ".
 				"ORDER BY m_pegawai.nama ASC");
-	$rpgdx = mysql_fetch_assoc($qpgdx);
-	$tpgdx = mysql_num_rows($qpgdx);
+	$rpgdx = mysqli_fetch_assoc($qpgdx);
+	$tpgdx = mysqli_num_rows($qpgdx);
 
 	do
 		{
@@ -963,7 +963,7 @@ else if ($tpkd == "tp04")
 		</td>
 		</tr>';
 		}
-	while ($rpgdx = mysql_fetch_assoc($qpgdx));
+	while ($rpgdx = mysqli_fetch_assoc($qpgdx));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">
@@ -996,9 +996,9 @@ else if ($tpkd == "tp06")
 	<select name="pegawai">
 	<option value="" selected></option>';
 
-	$qpgd = mysql_query("SELECT * FROM m_pegawai ".
+	$qpgd = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 				"ORDER BY nama ASC");
-	$rpgd = mysql_fetch_assoc($qpgd);
+	$rpgd = mysqli_fetch_assoc($qpgd);
 
 	do
 		{
@@ -1008,7 +1008,7 @@ else if ($tpkd == "tp06")
 
 		echo '<option value="'.$pgd_kd.'">'.$pgd_nip.'. '.$pgd_nama.'</option>';
 		}
-	while ($rpgd = mysql_fetch_assoc($qpgd));
+	while ($rpgd = mysqli_fetch_assoc($qpgd));
 
 	echo '</select>
 	<br>
@@ -1026,12 +1026,12 @@ else if ($tpkd == "tp06")
     	</tr>';
 
 	//terpilih
-	$qpgdx = mysql_query("SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_baak.* ".
+	$qpgdx = mysqli_query($koneksi, "SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_baak.* ".
 				"FROM m_pegawai, adm_baak ".
 				"WHERE adm_baak.kd_pegawai = m_pegawai.kd ".
 				"ORDER BY m_pegawai.nama ASC");
-	$rpgdx = mysql_fetch_assoc($qpgdx);
-	$tpgdx = mysql_num_rows($qpgdx);
+	$rpgdx = mysqli_fetch_assoc($qpgdx);
+	$tpgdx = mysqli_num_rows($qpgdx);
 
 	do
 		{
@@ -1064,7 +1064,7 @@ else if ($tpkd == "tp06")
 		</td>
 		</tr>';
 		}
-	while ($rpgdx = mysql_fetch_assoc($qpgdx));
+	while ($rpgdx = mysqli_fetch_assoc($qpgdx));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">
@@ -1098,9 +1098,9 @@ else if ($tpkd == "tp07")
 	<select name="pegawai">
 	<option value="" selected></option>';
 
-	$qpgd = mysql_query("SELECT * FROM m_pegawai ".
+	$qpgd = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 				"ORDER BY nama ASC");
-	$rpgd = mysql_fetch_assoc($qpgd);
+	$rpgd = mysqli_fetch_assoc($qpgd);
 
 	do
 		{
@@ -1110,7 +1110,7 @@ else if ($tpkd == "tp07")
 
 		echo '<option value="'.$pgd_kd.'">'.$pgd_nip.'. '.$pgd_nama.'</option>';
 		}
-	while ($rpgd = mysql_fetch_assoc($qpgd));
+	while ($rpgd = mysqli_fetch_assoc($qpgd));
 
 	echo '</select>
 	<br>
@@ -1128,12 +1128,12 @@ else if ($tpkd == "tp07")
     	</tr>';
 
 	//terpilih
-	$qpgdx = mysql_query("SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_bau.* ".
+	$qpgdx = mysqli_query($koneksi, "SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_bau.* ".
 				"FROM m_pegawai, adm_bau ".
 				"WHERE adm_bau.kd_pegawai = m_pegawai.kd ".
 				"ORDER BY m_pegawai.nama ASC");
-	$rpgdx = mysql_fetch_assoc($qpgdx);
-	$tpgdx = mysql_num_rows($qpgdx);
+	$rpgdx = mysqli_fetch_assoc($qpgdx);
+	$tpgdx = mysqli_num_rows($qpgdx);
 
 	do
 		{
@@ -1166,7 +1166,7 @@ else if ($tpkd == "tp07")
 		</td>
 		</tr>';
 		}
-	while ($rpgdx = mysql_fetch_assoc($qpgdx));
+	while ($rpgdx = mysqli_fetch_assoc($qpgdx));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">
@@ -1199,9 +1199,9 @@ else if ($tpkd == "tp08")
 	<select name="pegawai">
 	<option value="" selected></option>';
 
-	$qpgd = mysql_query("SELECT * FROM m_pegawai ".
+	$qpgd = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 				"ORDER BY nama ASC");
-	$rpgd = mysql_fetch_assoc($qpgd);
+	$rpgd = mysqli_fetch_assoc($qpgd);
 
 	do
 		{
@@ -1211,7 +1211,7 @@ else if ($tpkd == "tp08")
 
 		echo '<option value="'.$pgd_kd.'">'.$pgd_nip.'. '.$pgd_nama.'</option>';
 		}
-	while ($rpgd = mysql_fetch_assoc($qpgd));
+	while ($rpgd = mysqli_fetch_assoc($qpgd));
 
 	echo '</select>
 	<br>
@@ -1229,12 +1229,12 @@ else if ($tpkd == "tp08")
     	</tr>';
 
 	//terpilih
-	$qpgdx = mysql_query("SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_kemhs.* ".
+	$qpgdx = mysqli_query($koneksi, "SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_kemhs.* ".
 				"FROM m_pegawai, adm_kemhs ".
 				"WHERE adm_kemhs.kd_pegawai = m_pegawai.kd ".
 				"ORDER BY m_pegawai.nama ASC");
-	$rpgdx = mysql_fetch_assoc($qpgdx);
-	$tpgdx = mysql_num_rows($qpgdx);
+	$rpgdx = mysqli_fetch_assoc($qpgdx);
+	$tpgdx = mysqli_num_rows($qpgdx);
 
 	do
 		{
@@ -1267,7 +1267,7 @@ else if ($tpkd == "tp08")
 		</td>
 		</tr>';
 		}
-	while ($rpgdx = mysql_fetch_assoc($qpgdx));
+	while ($rpgdx = mysqli_fetch_assoc($qpgdx));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">
@@ -1301,9 +1301,9 @@ else if ($tpkd == "tp09")
 	<select name="pegawai">
 	<option value="" selected></option>';
 
-	$qpgd = mysql_query("SELECT * FROM m_pegawai ".
+	$qpgd = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 				"ORDER BY nama ASC");
-	$rpgd = mysql_fetch_assoc($qpgd);
+	$rpgd = mysqli_fetch_assoc($qpgd);
 
 	do
 		{
@@ -1313,7 +1313,7 @@ else if ($tpkd == "tp09")
 
 		echo '<option value="'.$pgd_kd.'">'.$pgd_nip.'. '.$pgd_nama.'</option>';
 		}
-	while ($rpgd = mysql_fetch_assoc($qpgd));
+	while ($rpgd = mysqli_fetch_assoc($qpgd));
 
 	echo '</select>
 	<br>
@@ -1331,12 +1331,12 @@ else if ($tpkd == "tp09")
     	</tr>';
 
 	//terpilih
-	$qpgdx = mysql_query("SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_bak.* ".
+	$qpgdx = mysqli_query($koneksi, "SELECT m_pegawai.*, m_pegawai.kd AS mpkd, adm_bak.* ".
 				"FROM m_pegawai, adm_bak ".
 				"WHERE adm_bak.kd_pegawai = m_pegawai.kd ".
 				"ORDER BY m_pegawai.nama ASC");
-	$rpgdx = mysql_fetch_assoc($qpgdx);
-	$tpgdx = mysql_num_rows($qpgdx);
+	$rpgdx = mysqli_fetch_assoc($qpgdx);
+	$tpgdx = mysqli_num_rows($qpgdx);
 
 	do
 		{
@@ -1369,7 +1369,7 @@ else if ($tpkd == "tp09")
 		</td>
 		</tr>';
 		}
-	while ($rpgdx = mysql_fetch_assoc($qpgdx));
+	while ($rpgdx = mysqli_fetch_assoc($qpgdx));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">

@@ -25,14 +25,14 @@ $pass10_session = nosql($_SESSION['pass10_session']);
 $hajirobe10_session = nosql($_SESSION['hajirobe10_session']);
 
 
-$qbw = mysql_query("SELECT adm_kaprodi.*, m_pegawai.* ".
+$qbw = mysqli_query($koneksi, "SELECT adm_kaprodi.*, m_pegawai.* ".
 			"FROM adm_kaprodi, m_pegawai ".
 			"WHERE adm_kaprodi.kd_pegawai = m_pegawai.kd ".
 			"AND m_pegawai.kd = '$kd10_session' ".
 			"AND m_pegawai.usernamex = '$username10_session' ".
 			"AND m_pegawai.passwordx = '$pass10_session'");
-$rbw = mysql_fetch_assoc($qbw);
-$tbw = mysql_num_rows($qbw);
+$rbw = mysqli_fetch_assoc($qbw);
+$tbw = mysqli_num_rows($qbw);
 
 if (($tbw == 0) OR (empty($kd10_session))
 	OR (empty($username10_session))

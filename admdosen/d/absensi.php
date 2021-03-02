@@ -53,19 +53,19 @@ Tahun Pelajaran : ';
 echo "<select name=\"tapel\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 						"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
 
 echo '<option value="'.$tpx_kd.'">'.$tpx_thn1.'/'.$tpx_thn2.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_tapel ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 						"WHERE kd <> '$tapelkd' ".
 						"ORDER BY tahun1 ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -75,7 +75,7 @@ do
 
 	echo '<option value="'.$filenya.'?tapelkd='.$tpkd.'">'.$tpth1.'/'.$tpth2.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>,
 
@@ -83,18 +83,18 @@ Semester : ';
 echo "<select name=\"smt\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qstx = mysql_query("SELECT * FROM m_smt ".
+$qstx = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 						"WHERE kd = '$smtkd'");
-$rowstx = mysql_fetch_assoc($qstx);
+$rowstx = mysqli_fetch_assoc($qstx);
 $stx_kd = nosql($rowstx['kd']);
 $stx_smt = nosql($rowstx['smt']);
 
 echo '<option value="'.$stx_kd.'">'.$stx_smt.'</option>';
 
-$qst = mysql_query("SELECT * FROM m_smt ".
+$qst = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 						"WHERE kd <> '$smtkd' ".
 						"ORDER BY smt ASC");
-$rowst = mysql_fetch_assoc($qst);
+$rowst = mysqli_fetch_assoc($qst);
 
 do
 	{
@@ -103,7 +103,7 @@ do
 
 	echo '<option value="'.$filenya.'?tapelkd='.$tapelkd.'&smtkd='.$st_kd.'">'.$st_smt.'</option>';
 	}
-while ($rowst = mysql_fetch_assoc($qst));
+while ($rowst = mysqli_fetch_assoc($qst));
 
 echo '</select>
 </td>
@@ -135,9 +135,9 @@ else
 	<tr bgcolor="'.$warnaheader.'">';
 
 	//daftar absensi
-	$qabs = mysql_query("SELECT * FROM m_absen ".
+	$qabs = mysqli_query($koneksi, "SELECT * FROM m_absen ".
 				"ORDER BY absen ASC");
-	$rabs = mysql_fetch_assoc($qabs);
+	$rabs = mysqli_fetch_assoc($qabs);
 
 	do
 		{
@@ -147,20 +147,20 @@ else
 
 		echo '<td width="50"><strong>Jml. '.$abs_absensi2.'</strong></td>';
 		}
-	while ($rabs = mysql_fetch_assoc($qabs));
+	while ($rabs = mysqli_fetch_assoc($qabs));
 
 	echo '</tr>';
 
 	//nilai ne...
-	$qxnil = mysql_query("SELECT m_absen.*, m_absen.kd AS makd, ".
+	$qxnil = mysqli_query($koneksi, "SELECT m_absen.*, m_absen.kd AS makd, ".
 				"pegawai_absen.* ".
 				"FROM m_absen, pegawai_absen ".
 				"WHERE pegawai_absen.kd_absen = m_absen.kd ".
 				"AND pegawai_absen.kd_tapel = '$tapelkd' ".
 				"AND pegawai_absen.kd_smt = '$smtkd' ".
 				"AND pegawai_absen.kd_pegawai = '$std_kd'");
-	$rxnil = mysql_fetch_assoc($qxnil);
-	$txnil = mysql_num_rows($qxnil);
+	$rxnil = mysqli_fetch_assoc($qxnil);
+	$txnil = mysqli_num_rows($qxnil);
 	$xnil_makd = nosql($rxnil['makd']);
 	$xnil_absensi2 = nosql($rxnil['absen']);
 
@@ -168,9 +168,9 @@ else
 	echo "<tr valign=\"top\" bgcolor=\"$warna\" onmouseover=\"this.bgColor='$warnaover';\" onmouseout=\"this.bgColor='$warna';\">";
 
 	//daftar absensi
-	$qabs = mysql_query("SELECT * FROM m_absen ".
+	$qabs = mysqli_query($koneksi, "SELECT * FROM m_absen ".
 				"ORDER BY absen ASC");
-	$rabs = mysql_fetch_assoc($qabs);
+	$rabs = mysqli_fetch_assoc($qabs);
 
 	do
 		{
@@ -178,17 +178,17 @@ else
 		$abs_kd = nosql($rabs['kd']);
 
 		//total...
-		$qsubx = mysql_query("SELECT * FROM pegawai_absen ".
+		$qsubx = mysqli_query($koneksi, "SELECT * FROM pegawai_absen ".
 					"WHERE kd_tapel = '$tapelkd' ".
 					"AND kd_smt = '$smtkd' ".
 					"AND kd_absen = '$abs_kd' ".
 					"AND kd_pegawai = '$kd5_session'");
-		$rsubx = mysql_fetch_assoc($qsubx);
-		$tsubx = mysql_num_rows($qsubx);
+		$rsubx = mysqli_fetch_assoc($qsubx);
+		$tsubx = mysqli_num_rows($qsubx);
 
 		echo '<td width="50">'.$tsubx.'</td>';
 		}
-	while ($rabs = mysql_fetch_assoc($qabs));
+	while ($rabs = mysqli_fetch_assoc($qabs));
 
 
 	echo '</tr>

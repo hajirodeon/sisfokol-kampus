@@ -65,10 +65,10 @@ if ($s == "edit")
 	$kdx = nosql($_REQUEST['kd']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM m_makul ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM m_makul ".
 				"WHERE kd_progdi = '$progdi' ".
 				"AND kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$kode = nosql($rowx['kode']);
 	$nama = balikin2($rowx['nama']);
 	$sks = nosql($rowx['sks']);
@@ -138,11 +138,11 @@ if ($_POST['btnSMP'])
 		if ($s == "add")
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM m_makul ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM m_makul ".
 						"WHERE kd_progdi = '$progdi' ".
 						"AND kode = '$kode'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -160,7 +160,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO m_makul(kd, kd_progdi, kode, nama, sks, jenis, status) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO m_makul(kd, kd_progdi, kode, nama, sks, jenis, status) VALUES ".
 						"('$x', '$progdi', '$kode', '$nama', '$sks', '$jenis', '$status')");
 
 				//diskonek
@@ -179,7 +179,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE m_makul SET kode = '$kode', ".
+			mysqli_query($koneksi, "UPDATE m_makul SET kode = '$kode', ".
 					"nama = '$nama', ".
 					"sks = '$sks', ".
 					"jenis = '$jenis', ".
@@ -220,7 +220,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM m_makul ".
+		mysqli_query($koneksi, "DELETE FROM m_makul ".
 				"WHERE kd_progdi = '$progdi' ".
 				"AND kd = '$kd'");
 		}
@@ -257,18 +257,18 @@ echo '<form action="'.$filenya.'" method="post" name="formx">
 Program Studi : ';
 echo "<select name=\"progdi\" onChange=\"MM_jumpMenu('self',this,0)\">";
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nama = balikin($rowtpx['nama']);
 
 echo '<option value="'.$tpx_kd.'">'.$tpx_nama.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_progdi ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd <> '$progdi' ".
 			"ORDER BY nama ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -277,7 +277,7 @@ do
 
 	echo '<option value="'.$filenya.'?progdi='.$tpkd.'">'.$tpnama.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>
 </td>
@@ -350,11 +350,11 @@ else
 	else
 		{
 		//query
-		$q = mysql_query("SELECT * FROM m_makul ".
+		$q = mysqli_query($koneksi, "SELECT * FROM m_makul ".
 					"WHERE kd_progdi = '$progdi' ".
 					"ORDER BY round(kode) ASC");
-		$row = mysql_fetch_assoc($q);
-		$total = mysql_num_rows($q);
+		$row = mysqli_fetch_assoc($q);
+		$total = mysqli_num_rows($q);
 
 
 		if ($total != 0)
@@ -434,7 +434,7 @@ else
 				<td>'.$i_status_nil.'</td>
 				</tr>';
 				}
-			while ($row = mysql_fetch_assoc($q));
+			while ($row = mysqli_fetch_assoc($q));
 
 			echo '</table>
 			<table width="700" border="0" cellspacing="0" cellpadding="3">

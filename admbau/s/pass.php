@@ -69,20 +69,20 @@ if ($_POST['btnSMP'])
 	else
 		{
 		//query
-		$q = mysql_query("SELECT adm_bau.*, m_pegawai.* ".
+		$q = mysqli_query($koneksi, "SELECT adm_bau.*, m_pegawai.* ".
 					"FROM adm_bau, m_pegawai ".
 					"WHERE adm_bau.kd_pegawai = m_pegawai.kd ".
 					"AND m_pegawai.kd = '$kd3_session' ".
 					"AND m_pegawai.usernamex = '$username3_session' ".
 					"AND m_pegawai.passwordx = '$passlama'");
-		$row = mysql_fetch_assoc($q);
-		$total = mysql_num_rows($q);
+		$row = mysqli_fetch_assoc($q);
+		$total = mysqli_num_rows($q);
 
 		//cek
 		if ($total != 0)
 			{
 			//perintah SQL
-			mysql_query("UPDATE m_pegawai SET passwordx = '$passbaru' ".
+			mysqli_query($koneksi, "UPDATE m_pegawai SET passwordx = '$passbaru' ".
 					"WHERE kd = '$kd3_session'");
 
 			//diskonek

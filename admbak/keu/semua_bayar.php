@@ -59,7 +59,7 @@ if ($s == "hapus")
 
 
 	//query
-	mysql_query("DELETE FROM mahasiswa_keu ".
+	mysqli_query($koneksi, "DELETE FROM mahasiswa_keu ".
 					"WHERE kd_keu_mahasiswa = '$kd' ".
 					"AND bln = '$bln' ".
 					"AND thn = '$thn'");
@@ -107,9 +107,9 @@ if ($_POST['btnSMP'])
 
 	//looping bulan
 	//query
-	$q = mysql_query("SELECT * FROM m_keu_jenis ".
+	$q = mysqli_query($koneksi, "SELECT * FROM m_keu_jenis ".
 						"ORDER BY nama ASC");
-	$row = mysql_fetch_assoc($q);
+	$row = mysqli_fetch_assoc($q);
 
 	
 	do
@@ -121,14 +121,14 @@ if ($_POST['btnSMP'])
 		
 	
 		//detail uang e
-		$qku = mysql_query("SELECT * FROM m_keu_mahasiswa ".
+		$qku = mysqli_query($koneksi, "SELECT * FROM m_keu_mahasiswa ".
 								"WHERE kd_jenis = '$jnskd' ".
 								"AND kd_progdi = '$progdi' ".
 								"AND kd_tapel = '$tapelkd' ".
 								"AND kd_kelas = '$kelkd' ".
 								"AND kd_mahasiswa = '$swkd'");
-		$rku = mysql_fetch_assoc($qku);
-		$tku = mysql_num_rows($qku);
+		$rku = mysqli_fetch_assoc($qku);
+		$tku = mysqli_num_rows($qku);
 		$ku_kd = nosql($rku['kd']);
 		$ku_nilai = nosql($rku['nilai']);
 	
@@ -137,11 +137,11 @@ if ($_POST['btnSMP'])
 		if (!empty($tku))
 			{
 			//query
-			mysql_query("INSERT INTO mahasiswa_keu (kd, kd_keu_mahasiswa, bln, thn, tgl_bayar, postdate) VALUES ".
+			mysqli_query($koneksi, "INSERT INTO mahasiswa_keu (kd, kd_keu_mahasiswa, bln, thn, tgl_bayar, postdate) VALUES ".
 							"('$xyz', '$ku_kd', '$ku_bln', '$ku_thn', '$tgl_bayar', '$today')");
 			}
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 			
 
 
@@ -215,18 +215,18 @@ echo '<form name="formx" method="post" action="'.$filenya.'">
 Program Studi : ';
 echo "<select name=\"progdi\" onChange=\"MM_jumpMenu('self',this,0)\">";
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_progdi ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd = '$progdi'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nama = balikin($rowtpx['nama']);
 
 echo '<option value="'.$tpx_kd.'" selected>'.$tpx_nama.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_progdi ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_progdi ".
 			"WHERE kd <> '$progdi' ".
 			"ORDER BY nama ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -235,7 +235,7 @@ do
 
 	echo '<option value="'.$filenya.'?jnskd='.$jnskd.'&progdi='.$tpkd.'">'.$tpnama.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>,
 
@@ -243,18 +243,18 @@ Jenis : ';
 echo "<select name=\"kelas\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qbtx = mysql_query("SELECT * FROM m_kelas ".
+$qbtx = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd = '$kelkd'");
-$rowbtx = mysql_fetch_assoc($qbtx);
+$rowbtx = mysqli_fetch_assoc($qbtx);
 $btxkd = nosql($rowbtx['kd']);
 $btxkelas = nosql($rowbtx['kelas']);
 
 echo '<option value="'.$btxkd.'">'.$btxkelas.'</option>';
 
-$qbt = mysql_query("SELECT * FROM m_kelas ".
+$qbt = mysqli_query($koneksi, "SELECT * FROM m_kelas ".
 			"WHERE kd <> '$kelkd' ".
 			"ORDER BY no ASC");
-$rowbt = mysql_fetch_assoc($qbt);
+$rowbt = mysqli_fetch_assoc($qbt);
 
 do
 	{
@@ -263,7 +263,7 @@ do
 
 	echo '<option value="'.$filenya.'?jnskd='.$jnskd.'&progdi='.$progdi.'&kelkd='.$btkd.'">'.$btkelas.'</option>';
 	}
-while ($rowbt = mysql_fetch_assoc($qbt));
+while ($rowbt = mysqli_fetch_assoc($qbt));
 
 echo '</select>,
 
@@ -271,19 +271,19 @@ Tahun Akademik : ';
 echo "<select name=\"tapel\" onChange=\"MM_jumpMenu('self',this,0)\">";
 
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_tapel ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 						"WHERE kd = '$tapelkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_thn1 = nosql($rowtpx['tahun1']);
 $tpx_thn2 = nosql($rowtpx['tahun2']);
 
 echo '<option value="'.$tpx_kd.'">'.$tpx_thn1.'/'.$tpx_thn2.'</option>';
 
-$qtp = mysql_query("SELECT * FROM m_tapel ".
+$qtp = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 						"WHERE kd <> '$tapelkd' ".
 						"ORDER BY tahun1 DESC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
@@ -293,7 +293,7 @@ do
 
 	echo '<option value="'.$filenya.'?jnskd='.$jnskd.'&progdi='.$progdi.'&kelkd='.$kelkd.'&tapelkd='.$tpkd.'">'.$tpth1.'/'.$tpth2.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>
 
@@ -361,38 +361,38 @@ else
 	if (!empty($nim))
 		{
 		//siswa
-		$qcc = mysql_query("SELECT * FROM m_mahasiswa ".
+		$qcc = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 								"WHERE nim = '$nim'");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 		$cc_kd = nosql($rcc['kd']);
 		$cc_nama = balikin($rcc['nama']);
 	
 	
 		//ketahui kode mahasiswa, dari suatu mahasiswa_kelas
-		$qske = mysql_query("SELECT mahasiswa_kelas.*, m_tapel.* ".
+		$qske = mysqli_query($koneksi, "SELECT mahasiswa_kelas.*, m_tapel.* ".
 								"FROM mahasiswa_kelas, m_tapel ".
 								"WHERE mahasiswa_kelas.kd_tapel = m_tapel.kd ".
 								"AND mahasiswa_kelas.kd_mahasiswa = '$cc_kd' ".
 								"AND m_tapel.kd = '$tapelkd'");
-		$rske = mysql_fetch_assoc($qske);
-		$tske = mysql_num_rows($qske);
+		$rske = mysqli_fetch_assoc($qske);
+		$tske = mysqli_num_rows($qske);
 	
 	
 		//semester terakhir
-		$qnil = mysql_query("SELECT * FROM mahasiswa_kelas ".
+		$qnil = mysqli_query($koneksi, "SELECT * FROM mahasiswa_kelas ".
 					"WHERE kd_progdi = '$progdi' ".
 					"AND kd_kelas = '$kelkd' ".
 					"AND kd_tapel = '$tapelkd' ".
 					"AND kd_mahasiswa = '$cc_kd'");
-		$rnil = mysql_fetch_assoc($qnil);
-		$tnil = mysql_num_rows($qnil);
+		$rnil = mysqli_fetch_assoc($qnil);
+		$tnil = mysqli_num_rows($qnil);
 		$nil_smtkd = nosql($rnil['kd_smt']);
 	
 		//smt
-		$qkelx = mysql_query("SELECT * FROM m_smt ".
+		$qkelx = mysqli_query($koneksi, "SELECT * FROM m_smt ".
 					"WHERE kd = '$nil_smtkd'");
-		$rkelx = mysql_fetch_assoc($qkelx);
+		$rkelx = mysqli_fetch_assoc($qkelx);
 		$kelx_smt = balikin($rkelx['smt']);
 		$kelx_no = nosql($rkelx['no']);
 	
@@ -407,13 +407,13 @@ else
 	
 
 		//besarnya
-		$qku = mysql_query("SELECT SUM(nilai) AS nilku ".
+		$qku = mysqli_query($koneksi, "SELECT SUM(nilai) AS nilku ".
 								"FROM m_keu_mahasiswa ".
 								"WHERE kd_progdi = '$progdi' ".
 								"AND kd_tapel = '$tapelkd' ".
 								"AND kd_kelas = '$kelkd' ".
 								"AND kd_mahasiswa = '$cc_kd'");
-		$rku = mysql_fetch_assoc($qku);
+		$rku = mysqli_fetch_assoc($qku);
 		$ku_nilai = nosql($rku['nilku']);
 	
 		
@@ -441,10 +441,10 @@ else
 
 		
 		//tapel-nya
-		$qtpel = mysql_query("SELECT * FROM m_tapel ".
+		$qtpel = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 								"WHERE kd = '$tapelkd'");
-		$rtpel = mysql_fetch_assoc($qtpel);
-		$ttpel = mysql_num_rows($qtpel);
+		$rtpel = mysqli_fetch_assoc($qtpel);
+		$ttpel = mysqli_num_rows($qtpel);
 		$tpel_thn1 = nosql($rtpel['tahun1']);
 		$tpel_thn2 = nosql($rtpel['tahun2']);
 	
@@ -505,20 +505,20 @@ else
 
 
 		//besarnya
-		$qku2 = mysql_query("SELECT * FROM m_keu_mahasiswa ".
+		$qku2 = mysqli_query($koneksi, "SELECT * FROM m_keu_mahasiswa ".
 								"WHERE kd_progdi = '$progdi' ".
 								"AND kd_tapel = '$tapelkd' ".
 								"AND kd_kelas = '$kelkd' ".
 								"AND kd_mahasiswa = '$cc_kd'");
-		$rku2 = mysql_fetch_assoc($qku2);
+		$rku2 = mysqli_fetch_assoc($qku2);
 		$ku_kd = nosql($rku2['kd']);
 
 		
 		//tapel-nya
-		$qtpel = mysql_query("SELECT * FROM m_tapel ".
+		$qtpel = mysqli_query($koneksi, "SELECT * FROM m_tapel ".
 								"WHERE kd = '$tapelkd'");
-		$rtpel = mysql_fetch_assoc($qtpel);
-		$ttpel = mysql_num_rows($qtpel);
+		$rtpel = mysqli_fetch_assoc($qtpel);
+		$ttpel = mysqli_num_rows($qtpel);
 		$tpel_thn1 = nosql($rtpel['tahun1']);
 		$tpel_thn2 = nosql($rtpel['tahun2']);
 	
@@ -541,23 +541,23 @@ else
 			
 			/*
 			//detail bayar
-			$qku2 = mysql_query("SELECT * FROM mahasiswa_keu ".
+			$qku2 = mysqli_query($koneksi, "SELECT * FROM mahasiswa_keu ".
 									"WHERE kd_keu_mahasiswa = '$ku_kd' ".
 									"AND bln = '$ibln' ".
 									"AND thn = '$itpel'");
-			$rku2 = mysql_fetch_assoc($qku2);
+			$rku2 = mysqli_fetch_assoc($qku2);
 			$ku2_kd = nosql($rku2['kd']);
 			$ku2_tgl_bayar = $rku2['tgl_bayar'];
 
 */
 			//detail bayar
-			$qku2 = mysql_query("SELECT mahasiswa_keu.*, m_keu_mahasiswa.nilai AS nilku ".
+			$qku2 = mysqli_query($koneksi, "SELECT mahasiswa_keu.*, m_keu_mahasiswa.nilai AS nilku ".
 									"FROM mahasiswa_keu, m_keu_mahasiswa ".
 									"WHERE m_keu_mahasiswa.kd = mahasiswa_keu.kd_keu_mahasiswa ".
 									"AND mahasiswa_keu.kd_keu_mahasiswa = '$ku_kd' ".
 									"AND mahasiswa_keu.bln = '$ibln' ".
 									"AND mahasiswa_keu.thn = '$itpel'");
-			$rku2 = mysql_fetch_assoc($qku2);
+			$rku2 = mysqli_fetch_assoc($qku2);
 			$ku2_kd = nosql($rku2['kd']);
 			$ku2_nilai = nosql($rku2['nilku']);
 			$ku2_tgl_bayar = $rku2['tgl_bayar'];
@@ -587,12 +587,12 @@ else
 
 		
 		//total bayar
-		$qku2 = mysql_query("SELECT SUM(m_keu_mahasiswa.nilai) AS total ".
+		$qku2 = mysqli_query($koneksi, "SELECT SUM(m_keu_mahasiswa.nilai) AS total ".
 								"FROM mahasiswa_keu, m_keu_mahasiswa ".
 								"WHERE m_keu_mahasiswa.kd = mahasiswa_keu.kd_keu_mahasiswa ".
 								"AND mahasiswa_keu.kd_keu_mahasiswa = '$ku_kd' ".
 								"AND m_keu_mahasiswa.kd_tapel = '$tapelkd'");
-		$rku2 = mysql_fetch_assoc($qku2);
+		$rku2 = mysqli_fetch_assoc($qku2);
 		$ku2_total = nosql($rku2['total']);
 
 

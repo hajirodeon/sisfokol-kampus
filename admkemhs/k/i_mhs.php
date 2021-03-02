@@ -28,11 +28,11 @@ $sqlcount = "SELECT DISTINCT(m_mahasiswa.nim) AS msnim ".
 				"ORDER BY round(m_mahasiswa.nim) ASC";
 $sqlresult = $sqlcount;
 $target = $filenya;
-$count = mysql_num_rows(mysql_query($sqlcount));
+$count = mysqli_num_rows(mysqli_query($sqlcount));
 $pages = $p->findPages($count, $limit);
-$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 $pagelist = $p->pageList($_GET['page'], $pages, $target);
-$data = mysql_fetch_array($result);
+$data = mysqli_fetch_array($result);
 
 
 do
@@ -41,9 +41,9 @@ do
 	
 	
 	//detail e
-	$qku = mysql_query("SELECT * FROM m_mahasiswa ".
+	$qku = mysqli_query($koneksi, "SELECT * FROM m_mahasiswa ".
 							"WHERE nim = '$i_nim'");
-	$rku = mysql_fetch_assoc($qku);
+	$rku = mysqli_fetch_assoc($qku);
 
 	$row_array["p_kd"] = nosql($rku["kd"]);
 	$row_array["p_nim"] = balikin($rku["nim"]);
@@ -58,7 +58,7 @@ do
 
 	array_push($return_arr, $row_array);
 	}
-while ($data = mysql_fetch_assoc($result));
+while ($data = mysqli_fetch_assoc($result));
 
 
 

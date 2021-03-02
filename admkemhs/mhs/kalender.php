@@ -92,7 +92,7 @@ if ($_POST['btnSMP'])
 	else
 		{
 		//query
-		mysql_query("INSERT INTO kalender(kd, nama, tgl1, tgl2, postdate) VALUES ".
+		mysqli_query($koneksi, "INSERT INTO kalender(kd, nama, tgl1, tgl2, postdate) VALUES ".
 						"('$x', '$nama', '$e_tgl_mulai', '$e_tgl_akhir', '$today')");
 
 		//re-direct
@@ -117,7 +117,7 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM kalender ".
+		mysqli_query($koneksi, "DELETE FROM kalender ".
 						"WHERE kd = '$kd'");
 		}
 
@@ -137,10 +137,10 @@ if ($_POST['btnHPS'])
 ob_start();
 
 //query
-$q = mysql_query("SELECT * FROM kalender ".
+$q = mysqli_query($koneksi, "SELECT * FROM kalender ".
 					"ORDER BY tgl1 ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 //js
 require("../../inc/js/checkall.js");
@@ -242,7 +242,7 @@ if ($total != 0)
 		<td>'.$i_tgl2.'</td>
     	</tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>
 	<table width="500" border="0" cellspacing="0" cellpadding="3">

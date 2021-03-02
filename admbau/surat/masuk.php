@@ -73,7 +73,7 @@ if ($s == "edit")
 	$page = nosql($_REQUEST['page']);
 
 	//query
-	$qx = mysql_query("SELECT surat_masuk.*, ".
+	$qx = mysqli_query($koneksi, "SELECT surat_masuk.*, ".
 							"DATE_FORMAT(tgl_surat, '%d') AS surat_tgl, ".
 							"DATE_FORMAT(tgl_surat, '%m') AS surat_bln, ".
 							"DATE_FORMAT(tgl_surat, '%Y') AS surat_thn, ".
@@ -85,7 +85,7 @@ if ($s == "edit")
 							"DATE_FORMAT(tgl_deadline_balas, '%Y') AS deadline_thn ".
 							"FROM surat_masuk ".
 							"WHERE kd = '$sukd'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 	$x_no_urut = nosql($rowx['no_urut']);
 	$x_no_surat = balikin2($rowx['no_surat']);
 	$x_asal = balikin2($rowx['asal']);
@@ -179,10 +179,10 @@ if ($_POST['btnSMP'])
 		if ($s == "baru")
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM surat_masuk ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM surat_masuk ".
 									"WHERE no_surat = '$no_surat'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -200,7 +200,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO surat_masuk(kd, no_urut, kd_klasifikasi, kd_sifat, ".
+				mysqli_query($koneksi, "INSERT INTO surat_masuk(kd, no_urut, kd_klasifikasi, kd_sifat, ".
 									"no_surat, tgl_surat, tgl_terima, tgl_deadline_balas, ".
 									"asal, tujuan, perihal, lampiran, tembusan, ".
 									"kd_status, balas, ket, ".
@@ -225,7 +225,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE surat_masuk SET kd_klasifikasi = '$klasifikasi', ".
+			mysqli_query($koneksi, "UPDATE surat_masuk SET kd_klasifikasi = '$klasifikasi', ".
 									"kd_sifat = '$sifat', ".
 									"no_surat = '$no_surat', ".
 									"tgl_surat = '$tgl_surat', ".
@@ -277,11 +277,11 @@ if ($_POST['btnHPS'])
 					"ORDER BY round(no_urut) DESC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 	//ambil semua
 	do
@@ -293,10 +293,10 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del brg
-		mysql_query("DELETE FROM surat_masuk ".
+		mysqli_query($koneksi, "DELETE FROM surat_masuk ".
 						"WHERE kd = '$kd'");
 		}
-	while ($data = mysql_fetch_assoc($result));
+	while ($data = mysqli_fetch_assoc($result));
 
 	//diskonek
 	xfree($qbw);
@@ -341,10 +341,10 @@ if (($s == "baru") OR ($s == "edit"))
 	if ($s == "baru")
 		{
 		//ambil nilai max
-		$qcc = mysql_query("SELECT MAX(round(no_urut)) AS akhir ".
+		$qcc = mysqli_query($koneksi, "SELECT MAX(round(no_urut)) AS akhir ".
 								"FROM surat_masuk");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 		$cc_akhir = nosql($rcc['akhir']);
 		$cc_no_urut = round($cc_akhir + 1);
 		}
@@ -375,18 +375,18 @@ if (($s == "baru") OR ($s == "edit"))
 	<select name="klasifikasi">';
 
 	//terpilih
-	$qdtx = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+	$qdtx = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 									"WHERE kd = '$x_kd_klasifikasi'");
-	$rdtx = mysql_fetch_assoc($qdtx);
+	$rdtx = mysqli_fetch_assoc($qdtx);
 	$dtx_klasifikasi = balikin($rdtx['klasifikasi']);
 
 	echo '<option value="'.$x_kd_klasifikasi.'" selected>'.$dtx_klasifikasi.'</option>';
 
 	//daftar klasifikasi
-	$qdt = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+	$qdt = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 								"WHERE kd <> '$x_kd_klasifikasi' ".
 								"ORDER BY klasifikasi ASC");
-	$rdt = mysql_fetch_assoc($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
 
 	do
 		{
@@ -396,7 +396,7 @@ if (($s == "baru") OR ($s == "edit"))
 
 		echo '<option value="'.$dt_kd.'">'.$dt_klasifikasi.'</option>';
 		}
-	while ($rdt = mysql_fetch_assoc($qdt));
+	while ($rdt = mysqli_fetch_assoc($qdt));
 
 	echo '</select>
 	</td>
@@ -410,18 +410,18 @@ if (($s == "baru") OR ($s == "edit"))
 	<select name="sifat">';
 
 	//terpilih
-	$qdtx = mysql_query("SELECT * FROM surat_m_sifat ".
+	$qdtx = mysqli_query($koneksi, "SELECT * FROM surat_m_sifat ".
 									"WHERE kd = '$x_kd_sifat'");
-	$rdtx = mysql_fetch_assoc($qdtx);
+	$rdtx = mysqli_fetch_assoc($qdtx);
 	$dtx_sifat = balikin($rdtx['sifat']);
 
 	echo '<option value="'.$x_kd_sifat.'" selected>'.$dtx_sifat.'</option>';
 
 	//daftar sifat
-	$qdt = mysql_query("SELECT * FROM surat_m_sifat ".
+	$qdt = mysqli_query($koneksi, "SELECT * FROM surat_m_sifat ".
 								"WHERE kd <> '$x_kd_sifat' ".
 								"ORDER BY sifat ASC");
-	$rdt = mysql_fetch_assoc($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
 
 	do
 		{
@@ -431,7 +431,7 @@ if (($s == "baru") OR ($s == "edit"))
 
 		echo '<option value="'.$dt_kd.'">'.$dt_sifat.'</option>';
 		}
-	while ($rdt = mysql_fetch_assoc($qdt));
+	while ($rdt = mysqli_fetch_assoc($qdt));
 
 	echo '</select>
 	</td>
@@ -592,18 +592,18 @@ if (($s == "baru") OR ($s == "edit"))
 	<select name="status">';
 
 	//terpilih
-	$qdtx = mysql_query("SELECT * FROM surat_m_status ".
+	$qdtx = mysqli_query($koneksi, "SELECT * FROM surat_m_status ".
 									"WHERE kd = '$x_kd_status'");
-	$rdtx = mysql_fetch_assoc($qdtx);
+	$rdtx = mysqli_fetch_assoc($qdtx);
 	$dtx_status = balikin($rdtx['status']);
 
 	echo '<option value="'.$x_kd_status.'" selected>'.$dtx_status.'</option>';
 
 	//daftar status
-	$qdt = mysql_query("SELECT * FROM surat_m_status ".
+	$qdt = mysqli_query($koneksi, "SELECT * FROM surat_m_status ".
 								"WHERE kd <> '$x_kd_status' ".
 								"ORDER BY status ASC");
-	$rdt = mysql_fetch_assoc($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
 
 	do
 		{
@@ -613,7 +613,7 @@ if (($s == "baru") OR ($s == "edit"))
 
 		echo '<option value="'.$dt_kd.'">'.$dt_status.'</option>';
 		}
-	while ($rdt = mysql_fetch_assoc($qdt));
+	while ($rdt = mysqli_fetch_assoc($qdt));
 
 	echo '</select>
 	</td>
@@ -663,18 +663,18 @@ if (($s == "baru") OR ($s == "edit"))
 	Ruang :  ';
 
 	//terpilih
-	$qdt1 = mysql_query("SELECT * FROM surat_m_ruang ".
+	$qdt1 = mysqli_query($koneksi, "SELECT * FROM surat_m_ruang ".
 									"WHERE kd = '$x_kd_ruang'");
-	$rdt1 = mysql_fetch_assoc($qdt1);
+	$rdt1 = mysqli_fetch_assoc($qdt1);
 	$dt1_ruang = balikin($rdt1['ruang']);
 
 	echo '<select name="ruang">
 	<option value="'.$x_kd_ruang.'" selected>'.$dt1_ruang.'</option>';
 
 	//daftar
-	$qru = mysql_query("SELECT * FROM surat_m_ruang ".
+	$qru = mysqli_query($koneksi, "SELECT * FROM surat_m_ruang ".
 								"ORDER BY ruang ASC");
-	$rru = mysql_fetch_assoc($qru);
+	$rru = mysqli_fetch_assoc($qru);
 
 	do
 		{
@@ -684,25 +684,25 @@ if (($s == "baru") OR ($s == "edit"))
 
 		echo '<option value="'.$ru_kd.'">'.$ru_ruang.'</option>';
 		}
-	while ($rru = mysql_fetch_assoc($qru));
+	while ($rru = mysqli_fetch_assoc($qru));
 
 	echo'</select>,
 
 	Lemari : ';
 
 	//terpilih
-	$qdt2 = mysql_query("SELECT * FROM surat_m_lemari ".
+	$qdt2 = mysqli_query($koneksi, "SELECT * FROM surat_m_lemari ".
 									"WHERE kd = '$x_kd_lemari'");
-	$rdt2 = mysql_fetch_assoc($qdt2);
+	$rdt2 = mysqli_fetch_assoc($qdt2);
 	$dt2_lemari = balikin($rdt2['lemari']);
 
 	echo '<select name="lemari">
 	<option value="'.$x_kd_lemari.'" selected>'.$dt2_lemari.'</option>';
 
 	//daftar
-	$qru = mysql_query("SELECT * FROM surat_m_lemari ".
+	$qru = mysqli_query($koneksi, "SELECT * FROM surat_m_lemari ".
 								"ORDER BY lemari ASC");
-	$rru = mysql_fetch_assoc($qru);
+	$rru = mysqli_fetch_assoc($qru);
 
 	do
 		{
@@ -712,25 +712,25 @@ if (($s == "baru") OR ($s == "edit"))
 
 		echo '<option value="'.$ru_kd.'">'.$ru_lemari.'</option>';
 		}
-	while ($rru = mysql_fetch_assoc($qru));
+	while ($rru = mysqli_fetch_assoc($qru));
 
 	echo'</select>,
 
 	Rak : ';
 
 	//terpilih
-	$qdt3 = mysql_query("SELECT * FROM surat_m_rak ".
+	$qdt3 = mysqli_query($koneksi, "SELECT * FROM surat_m_rak ".
 									"WHERE kd = '$x_kd_rak'");
-	$rdt3 = mysql_fetch_assoc($qdt3);
+	$rdt3 = mysqli_fetch_assoc($qdt3);
 	$dt3_rak = balikin($rdt3['rak']);
 
 	echo '<select name="rak">
 	<option value="'.$x_kd_rak.'" selected>'.$dt3_rak.'</option>';
 
 	//daftar
-	$qru = mysql_query("SELECT * FROM surat_m_rak ".
+	$qru = mysqli_query($koneksi, "SELECT * FROM surat_m_rak ".
 								"ORDER BY rak ASC");
-	$rru = mysql_fetch_assoc($qru);
+	$rru = mysqli_fetch_assoc($qru);
 
 	do
 		{
@@ -740,25 +740,25 @@ if (($s == "baru") OR ($s == "edit"))
 
 		echo '<option value="'.$ru_kd.'">'.$ru_rak.'</option>';
 		}
-	while ($rru = mysql_fetch_assoc($qru));
+	while ($rru = mysqli_fetch_assoc($qru));
 
 	echo'</select>,
 
 	MAP : ';
 
 	//terpilih
-	$qdt4 = mysql_query("SELECT * FROM surat_m_map ".
+	$qdt4 = mysqli_query($koneksi, "SELECT * FROM surat_m_map ".
 											"WHERE kd = '$x_kd_map'");
-	$rdt4 = mysql_fetch_assoc($qdt4);
+	$rdt4 = mysqli_fetch_assoc($qdt4);
 	$dt4_map = balikin($rdt4['map']);
 
 	echo '<select name="map">
 	<option value="'.$x_kd_map.'" selected>'.$dt4_map.'</option>';
 
 	//daftar
-	$qru = mysql_query("SELECT * FROM surat_m_map ".
+	$qru = mysqli_query($koneksi, "SELECT * FROM surat_m_map ".
 								"ORDER BY map ASC");
-	$rru = mysql_fetch_assoc($qru);
+	$rru = mysqli_fetch_assoc($qru);
 
 	do
 		{
@@ -768,7 +768,7 @@ if (($s == "baru") OR ($s == "edit"))
 
 		echo '<option value="'.$ru_kd.'">'.$ru_map.'</option>';
 		}
-	while ($rru = mysql_fetch_assoc($qru));
+	while ($rru = mysqli_fetch_assoc($qru));
 
 	echo'</select>
 	</p>
@@ -797,11 +797,11 @@ else
 						"ORDER BY round(no_urut) DESC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 	if ($count != 0)
@@ -879,58 +879,58 @@ else
 
 
 			//klasifikasi
-			$qdtx = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+			$qdtx = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 											"WHERE kd = '$ku_kd_klasifikasi'");
-			$rdtx = mysql_fetch_assoc($qdtx);
+			$rdtx = mysqli_fetch_assoc($qdtx);
 			$dtx_klasifikasi = balikin($rdtx['klasifikasi']);
 
 			//sifat
-			$qdtx2 = mysql_query("SELECT * FROM surat_m_sifat ".
+			$qdtx2 = mysqli_query($koneksi, "SELECT * FROM surat_m_sifat ".
 											"WHERE kd = '$ku_kd_sifat'");
-			$rdtx2 = mysql_fetch_assoc($qdtx2);
+			$rdtx2 = mysqli_fetch_assoc($qdtx2);
 			$dtx2_sifat = balikin($rdtx2['sifat']);
 
 			//status
-			$qdtx3 = mysql_query("SELECT * FROM surat_m_status ".
+			$qdtx3 = mysqli_query($koneksi, "SELECT * FROM surat_m_status ".
 											"WHERE kd = '$ku_kd_status'");
-			$rdtx3 = mysql_fetch_assoc($qdtx3);
+			$rdtx3 = mysqli_fetch_assoc($qdtx3);
 			$dtx3_status = balikin($rdtx3['status']);
 
 
 			//ruang
-			$qdt1 = mysql_query("SELECT * FROM surat_m_ruang ".
+			$qdt1 = mysqli_query($koneksi, "SELECT * FROM surat_m_ruang ".
 											"WHERE kd = '$ku_kd_ruang'");
-			$rdt1 = mysql_fetch_assoc($qdt1);
+			$rdt1 = mysqli_fetch_assoc($qdt1);
 			$dt1_ruang = balikin($rdt1['ruang']);
 
 
 			//lemari
-			$qdt2 = mysql_query("SELECT * FROM surat_m_lemari ".
+			$qdt2 = mysqli_query($koneksi, "SELECT * FROM surat_m_lemari ".
 											"WHERE kd = '$ku_kd_lemari'");
-			$rdt2 = mysql_fetch_assoc($qdt2);
+			$rdt2 = mysqli_fetch_assoc($qdt2);
 			$dt2_lemari = balikin($rdt2['lemari']);
 
 
 			//rak
-			$qdt3 = mysql_query("SELECT * FROM surat_m_rak ".
+			$qdt3 = mysqli_query($koneksi, "SELECT * FROM surat_m_rak ".
 											"WHERE kd = '$ku_kd_rak'");
-			$rdt3 = mysql_fetch_assoc($qdt3);
+			$rdt3 = mysqli_fetch_assoc($qdt3);
 			$dt3_rak = balikin($rdt3['rak']);
 
 
 			//map
-			$qdt4 = mysql_query("SELECT * FROM surat_m_map ".
+			$qdt4 = mysqli_query($koneksi, "SELECT * FROM surat_m_map ".
 											"WHERE kd = '$ku_kd_map'");
-			$rdt4 = mysql_fetch_assoc($qdt4);
+			$rdt4 = mysqli_fetch_assoc($qdt4);
 			$dt4_map = balikin($rdt4['map']);
 
 
 
 			//pengesahan disposisi
-			$qdux = mysql_query("SELECT * FROM surat_masuk_disposisi ".
+			$qdux = mysqli_query($koneksi, "SELECT * FROM surat_masuk_disposisi ".
 						"WHERE kd_surat = '$i_kd'");
-			$rdux = mysql_fetch_assoc($qdux);
-			$tdux = mysql_num_rows($qdux);
+			$rdux = mysqli_fetch_assoc($qdux);
+			$tdux = mysqli_num_rows($qdux);
 			$dux_pengesahan = nosql($rdux['pengesahan']);
 
 
@@ -978,7 +978,7 @@ else
 			<td>'.$dux_pengesahan_ket.'</td>
 			</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="100%" border="0" cellspacing="0" cellpadding="3">

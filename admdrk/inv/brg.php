@@ -99,9 +99,9 @@ if ($s == "edit")
 	$page = nosql($_REQUEST['page']);
 
 	//query
-	$qx = mysql_query("SELECT * FROM inv_brg ".
+	$qx = mysqli_query($koneksi, "SELECT * FROM inv_brg ".
 						"WHERE kd = '$kdx'");
-	$rowx = mysql_fetch_assoc($qx);
+	$rowx = mysqli_fetch_assoc($qx);
 
 	$x_kode = nosql($rowx['kode']);
 	$x_nama = balikin2($rowx['nama']);
@@ -139,10 +139,10 @@ if ($_POST['btnSMP'])
 		if (empty($s))
 			{
 			///cek
-			$qcc = mysql_query("SELECT * FROM inv_brg ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM inv_brg ".
 									"WHERE kode = '$kode'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//nek ada
 			if ($tcc != 0)
@@ -159,7 +159,7 @@ if ($_POST['btnSMP'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO inv_brg(kd, kode, nama) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO inv_brg(kd, kode, nama) VALUES ".
 								"('$x', '$kode', '$nama')");
 
 				//diskonek
@@ -176,7 +176,7 @@ if ($_POST['btnSMP'])
 		else if ($s == "edit")
 			{
 			//query
-			mysql_query("UPDATE inv_brg SET kode = '$kode', ".
+			mysqli_query($koneksi, "UPDATE inv_brg SET kode = '$kode', ".
 							"nama = '$nama' ".
 							"WHERE kd = '$brgkd'");
 
@@ -228,7 +228,7 @@ if ($_POST['btnSMP2'])
 	else
 		{
 		//query
-		mysql_query("INSERT INTO inv_brg_pengadaan(kd, kd_brg, no_seri, merk, model, jenis_bahan, ".
+		mysqli_query($koneksi, "INSERT INTO inv_brg_pengadaan(kd, kd_brg, no_seri, merk, model, jenis_bahan, ".
 							"tahun_buat, tahun_beli, sumber_dana, jml) VALUES ".
 							"('$x', '$brgkd', '$no_seri', '$merk', '$model', '$jenis_bahan', ".
 							"'$thn_buat', '$thn_beli', '$sumber_dana', '$jml')");
@@ -288,16 +288,16 @@ if ($_POST['btnSMP3'])
 		else
 			{
 			//cek
-			$qcc = mysql_query("SELECT * FROM inv_stock ".
+			$qcc = mysqli_query($koneksi, "SELECT * FROM inv_stock ".
 									"WHERE kd_brg = '$brgkd'");
-			$rcc = mysql_fetch_assoc($qcc);
-			$tcc = mysql_num_rows($qcc);
+			$rcc = mysqli_fetch_assoc($qcc);
+			$tcc = mysqli_num_rows($qcc);
 
 			//jika ada
 			if ($tcc != 0)
 				{
 				//update
-				mysql_query("UPDATE inv_stock SET jml = '$jml', ".
+				mysqli_query($koneksi, "UPDATE inv_stock SET jml = '$jml', ".
 								"jml_bagus = '$jml_bagus', ".
 								"jml_sedang = '$jml_sedang', ".
 								"jml_rusak = '$jml_rusak', ".
@@ -308,7 +308,7 @@ if ($_POST['btnSMP3'])
 			else
 				{
 				//query
-				mysql_query("INSERT INTO inv_stock(kd, kd_brg, jml, jml_bagus, jml_sedang, jml_rusak, jml_hilang) VALUES ".
+				mysqli_query($koneksi, "INSERT INTO inv_stock(kd, kd_brg, jml, jml_bagus, jml_sedang, jml_rusak, jml_hilang) VALUES ".
 								"('$x', '$brgkd', '$jml', '$jml_bagus', '$jml_sedang', '$jml_rusak', '$jml_hilang')");
 
 				}
@@ -344,11 +344,11 @@ if ($_POST['btnHPS'])
 					"ORDER BY kode ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 	//ambil semua
 	do
@@ -360,22 +360,22 @@ if ($_POST['btnHPS'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del brg
-		mysql_query("DELETE FROM inv_brg ".
+		mysqli_query($koneksi, "DELETE FROM inv_brg ".
 						"WHERE kd = '$kd'");
 
 		//del brg_keahlian
-		mysql_query("DELETE FROM inv_brg_keahlian ".
+		mysqli_query($koneksi, "DELETE FROM inv_brg_keahlian ".
 						"WHERE kd_brg = '$kd'");
 
 		//del brg pengadaan
-		mysql_query("DELETE FROM inv_brg_pengadaan ".
+		mysqli_query($koneksi, "DELETE FROM inv_brg_pengadaan ".
 						"WHERE kd_brg = '$kd'");
 
 		//del brg stock
-		mysql_query("DELETE FROM inv_brg_stock ".
+		mysqli_query($koneksi, "DELETE FROM inv_brg_stock ".
 						"WHERE kd_brg = '$kd'");
 		}
-	while ($data = mysql_fetch_assoc($result));
+	while ($data = mysqli_fetch_assoc($result));
 
 	//diskonek
 	xfree($qbw);
@@ -409,11 +409,11 @@ if ($_POST['btnHPS2'])
 					"ORDER BY no_seri ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 	//ambil semua
 	do
@@ -425,10 +425,10 @@ if ($_POST['btnHPS2'])
 		$kd = nosql($_POST["$yuhu"]);
 
 		//del
-		mysql_query("DELETE FROM inv_brg_pengadaan ".
+		mysqli_query($koneksi, "DELETE FROM inv_brg_pengadaan ".
 						"WHERE kd = '$kd'");
 		}
-	while ($data = mysql_fetch_assoc($result));
+	while ($data = mysqli_fetch_assoc($result));
 
 	//diskonek
 	xfree($qbw);
@@ -469,11 +469,11 @@ if ((empty($s)) OR ($s == "edit"))
 					"ORDER BY kode ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 
 	echo '<p>
@@ -543,7 +543,7 @@ if ((empty($s)) OR ($s == "edit"))
 			</td>
 			</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="700" border="0" cellspacing="0" cellpadding="3">
@@ -572,10 +572,10 @@ if ($s == "ada")
 	$brgkd = nosql($_REQUEST['brgkd']);
 
 	//detail
-	$qdt = mysql_query("SELECT * FROM inv_brg ".
+	$qdt = mysqli_query($koneksi, "SELECT * FROM inv_brg ".
 							"WHERE kd = '$brgkd'");
-	$rdt = mysql_fetch_assoc($qdt);
-	$tdt = mysql_num_rows($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
+	$tdt = mysqli_num_rows($qdt);
 	$dt_kode = nosql($rdt['kode']);
 	$dt_nama = balikin2($rdt['nama']);
 
@@ -624,12 +624,12 @@ if ($s == "ada")
 					"ORDER BY no_seri ASC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$target = "$filenya?s=ada&brgkd=$brgkd";
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 	if ($count != 0)
 		{
@@ -691,7 +691,7 @@ if ($s == "ada")
 			</td>
 	        </tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="100%" border="0" cellspacing="0" cellpadding="3">
@@ -718,26 +718,26 @@ if ($s == "stock")
 	$brgkd = nosql($_REQUEST['brgkd']);
 
 	//detail
-	$qdt = mysql_query("SELECT * FROM inv_brg ".
+	$qdt = mysqli_query($koneksi, "SELECT * FROM inv_brg ".
 							"WHERE kd = '$brgkd'");
-	$rdt = mysql_fetch_assoc($qdt);
-	$tdt = mysql_num_rows($qdt);
+	$rdt = mysqli_fetch_assoc($qdt);
+	$tdt = mysqli_num_rows($qdt);
 	$dt_kode = nosql($rdt['kode']);
 	$dt_nama = balikin2($rdt['nama']);
 
 	//nilai dari pengadaan
-	$qdaa = mysql_query("SELECT SUM(jml) AS total FROM inv_brg_pengadaan ".
+	$qdaa = mysqli_query($koneksi, "SELECT SUM(jml) AS total FROM inv_brg_pengadaan ".
 							"WHERE kd_brg = '$brgkd'");
-	$rdaa = mysql_fetch_assoc($qdaa);
-	$tdaa = mysql_num_rows($qdaa);
+	$rdaa = mysqli_fetch_assoc($qdaa);
+	$tdaa = mysqli_num_rows($qdaa);
 	$daa_jml = nosql($rdaa['total']);
 
 
 	//data stock
-	$qsto = mysql_query("SELECT * FROM inv_stock ".
+	$qsto = mysqli_query($koneksi, "SELECT * FROM inv_stock ".
 							"WHERE kd_brg = '$brgkd'");
-	$rsto = mysql_fetch_assoc($qsto);
-	$tsto = mysql_num_rows($qsto);
+	$rsto = mysqli_fetch_assoc($qsto);
+	$tsto = mysqli_num_rows($qsto);
 	$sto_jml_bagus = nosql($rsto['jml_bagus']);
 	$sto_jml_sedang = nosql($rsto['jml_sedang']);
 	$sto_jml_rusak = nosql($rsto['jml_rusak']);

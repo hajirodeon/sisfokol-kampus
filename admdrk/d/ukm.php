@@ -54,10 +54,10 @@ echo '<form action="'.$filenya.'" method="post" name="formx">';
 
 
 //query
-$q = mysql_query("SELECT * FROM m_ukm ".
+$q = mysqli_query($koneksi, "SELECT * FROM m_ukm ".
 			"ORDER BY nama ASC");
-$row = mysql_fetch_assoc($q);
-$total = mysql_num_rows($q);
+$row = mysqli_fetch_assoc($q);
+$total = mysqli_num_rows($q);
 
 
 if ($total != 0)
@@ -95,7 +95,7 @@ if ($total != 0)
 		<td>'.$i_pembina.'</td>
         	</tr>';
 		}
-	while ($row = mysql_fetch_assoc($q));
+	while ($row = mysqli_fetch_assoc($q));
 
 	echo '</table>';
 	}

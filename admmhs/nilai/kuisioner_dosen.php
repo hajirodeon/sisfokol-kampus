@@ -81,18 +81,18 @@ if ($_POST['btnKRM'])
 
 
 		//cek
-		$qcc = mysql_query("SELECT * FROM mahasiswa_kuisioner_dosen ".
+		$qcc = mysqli_query($koneksi, "SELECT * FROM mahasiswa_kuisioner_dosen ".
 								"WHERE kd_kuisioner_dosen = '$kd' ".
 								"AND kd_mahasiswa = '$kd6_session' ".
 								"AND kd_pegawai = '$dkd'");
-		$rcc = mysql_fetch_assoc($qcc);
-		$tcc = mysql_num_rows($qcc);
+		$rcc = mysqli_fetch_assoc($qcc);
+		$tcc = mysqli_num_rows($qcc);
 
 		//nek ada
 		if ($tcc != 0)
 			{
 			//query
-			mysql_query("UPDATE mahasiswa_kuisioner_dosen SET jawaban_1 = '$jwbku1', ".
+			mysqli_query($koneksi, "UPDATE mahasiswa_kuisioner_dosen SET jawaban_1 = '$jwbku1', ".
 							"postdate = '$today' ".
 							"WHERE kd_mahasiswa = '$kd6_session' ".
 							"AND kd_kuisioner_dosen = '$kd' ".
@@ -101,7 +101,7 @@ if ($_POST['btnKRM'])
 		else 
 			{
 			//query
-			mysql_query("INSERT INTO mahasiswa_kuisioner_dosen(kd, kd_mahasiswa, kd_kuisioner_dosen, kd_pegawai, ".
+			mysqli_query($koneksi, "INSERT INTO mahasiswa_kuisioner_dosen(kd, kd_mahasiswa, kd_kuisioner_dosen, kd_pegawai, ".
 							"jawaban_1, postdate) VALUES ".
 							"('$xyz', '$kd6_session', '$kd', '$dkd', ".
 							"'$jwbku1', '$today')");
@@ -139,35 +139,35 @@ echo '<form action="'.$filenya.'" method="post" name="formx">
 Dosen : ';
 echo "<select name=\"dosen\" onChange=\"MM_jumpMenu('self',this,0)\">";
 //terpilih
-$qtpx = mysql_query("SELECT * FROM m_pegawai ".
+$qtpx = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 						"WHERE kd = '$dkd'");
-$rowtpx = mysql_fetch_assoc($qtpx);
+$rowtpx = mysqli_fetch_assoc($qtpx);
 $tpx_kd = nosql($rowtpx['kd']);
 $tpx_nip = balikin($rowtpx['nip']);
 $tpx_nama = balikin($rowtpx['nama']);
 
 echo '<option value="'.$tpx_kd.'" selected>'.$tpx_nip.'. '.$tpx_nama.'</option>';
 
-$qtp = mysql_query("SELECT DISTINCT(dosen.kd_pegawai) AS dkd ".
+$qtp = mysqli_query($koneksi, "SELECT DISTINCT(dosen.kd_pegawai) AS dkd ".
 					"FROM dosen, m_pegawai ".
 					"WHERE dosen.kd_pegawai = m_pegawai.kd ".
 					"ORDER BY nama ASC");
-$rowtp = mysql_fetch_assoc($qtp);
+$rowtp = mysqli_fetch_assoc($qtp);
 
 do
 	{
 	$tpkd = nosql($rowtp['dkd']);
 	
 	//terpilih
-	$qtpx = mysql_query("SELECT * FROM m_pegawai ".
+	$qtpx = mysqli_query($koneksi, "SELECT * FROM m_pegawai ".
 							"WHERE kd = '$tpkd'");
-	$rowtpx = mysql_fetch_assoc($qtpx);
+	$rowtpx = mysqli_fetch_assoc($qtpx);
 	$tpx_nip = balikin($rowtpx['nip']);
 	$tpx_nama = balikin($rowtpx['nama']);
 	
 	echo '<option value="'.$filenya.'?dkd='.$tpkd.'">'.$tpx_nip.'. '.$tpx_nama.'</option>';
 	}
-while ($rowtp = mysql_fetch_assoc($qtp));
+while ($rowtp = mysqli_fetch_assoc($qtp));
 
 echo '</select>
 </td>
@@ -186,10 +186,10 @@ if (empty($dkd))
 else
 	{
 	//query
-	$q = mysql_query("SELECT * FROM m_kuisioner_dosen ".
+	$q = mysqli_query($koneksi, "SELECT * FROM m_kuisioner_dosen ".
 						"ORDER BY nama ASC");
-	$row = mysql_fetch_assoc($q);
-	$total = mysql_num_rows($q);
+	$row = mysqli_fetch_assoc($q);
+	$total = mysqli_num_rows($q);
 	
 	
 	
@@ -234,7 +234,7 @@ else
 			</td>
 	       	</tr>';
 			}
-		while ($row = mysql_fetch_assoc($q));
+		while ($row = mysqli_fetch_assoc($q));
 	
 		echo '</table>
 		<table width="400" border="0" cellspacing="0" cellpadding="3">

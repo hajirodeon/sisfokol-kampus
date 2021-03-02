@@ -146,9 +146,9 @@ else
 		}
 	else
 		{
-		$qdtx = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+		$qdtx = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 										"WHERE kd = '$klasifikasi'");
-		$rdtx = mysql_fetch_assoc($qdtx);
+		$rdtx = mysqli_fetch_assoc($qdtx);
 		$dtx_klasifikasi = balikin($rdtx['klasifikasi']);
 		}
 
@@ -160,9 +160,9 @@ else
 		}
 	else
 		{
-		$qdtx2 = mysql_query("SELECT * FROM surat_m_sifat ".
+		$qdtx2 = mysqli_query($koneksi, "SELECT * FROM surat_m_sifat ".
 										"WHERE kd = '$sifat'");
-		$rdtx2 = mysql_fetch_assoc($qdtx2);
+		$rdtx2 = mysqli_fetch_assoc($qdtx2);
 		$dtx2_sifat = balikin($rdtx2['sifat']);
 		}
 
@@ -174,9 +174,9 @@ else
 		}
 	else
 		{
-		$qdtx3 = mysql_query("SELECT * FROM surat_m_status ".
+		$qdtx3 = mysqli_query($koneksi, "SELECT * FROM surat_m_status ".
 										"WHERE kd = '$status'");
-		$rdtx3 = mysql_fetch_assoc($qdtx3);
+		$rdtx3 = mysqli_fetch_assoc($qdtx3);
 		$dtx3_status = balikin($rdtx3['status']);
 		}
 
@@ -465,11 +465,11 @@ else
 						"ORDER BY round(surat_masuk.no_urut) DESC";
 	$sqlresult = $sqlcount;
 
-	$count = mysql_num_rows(mysql_query($sqlcount));
+	$count = mysqli_num_rows(mysqli_query($sqlcount));
 	$pages = $p->findPages($count, $limit);
-	$result = mysql_query("$sqlresult LIMIT ".$start.", ".$limit);
+	$result = mysqli_query($koneksi, "$sqlresult LIMIT ".$start.", ".$limit);
 	$pagelist = $p->pageList($_GET['page'], $pages, $target);
-	$data = mysql_fetch_array($result);
+	$data = mysqli_fetch_array($result);
 
 	//jika ada
 	if ($count != 0)
@@ -543,49 +543,49 @@ else
 
 
 			//klasifikasi
-			$qdtx = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+			$qdtx = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 											"WHERE kd = '$ku_kd_klasifikasi'");
-			$rdtx = mysql_fetch_assoc($qdtx);
+			$rdtx = mysqli_fetch_assoc($qdtx);
 			$dtx_klasifikasi = balikin($rdtx['klasifikasi']);
 
 			//sifat
-			$qdtx2 = mysql_query("SELECT * FROM surat_m_sifat ".
+			$qdtx2 = mysqli_query($koneksi, "SELECT * FROM surat_m_sifat ".
 											"WHERE kd = '$ku_kd_sifat'");
-			$rdtx2 = mysql_fetch_assoc($qdtx2);
+			$rdtx2 = mysqli_fetch_assoc($qdtx2);
 			$dtx2_sifat = balikin($rdtx2['sifat']);
 
 			//status
-			$qdtx3 = mysql_query("SELECT * FROM surat_m_status ".
+			$qdtx3 = mysqli_query($koneksi, "SELECT * FROM surat_m_status ".
 											"WHERE kd = '$ku_kd_status'");
-			$rdtx3 = mysql_fetch_assoc($qdtx3);
+			$rdtx3 = mysqli_fetch_assoc($qdtx3);
 			$dtx3_status = balikin($rdtx3['status']);
 
 
 			//ruang
-			$qdt1 = mysql_query("SELECT * FROM surat_m_ruang ".
+			$qdt1 = mysqli_query($koneksi, "SELECT * FROM surat_m_ruang ".
 											"WHERE kd = '$ku_kd_ruang'");
-			$rdt1 = mysql_fetch_assoc($qdt1);
+			$rdt1 = mysqli_fetch_assoc($qdt1);
 			$dt1_ruang = balikin($rdt1['ruang']);
 
 
 			//lemari
-			$qdt2 = mysql_query("SELECT * FROM surat_m_lemari ".
+			$qdt2 = mysqli_query($koneksi, "SELECT * FROM surat_m_lemari ".
 											"WHERE kd = '$ku_kd_lemari'");
-			$rdt2 = mysql_fetch_assoc($qdt2);
+			$rdt2 = mysqli_fetch_assoc($qdt2);
 			$dt2_lemari = balikin($rdt2['lemari']);
 
 
 			//rak
-			$qdt3 = mysql_query("SELECT * FROM surat_m_rak ".
+			$qdt3 = mysqli_query($koneksi, "SELECT * FROM surat_m_rak ".
 											"WHERE kd = '$ku_kd_rak'");
-			$rdt3 = mysql_fetch_assoc($qdt3);
+			$rdt3 = mysqli_fetch_assoc($qdt3);
 			$dt3_rak = balikin($rdt3['rak']);
 
 
 			//map
-			$qdt4 = mysql_query("SELECT * FROM surat_m_map ".
+			$qdt4 = mysqli_query($koneksi, "SELECT * FROM surat_m_map ".
 											"WHERE kd = '$ku_kd_map'");
-			$rdt4 = mysql_fetch_assoc($qdt4);
+			$rdt4 = mysqli_fetch_assoc($qdt4);
 			$dt4_map = balikin($rdt4['map']);
 
 			echo "<tr valign=\"top\" bgcolor=\"$warna\" onmouseover=\"this.bgColor='$warnaover';\" onmouseout=\"this.bgColor='$warna';\">";
@@ -616,7 +616,7 @@ else
 			</td>
 			</tr>';
 			}
-		while ($data = mysql_fetch_assoc($result));
+		while ($data = mysqli_fetch_assoc($result));
 
 		echo '</table>
 		<table width="100%" border="0" cellspacing="0" cellpadding="3">
@@ -742,9 +742,9 @@ Klasifikasi Surat
 <option value="" selected>-Semua Klasifikasi-</option>';
 
 //daftar klasifikasi
-$qdt = mysql_query("SELECT * FROM surat_m_klasifikasi ".
+$qdt = mysqli_query($koneksi, "SELECT * FROM surat_m_klasifikasi ".
 							"ORDER BY klasifikasi ASC");
-$rdt = mysql_fetch_assoc($qdt);
+$rdt = mysqli_fetch_assoc($qdt);
 
 do
 	{
@@ -754,7 +754,7 @@ do
 
 	echo '<option value="'.$dt_kd.'">'.$dt_klasifikasi.'</option>';
 	}
-while ($rdt = mysql_fetch_assoc($qdt));
+while ($rdt = mysqli_fetch_assoc($qdt));
 
 echo '</select>
 </td>
@@ -768,9 +768,9 @@ Sifat Surat
 <option value="" selected>-Semua Sifat-</option>';
 
 //daftar sifat
-$qdt = mysql_query("SELECT * FROM surat_m_sifat ".
+$qdt = mysqli_query($koneksi, "SELECT * FROM surat_m_sifat ".
 							"ORDER BY sifat ASC");
-$rdt = mysql_fetch_assoc($qdt);
+$rdt = mysqli_fetch_assoc($qdt);
 
 do
 	{
@@ -780,7 +780,7 @@ do
 
 	echo '<option value="'.$dt_kd.'">'.$dt_sifat.'</option>';
 	}
-while ($rdt = mysql_fetch_assoc($qdt));
+while ($rdt = mysqli_fetch_assoc($qdt));
 
 echo '</select>
 </td>
@@ -794,9 +794,9 @@ Status Keberadaan Surat
 <option value="" selected>-Semua Status-</option>';
 
 //daftar status
-$qdt = mysql_query("SELECT * FROM surat_m_status ".
+$qdt = mysqli_query($koneksi, "SELECT * FROM surat_m_status ".
 							"ORDER BY status ASC");
-$rdt = mysql_fetch_assoc($qdt);
+$rdt = mysqli_fetch_assoc($qdt);
 
 do
 	{
@@ -806,7 +806,7 @@ do
 
 	echo '<option value="'.$dt_kd.'">'.$dt_status.'</option>';
 	}
-while ($rdt = mysql_fetch_assoc($qdt));
+while ($rdt = mysqli_fetch_assoc($qdt));
 
 echo '</select>
 </td>
